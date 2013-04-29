@@ -12,11 +12,16 @@ public class Board {
     public int[][] getRows() {
         int[][] rows = new int[3][3];
         for (int i=0; i < rows.length; i++) {
-            int firstsquare = i + 3;
-            int lastsquare = i + 6;
-            rows[i] = Arrays.copyOfRange(this.squares, firstsquare, lastsquare);
+            int leftsquare = i + 3;
+            int rightsquare = i + 6;
+            rows[i] = Arrays.copyOfRange(this.squares, leftsquare, rightsquare);
         }
         return rows;
+    }
+
+    public int[][] getColumns() {
+        int[][] columns = new int[3][3];
+        return columns;
     }
 
 }
