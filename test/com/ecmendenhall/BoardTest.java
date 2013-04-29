@@ -19,8 +19,7 @@ public class BoardTest {
 
     @Test
     public void newBoardIsEmpty() {
-        Board newboard;
-        newboard = new Board();
+        Board newboard = new Board();
         int[] nineEmptySquares = new int[9];
         Assert.assertArrayEquals("Board is not empty.", newboard.squares, nineEmptySquares);
     }
