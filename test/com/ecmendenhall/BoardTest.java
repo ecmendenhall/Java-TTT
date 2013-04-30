@@ -15,17 +15,18 @@ import org.junit.Test;
 @RunWith(JUnit4.class)
 public class BoardTest {
 
+    private int x = 1;
+    private int o = 2;
+    private int _ = 0;
     private Board emptyboard;
     private Board nowins;
 
     @Before
     public void setUp() {
         emptyboard = new Board();
-        int x = 1;
-        int o = 2;
-        //nowins = new Board(int[] { new Row(o, o, x),
-        //                           new Row(x, x, o),
-        //                           new Row(o, x, x) });
+        nowins = new Board( new Row(o, o, x),
+                            new Row(x, x, o),
+                            new Row(o, x, x) );
     }
 
     @Test
@@ -35,8 +36,10 @@ public class BoardTest {
 
     @Test
     public void newBoardIsEmpty() {
-        int[] nineEmptySquares = new int[9];
-        Assert.assertArrayEquals("Board is not empty.", emptyboard.squares, nineEmptySquares);
+        Row emptyrow = new Row(_, _, _);
+        Assert.assertArrayEquals(emptyrow.squares, emptyboard.top.squares);
+        Assert.assertArrayEquals(emptyrow.squares, emptyboard.middle.squares);
+        Assert.assertArrayEquals(emptyrow.squares, emptyboard.bottom.squares);
     }
 
     @Test
@@ -51,14 +54,14 @@ public class BoardTest {
 
     @Test
     public void boardHasThreeRows() {
-        int[][] rows = emptyboard.getRows();
-        Assert.assertEquals(rows.length, 3);
+        Row[] rows = emptyboard.getRows();
+        Assert.assertEquals(3, rows.length);
     }
 
     @Test public void rowsHaveThreeSquares() {
-        int[][] rows = emptyboard.getRows();
-        for (int[] row : rows) {
-            Assert.assertEquals(row.length, 3);
+        Row[] rows = emptyboard.getRows();
+        for (Row row : rows) {
+            Assert.assertEquals(3, row.squares.length);
         }
     }
 
@@ -69,19 +72,26 @@ public class BoardTest {
 
     @Test
     public void boardHasThreeColumns() {
-        int[][] columns = emptyboard.getColumns();
-        Assert.assertEquals(columns.length, 3);
+        Row[] columns = emptyboard.getColumns();
+        Assert.assertEquals(3, columns.length);
     }
 
     @Test public void columnsHaveThreeSquares() {
-        int[][] columns = emptyboard.getColumns();
-        for (int[] column : columns) {
-            Assert.assertEquals(column.length, 3);
+        Row[] columns = emptyboard.getColumns();
+        for (Row column : columns) {
+            Assert.assertEquals(3, column.squares.length);
         }
     }
 
     @Test public void boardReturnsCorrectRows() {
-        //Assert.assertArrayEquals(nowins.squares, nowins.getRows());
+        Row toprow    = new Row(o, o, x);
+        Row middlerow = new Row(x, x, o);
+        Row bottomrow = new Row(o, x, x);
+
+        Row[] rows = nowins.getRows();
+        Assert.assertArrayEquals(toprow.squares, rows[0].squares);
+        Assert.assertArrayEquals(middlerow.squares, rows[1].squares);
+        Assert.assertArrayEquals(bottomrow.squares, rows[2].squares);
     }
 
     @Test public void boardReturnsCorrectColumns() {

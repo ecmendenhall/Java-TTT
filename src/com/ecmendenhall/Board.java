@@ -3,25 +3,32 @@ package com.ecmendenhall;
 import java.util.Arrays;
 
 public class Board {
-    int[] squares = new int[9];
+    Row top;
+    Row middle;
+    Row bottom;
+
+    public Board() {
+        top = new Row();
+        middle = new Row();
+        bottom = new Row();
+    }
+
+    public Board(Row first, Row center, Row last) {
+        top = first;
+        middle = center;
+        bottom = last;
+    }
 
     public boolean hasWin() {
         return false;
     }
 
-    public int[][] getRows() {
-        int[][] rows = new int[3][3];
-        for (int i=0; i < rows.length; i++) {
-            int leftsquare = i + 3;
-            int rightsquare = i + 6;
-            rows[i] = Arrays.copyOfRange(this.squares, leftsquare, rightsquare);
-        }
-        return rows;
+    public Row[] getRows() {
+        return new Row[] { top, middle, bottom };
     }
 
-    public int[][] getColumns() {
-        int[][] columns = new int[3][3];
-        return columns;
+    public Row[] getColumns() {
+        return new Row[] { new Row(), new Row(), new Row() };
     }
 
 }
