@@ -16,6 +16,9 @@ public class Row {
     }
 
     public boolean hasWin() {
+        for (int square : squares) {
+            if (square == _) return false;
+        }
         return (squares[0] == squares[1]) &&  (squares[0] == squares[2]);
     }
 

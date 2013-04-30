@@ -1,5 +1,8 @@
 package com.ecmendenhall;
 
+import java.awt.*;
+import java.util.HashMap;
+
 public class Board {
     Row top;
     Row middle;
@@ -18,6 +21,22 @@ public class Board {
     }
 
     public boolean hasWin() {
+        Row[]      rows  = getRows();
+        Column[]   cols  = getColumns();
+        Diagonal[] diags = getDiagonals();
+
+        for (Row row : rows) {
+            if (row.hasWin()) return true;
+        }
+
+        for (Column col : cols) {
+            if (col.hasWin()) return true;
+        }
+
+        for (Diagonal diag : diags) {
+            if (diag.hasWin()) return true;
+        }
+
         return false;
     }
 
@@ -42,6 +61,33 @@ public class Board {
     public Diagonal[] getDiagonals() {
         return new Diagonal[] { new Diagonal(top.squares[0], middle.squares[1], bottom.squares[2]),
                                 new Diagonal(top.squares[2], middle.squares[1], bottom.squares[0])};
+    }
+
+    public int getSquareByCoordinate(int row, int column) {
+        return getRows()[row].squares[column];
+    }
+
+    public int getSquare(String locationphrase) {
+        BoardCoordinate coordinate = locationPhraseToCoordinate(locationphrase);
+        return getSquareByCoordinate(coordinate.row, coordinate.column);
+    }
+
+    private BoardCoordinate locationPhraseToCoordinate(String locationphrase) {
+        HashMap<String, Integer> wordmap = new HashMap<String, Integer>();
+
+        wordmap.put("top", 0);
+        wordmap.put("middle", 1);
+        wordmap.put("bottom", 2);
+        wordmap.put("left", 0);
+        wordmap.put("center", 1);
+        wordmap.put("right", 2);
+
+        String[] words = locationphrase.split(" ");
+
+        int row = wordmap.get(words[0].toLowerCase());
+        int column = wordmap.get(words[1].toLowerCase());
+
+        return new BoardCoordinate(row, column);
     }
 
 }

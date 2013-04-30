@@ -10,18 +10,34 @@ import org.junit.Assert;
 @RunWith(JUnit4.class)
 public class BoardTest {
 
-    private int x = 1;
-    private int o = 2;
+    private int X = 1;
+    private int O = 2;
     private int _ = 0;
+
     private Board emptyboard;
     private Board nowins;
+    private Board xwins;
+    private Board owins;
+    private Board diagonal;
 
     @Before
     public void setUp() {
         emptyboard = new Board();
-        nowins = new Board( new Row(o, o, x),
-                            new Row(x, x, o),
-                            new Row(o, x, x) );
+        nowins = new Board( new Row(O, O, X),
+                            new Row(X, X, O),
+                            new Row(O, X, X) );
+
+        xwins =  new Board( new Row(X, _, _),
+                            new Row(X, O, _),
+                            new Row(X, _, O) );
+
+        owins =  new Board( new Row(O, O, O),
+                            new Row(X, X, _),
+                            new Row(_, X, _) );
+
+        diagonal = new Board( new Row(X, _, _),
+                              new Row(O, X, _),
+                              new Row(_, O, X) );
     }
 
     @Test
@@ -81,9 +97,9 @@ public class BoardTest {
 
     @Test
     public void boardReturnsCorrectRows() {
-        Row toprow    = new Row(o, o, x);
-        Row middlerow = new Row(x, x, o);
-        Row bottomrow = new Row(o, x, x);
+        Row toprow    = new Row(O, O, X);
+        Row middlerow = new Row(X, X, O);
+        Row bottomrow = new Row(O, X, X);
 
         Row[] rows = nowins.getRows();
         Assert.assertArrayEquals(toprow.squares, rows[0].squares);
@@ -93,9 +109,9 @@ public class BoardTest {
 
     @Test
     public void boardReturnsCorrectColumns() {
-        Column firstcolumn  = new Column(o, x, o);
-        Column middlecolumn = new Column(o, x, x);
-        Column lastcolumn   = new Column(x, o, x);
+        Column firstcolumn  = new Column(O, X, O);
+        Column middlecolumn = new Column(O, X, X);
+        Column lastcolumn   = new Column(X, O, X);
 
         Column[] columns = nowins.getColumns();
         Assert.assertArrayEquals(firstcolumn.squares, columns[0].squares);
@@ -105,12 +121,47 @@ public class BoardTest {
 
     @Test
     public void boardReturnsCorrectDiags() {
-        Diagonal leftright = new Diagonal(o, x, x);
-        Diagonal rightleft = new Diagonal(x, x, o);
+        Diagonal leftright = new Diagonal(O, X, X);
+        Diagonal rightleft = new Diagonal(X, X, O);
 
         Diagonal[] diagonals = nowins.getDiagonals();
         Assert.assertArrayEquals(leftright.squares, diagonals[0].squares);
         Assert.assertArrayEquals(rightleft.squares, diagonals[1].squares);
     }
 
+
+    @Test
+    public void boardHasHorizontalWin() {
+        Assert.assertTrue(xwins.hasWin());
+    }
+
+    @Test
+    public void boardHasVerticalWin() {
+        Assert.assertTrue(owins.hasWin());
+    }
+
+    @Test
+    public void drawBoardDoesNotHaveWin() {
+        Assert.assertFalse(nowins.hasWin());
+    }
+
+    @Test
+    public void boardHasDiagonalWin() {
+        Assert.assertTrue(diagonal.hasWin());
+    }
+
+    @Test
+    public void getTopLeftByCoordinate() {
+        Assert.assertEquals(X, nowins.getSquareByCoordinate(1, 1));
+    }
+
+    @Test
+    public void getTopLeft() {
+        Assert.assertEquals(O, nowins.getSquare("Top Left"));
+    }
+
+    @Test
+    public void getBottomRight() {
+        Assert.assertEquals(X, nowins.getSquare("bottom right"));
+    }
 }

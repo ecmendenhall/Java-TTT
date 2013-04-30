@@ -1,44 +1,46 @@
 package com.ecmendenhall;
-import org.junit.Test;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
-import org.junit.Test;
 
 @RunWith(JUnit4.class)
 public class RowTest {
+    final int X = 1;
+    final int O = 2;
+    final int _ = 0;
 
-    private Row emptyrow;
-    private Row xxo;
-    private Row ooo;
+    public Row empty;
+    public Row xxo;
+    public Row ooo;
 
     @Before
     public void setUp() {
-        int x = 1;
-        int o = 2;
-        int _ = 0;
-        emptyrow = new Row();
-        xxo = new Row(x, x, o);
-        ooo = new Row(o, o, o);
+        empty = new Row();
+        xxo = new Row(X, X, O);
+        ooo = new Row(O, O, O);
     }
 
     @Test
-    public void boardExists() {
+    public void rowExists() {
         Row newrow = new Row();
     }
 
     @Test
     public void emptyRowContainsAllZeroes() {
-        for (int square : emptyrow.squares) Assert.assertEquals(0, square);
+        for (int square : empty.squares) Assert.assertEquals(0, square);
     }
 
     @Test
     public void rowXXOContainsCorrectSquares() {
-        int[] expected = {1, 1, 2};
+        int[] expected = {X, X, O};
         Assert.assertArrayEquals(expected, xxo.squares);
+    }
+
+    @Test
+    public void emptyRowDoesNotHaveWin() {
+        Assert.assertFalse(empty.hasWin());
     }
 
     @Test
