@@ -1,16 +1,11 @@
 package com.ecmendenhall;
 
-import com.ecmendenhall.Board;
-import com.ecmendenhall.Row;
-
 import org.junit.Test;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
-import org.junit.Test;
 
 @RunWith(JUnit4.class)
 public class BoardTest {
@@ -72,18 +67,20 @@ public class BoardTest {
 
     @Test
     public void boardHasThreeColumns() {
-        Row[] columns = emptyboard.getColumns();
+        Column[] columns = emptyboard.getColumns();
         Assert.assertEquals(3, columns.length);
     }
 
-    @Test public void columnsHaveThreeSquares() {
-        Row[] columns = emptyboard.getColumns();
-        for (Row column : columns) {
+    @Test
+    public void columnsHaveThreeSquares() {
+        Column[] columns = emptyboard.getColumns();
+        for (Column column : columns) {
             Assert.assertEquals(3, column.squares.length);
         }
     }
 
-    @Test public void boardReturnsCorrectRows() {
+    @Test
+    public void boardReturnsCorrectRows() {
         Row toprow    = new Row(o, o, x);
         Row middlerow = new Row(x, x, o);
         Row bottomrow = new Row(o, x, x);
@@ -94,12 +91,26 @@ public class BoardTest {
         Assert.assertArrayEquals(bottomrow.squares, rows[2].squares);
     }
 
-    @Test public void boardReturnsCorrectColumns() {
-        int x = 1;
-        int o = 2;
-        int _ = 0;
-        //int[][] cols = [[o, x, o],
-        //                [o, x, x],
-        //                [x, o, x]];
+    @Test
+    public void boardReturnsCorrectColumns() {
+        Column firstcolumn  = new Column(o, x, o);
+        Column middlecolumn = new Column(o, x, x);
+        Column lastcolumn   = new Column(x, o, x);
+
+        Column[] columns = nowins.getColumns();
+        Assert.assertArrayEquals(firstcolumn.squares, columns[0].squares);
+        Assert.assertArrayEquals(middlecolumn.squares, columns[1].squares);
+        Assert.assertArrayEquals(lastcolumn.squares, columns[2].squares);
     }
+
+    @Test
+    public void boardReturnsCorrectDiags() {
+        Diagonal leftright = new Diagonal(o, x, x);
+        Diagonal rightleft = new Diagonal(x, x, o);
+
+        Diagonal[] diagonals = nowins.getDiagonals();
+        Assert.assertArrayEquals(leftright.squares, diagonals[0].squares);
+        Assert.assertArrayEquals(rightleft.squares, diagonals[1].squares);
+    }
+
 }

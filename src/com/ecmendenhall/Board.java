@@ -1,7 +1,5 @@
 package com.ecmendenhall;
 
-import java.util.Arrays;
-
 public class Board {
     Row top;
     Row middle;
@@ -27,8 +25,23 @@ public class Board {
         return new Row[] { top, middle, bottom };
     }
 
-    public Row[] getColumns() {
-        return new Row[] { new Row(), new Row(), new Row() };
+    public Column[] getColumns() {
+        return new Column[] { new Column(top.squares[0],
+                                         middle.squares[0],
+                                         bottom.squares[0]),
+
+                              new Column(top.squares[1],
+                                         middle.squares[1],
+                                         bottom.squares[1]),
+
+                              new Column(top.squares[2],
+                                         middle.squares[2],
+                                         bottom.squares[2]) };
+    }
+
+    public Diagonal[] getDiagonals() {
+        return new Diagonal[] { new Diagonal(top.squares[0], middle.squares[1], bottom.squares[2]),
+                                new Diagonal(top.squares[2], middle.squares[1], bottom.squares[0])};
     }
 
 }
