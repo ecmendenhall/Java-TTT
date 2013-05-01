@@ -164,4 +164,36 @@ public class BoardTest {
     public void getBottomRight() {
         Assert.assertEquals(X, nowins.getSquare("bottom right"));
     }
+
+    @Test
+    public void getSquareWorksForAllSquares() {
+        Assert.assertEquals(O, nowins.getSquare("Top center"));
+        Assert.assertEquals(X, nowins.getSquare("top Right"));
+        Assert.assertEquals(X, nowins.getSquare("MIDDLE LEFT"));
+        Assert.assertEquals(X, nowins.getSquare("Middle Center"));
+        Assert.assertEquals(O, nowins.getSquare("middle rIght"));
+        Assert.assertEquals(O, nowins.getSquare("bottom left"));
+        Assert.assertEquals(X, nowins.getSquare("BOTTOM CENTER"));
+    }
+
+    @Test
+    public void addXToTopLeft() {
+        emptyboard.fillSquare(new BoardCoordinate(0, 0), X);
+        Assert.assertEquals(X, emptyboard.getSquare("top left"));
+    }
+
+    @Test
+    public void emptyBoardIsNotFull() {
+        Assert.assertFalse(emptyboard.isFull());
+    }
+
+    @Test
+    public void noWinsIsFull() {
+        Assert.assertTrue(nowins.isFull());
+    }
+
+    @Test
+    public int winnerIs() {
+
+    }
 }

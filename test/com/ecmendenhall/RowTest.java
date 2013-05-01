@@ -68,4 +68,20 @@ public class RowTest {
         Assert.assertEquals(0, xxo.winner());
     }
 
+    @Test
+    public void emptyRowSquaresAreFillable() {
+        empty.fillSquare(0, X);
+        Assert.assertEquals(X, empty.squares[0]);
+    }
+
+    @Test
+    public void emptyRowIsNotFull() {
+        Assert.assertFalse(empty.isFull());
+    }
+
+    @Test
+    public void xxoIsFull() {
+        Assert.assertTrue(xxo.isFull());
+    }
+
 }

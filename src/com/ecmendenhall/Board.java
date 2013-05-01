@@ -90,4 +90,23 @@ public class Board {
         return new BoardCoordinate(row, column);
     }
 
+    public void fillSquare(BoardCoordinate coordinate, int player) {
+        fillSquareByCoordinate(coordinate.row, coordinate.column, player);
+    }
+
+    public void fillSquareByCoordinate(int row, int column, int player) {
+        switch (row) {
+            case 0: top.fillSquare(column, player);
+                    break;
+            case 1: middle.fillSquare(column, player);
+                    break;
+            case 2: bottom.fillSquare(column, player);
+                    break;
+        }
+    }
+
+    public boolean isFull() {
+        return (top.isFull() && middle.isFull() && bottom.isFull());
+    }
+
 }

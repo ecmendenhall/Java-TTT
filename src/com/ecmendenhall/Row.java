@@ -30,4 +30,12 @@ public class Row {
         } else
             return _;
     }
+
+    public void fillSquare(int column, int player) {
+        squares[column] = player;
+    }
+
+    public boolean isFull() {
+        return (squares[0] != 0 && squares[1] != 0 && squares[2] != 0);
+    }
 }
