@@ -7,6 +7,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertArrayEquals;
+
 @RunWith(JUnit4.class)
 public class BoardCoordinateTest {
     private final int X = 1;
@@ -28,17 +35,17 @@ public class BoardCoordinateTest {
 
     @Test
     public void rowIsZero() {
-        Assert.assertEquals(0, upperright.row);
+        assertEquals(0, upperright.row);
     }
 
     @Test
     public void columnIsTwo() {
-        Assert.assertEquals(2, upperright.column);
+        assertEquals(2, upperright.column);
     }
 
     @Test
     public void coordinateCanBeConstructedFromString() {
-        Assert.assertEquals(2, lowerleft.row);
-        Assert.assertEquals(0, lowerleft.column);
+        assertEquals(2, lowerleft.row);
+        assertEquals(0, lowerleft.column);
     }
 }

@@ -5,6 +5,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertArrayEquals;
+
 @RunWith(JUnit4.class)
 public class RowTest {
     final int X = 1;
@@ -29,58 +36,73 @@ public class RowTest {
 
     @Test
     public void emptyRowContainsAllZeroes() {
-        for (int square : empty.squares) Assert.assertEquals(0, square);
+        for (int square : empty.squares) assertEquals(0, square);
     }
 
     @Test
     public void rowXXOContainsCorrectSquares() {
         int[] expected = {X, X, O};
-        Assert.assertArrayEquals(expected, xxo.squares);
+        assertArrayEquals(expected, xxo.squares);
     }
 
     @Test
     public void emptyRowDoesNotHaveWin() {
-        Assert.assertFalse(empty.hasWin());
+        assertFalse(empty.hasWin());
     }
 
     @Test
     public void rowXXODoesNotHaveWin() {
-        Assert.assertFalse(xxo.hasWin());
+        assertFalse(xxo.hasWin());
     }
 
     @Test
     public void rowOOOHasWin() {
-        Assert.assertTrue(ooo.hasWin());
+        assertTrue(ooo.hasWin());
     }
 
     @Test
     public void rowOOOWinnerIsO() {
-        Assert.assertEquals(2, ooo.winner());
+        assertEquals(2, ooo.winner());
     }
 
     @Test
     public void rowOOOWinnerIsNotX() {
-        Assert.assertFalse(ooo.winner() == 1);
+        assertFalse(ooo.winner() == 1);
     }
 
     @Test
     public void rowXXOHasNoWinner() {
-        Assert.assertEquals(0, xxo.winner());
+        assertEquals(0, xxo.winner());
     }
 
     @Test
     public void emptyRowSquaresAreFillable() {
         empty.fillSquare(0, X);
-        Assert.assertEquals(X, empty.squares[0]);
+        assertEquals(X, empty.squares[0]);
     }
 
     @Test
     public void emptyRowIsNotFull() {
-        Assert.assertFalse(empty.isFull());
+        assertFalse(empty.isFull());
     }
 
     @Test
     public void rowXXOIsFull() {
-        Assert.assertTrue(xxo.isFull());
+        assertTrue(xxo.isFull());
+    }
+
+    @Test
+    public void emptyRowSumIsZero() {
+        assertEquals(0, empty.sum());
+    }
+
+    @Test
+    public void rowXXOSumIsFour() {
+        assertEquals(4, xxo.sum());
+    }
+
+    @Test
+    public void rowOOOSumIsSix() {
+        assertEquals(6, ooo.sum());
     }
 }

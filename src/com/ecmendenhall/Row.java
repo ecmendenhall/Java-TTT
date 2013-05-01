@@ -38,4 +38,12 @@ public class Row {
     public boolean isFull() {
         return (squares[0] != 0 && squares[1] != 0 && squares[2] != 0);
     }
+
+    public int sum() {
+        int rowsum = 0;
+        for (int square : squares) {
+            rowsum += square;
+        }
+        return rowsum;
+    }
 }

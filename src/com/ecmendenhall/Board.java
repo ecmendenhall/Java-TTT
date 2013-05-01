@@ -107,4 +107,17 @@ public class Board {
         return getSquareByCoordinate(coordinate) == _;
     }
 
+    public int nextTurn() {
+        if (isFull()) return _;
+        if (sum() % 3 == 0) {
+            return X;
+        } else {
+            return O;
+        }
+    }
+
+    public int sum() {
+        return top.sum() + middle.sum() + bottom.sum();
+    }
+
 }

@@ -5,6 +5,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertArrayEquals;
+
 @RunWith(JUnit4.class)
 public class PlayerTest {
     private final int X = 1;
@@ -27,12 +34,12 @@ public class PlayerTest {
 
     @Test
     public void playerHasSymbol() {
-        Assert.assertEquals('X', playerx.symbol);
+        assertEquals('X', playerx.symbol);
     }
 
     @Test
     public void playerCanMove() {
         playerx.move(new BoardCoordinate(0, 0), board);
-        Assert.assertEquals(X, board.getSquare("top left"));
+        assertEquals(X, board.getSquare("top left"));
     }
 }
