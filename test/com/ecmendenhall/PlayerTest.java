@@ -39,7 +39,7 @@ public class PlayerTest {
 
     @Test
     public void playerCanMove() {
-        playerx.move(new BoardCoordinate(0, 0), board);
+        board = playerx.move(new BoardCoordinate(0, 0), board);
         assertEquals(X, board.getSquare("top left"));
     }
 }

@@ -76,19 +76,27 @@ public class Board {
         return getSquareByCoordinate(coordinate);
     }
 
-    public void fillSquare(BoardCoordinate coordinate, int player) {
-        fillSquareByCoordinate(coordinate.row, coordinate.column, player);
+    public Board fillSquare(BoardCoordinate coordinate, int player) {
+        return fillSquareByCoordinate(coordinate.row, coordinate.column, player);
     }
 
-    public void fillSquareByCoordinate(int row, int column, int player) {
+    public Board fillSquareByCoordinate(int row, int column, int player) {
+
+        Board newboard = new Board(top, middle, bottom);
+
         switch (row) {
-            case 0: top.fillSquare(column, player);
-                    break;
-            case 1: middle.fillSquare(column, player);
-                    break;
-            case 2: bottom.fillSquare(column, player);
-                    break;
+
+            case 0: newboard.top = top.fillSquare(column, player);
+                    return newboard;
+
+            case 1: newboard.middle = middle.fillSquare(column, player);
+                    return newboard;
+
+            case 2: newboard.bottom = middle.fillSquare(column, player);
+                    return newboard;
         }
+
+        return null;
     }
 
     public boolean isFull() {

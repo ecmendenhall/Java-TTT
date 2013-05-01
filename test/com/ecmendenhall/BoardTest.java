@@ -200,7 +200,7 @@ public class BoardTest {
 
     @Test
     public void addXToTopLeft() {
-        board.fillSquare(new BoardCoordinate(0, 0), X);
+        board = board.fillSquare(new BoardCoordinate(0, 0), X);
         assertEquals(X, board.getSquare("top left"));
     }
 
@@ -226,7 +226,7 @@ public class BoardTest {
 
     @Test
     public void upperRightMoveIsInvalid() {
-        playerx.move(upperright, board);
+        board = playerx.move(upperright, board);
         assertFalse(board.moveIsValid(upperright));
     }
 

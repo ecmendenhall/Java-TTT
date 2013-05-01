@@ -77,7 +77,7 @@ public class RowTest {
 
     @Test
     public void emptyRowSquaresAreFillable() {
-        empty.fillSquare(0, X);
+        empty = empty.fillSquare(0, X);
         assertEquals(X, empty.squares[0]);
     }
 

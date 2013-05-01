@@ -31,8 +31,10 @@ public class Row {
             return _;
     }
 
-    public void fillSquare(int column, int player) {
-        squares[column] = player;
+    public Row fillSquare(int column, int player) {
+        Row newrow = new Row(squares[0], squares[1], squares[2]);
+        newrow.squares[column] = player;
+        return newrow;
     }
 
     public boolean isFull() {

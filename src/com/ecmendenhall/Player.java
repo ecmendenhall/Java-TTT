@@ -14,7 +14,7 @@ public class Player {
 
     }
 
-    public void move(BoardCoordinate square, Board board) {
-        board.fillSquare(square, number);
+    public Board move(BoardCoordinate square, Board board) {
+        return board.fillSquare(square, number);
     }
 }
