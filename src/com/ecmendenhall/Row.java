@@ -2,8 +2,8 @@ package com.ecmendenhall;
 
 public class Row {
 
-    final private int x = 1;
-    final private int o = 2;
+    final private int X = 1;
+    final private int O = 2;
     final private int _ = 0;
     public int[] squares;
 
@@ -23,10 +23,10 @@ public class Row {
     }
 
     public int winner() {
-        if (hasWin() && squares[0] == x) {
-            return x;
-        } else if (hasWin() && squares[0] == o) {
-            return o;
+        if (hasWin() && squares[0] == X) {
+            return X;
+        } else if (hasWin() && squares[0] == O) {
+            return O;
         } else
             return _;
     }

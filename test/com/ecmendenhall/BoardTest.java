@@ -15,29 +15,37 @@ public class BoardTest {
     private int _ = 0;
 
     private Board emptyboard;
+    private Board board;
     private Board nowins;
-    private Board xwins;
-    private Board owins;
+    private Board playerxwins;
+    private Board playerowins;
     private Board diagonal;
+
+    private Player playerx;
+    private BoardCoordinate upperright;
 
     @Before
     public void setUp() {
         emptyboard = new Board();
+        board = new Board();
         nowins = new Board( new Row(O, O, X),
                             new Row(X, X, O),
                             new Row(O, X, X) );
 
-        xwins =  new Board( new Row(X, _, _),
+        playerxwins =  new Board( new Row(X, _, _),
                             new Row(X, O, _),
                             new Row(X, _, O) );
 
-        owins =  new Board( new Row(O, O, O),
+        playerowins =  new Board( new Row(O, O, O),
                             new Row(X, X, _),
                             new Row(_, X, _) );
 
         diagonal = new Board( new Row(X, _, _),
                               new Row(O, X, _),
                               new Row(_, O, X) );
+
+        playerx = new Player(X);
+        upperright = new BoardCoordinate(0, 2);
     }
 
     @Test
@@ -55,7 +63,7 @@ public class BoardTest {
 
     @Test
     public void noWinsOnNewBoard() {
-        Assert.assertFalse(emptyboard.hasWin());
+        Assert.assertNull(emptyboard.hasWin());
     }
 
     @Test
@@ -132,27 +140,27 @@ public class BoardTest {
 
     @Test
     public void boardHasHorizontalWin() {
-        Assert.assertTrue(xwins.hasWin());
+        Assert.assertNotNull(playerxwins.hasWin());
     }
 
     @Test
     public void boardHasVerticalWin() {
-        Assert.assertTrue(owins.hasWin());
+        Assert.assertNotNull(playerowins.hasWin());
     }
 
     @Test
     public void drawBoardDoesNotHaveWin() {
-        Assert.assertFalse(nowins.hasWin());
+        Assert.assertNull(nowins.hasWin());
     }
 
     @Test
     public void boardHasDiagonalWin() {
-        Assert.assertTrue(diagonal.hasWin());
+        Assert.assertNotNull(diagonal.hasWin());
     }
 
     @Test
     public void getTopLeftByCoordinate() {
-        Assert.assertEquals(X, nowins.getSquareByCoordinate(1, 1));
+        Assert.assertEquals(X, nowins.getSquareByCoordinate(new BoardCoordinate(1, 1)));
     }
 
     @Test
@@ -178,8 +186,8 @@ public class BoardTest {
 
     @Test
     public void addXToTopLeft() {
-        emptyboard.fillSquare(new BoardCoordinate(0, 0), X);
-        Assert.assertEquals(X, emptyboard.getSquare("top left"));
+        board.fillSquare(new BoardCoordinate(0, 0), X);
+        Assert.assertEquals(X, board.getSquare("top left"));
     }
 
     @Test
@@ -193,7 +201,24 @@ public class BoardTest {
     }
 
     @Test
-    public int winnerIs() {
+    public void noWinsHasNoWinner() {
+        Assert.assertEquals(_, nowins.winnerIs());
+    }
 
+    @Test
+    public void playerXWinsWinnerIsX() {
+        Assert.assertEquals(X, playerxwins.winnerIs());
+    }
+
+    @Test
+    public void upperRightMoveIsInvalid() {
+        playerx.move(upperright, board);
+        Assert.assertFalse(board.moveIsValid(upperright));
+    }
+
+    @Test
+    public void lowerLeftMoveIsValid() {
+        BoardCoordinate lowerleft = new BoardCoordinate("bottom left");
+        Assert.assertTrue(board.moveIsValid(lowerleft));
     }
 }

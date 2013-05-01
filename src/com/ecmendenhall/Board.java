@@ -4,6 +4,10 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class Board {
+    final private int X = 1;
+    final private int O = 2;
+    final private int _ = 0;
+
     Row top;
     Row middle;
     Row bottom;
@@ -20,24 +24,24 @@ public class Board {
         bottom = last;
     }
 
-    public boolean hasWin() {
+    public Row hasWin() {
         Row[]      rows  = getRows();
         Column[]   cols  = getColumns();
         Diagonal[] diags = getDiagonals();
 
         for (Row row : rows) {
-            if (row.hasWin()) return true;
+            if (row.hasWin()) return row;
         }
 
         for (Column col : cols) {
-            if (col.hasWin()) return true;
+            if (col.hasWin()) return col;
         }
 
         for (Diagonal diag : diags) {
-            if (diag.hasWin()) return true;
+            if (diag.hasWin()) return diag;
         }
 
-        return false;
+        return null;
     }
 
     public Row[] getRows() {
@@ -63,31 +67,13 @@ public class Board {
                                 new Diagonal(top.squares[2], middle.squares[1], bottom.squares[0])};
     }
 
-    public int getSquareByCoordinate(int row, int column) {
-        return getRows()[row].squares[column];
+    public int getSquareByCoordinate(BoardCoordinate coordinate) {
+        return getRows()[coordinate.row].squares[coordinate.column];
     }
 
     public int getSquare(String locationphrase) {
-        BoardCoordinate coordinate = locationPhraseToCoordinate(locationphrase);
-        return getSquareByCoordinate(coordinate.row, coordinate.column);
-    }
-
-    private BoardCoordinate locationPhraseToCoordinate(String locationphrase) {
-        HashMap<String, Integer> wordmap = new HashMap<String, Integer>();
-
-        wordmap.put("top", 0);
-        wordmap.put("middle", 1);
-        wordmap.put("bottom", 2);
-        wordmap.put("left", 0);
-        wordmap.put("center", 1);
-        wordmap.put("right", 2);
-
-        String[] words = locationphrase.split(" ");
-
-        int row = wordmap.get(words[0].toLowerCase());
-        int column = wordmap.get(words[1].toLowerCase());
-
-        return new BoardCoordinate(row, column);
+        BoardCoordinate coordinate = new BoardCoordinate(locationphrase);
+        return getSquareByCoordinate(coordinate);
     }
 
     public void fillSquare(BoardCoordinate coordinate, int player) {
@@ -107,6 +93,18 @@ public class Board {
 
     public boolean isFull() {
         return (top.isFull() && middle.isFull() && bottom.isFull());
+    }
+
+    public int winnerIs() {
+        Row winningrow = hasWin();
+        if (winningrow != null) {
+            return winningrow.winner();
+        }
+        return _;
+    }
+
+    public boolean moveIsValid(BoardCoordinate coordinate) {
+        return getSquareByCoordinate(coordinate) == _;
     }
 
 }

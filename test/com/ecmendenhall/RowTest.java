@@ -80,8 +80,7 @@ public class RowTest {
     }
 
     @Test
-    public void xxoIsFull() {
+    public void rowXXOIsFull() {
         Assert.assertTrue(xxo.isFull());
     }
-
 }
