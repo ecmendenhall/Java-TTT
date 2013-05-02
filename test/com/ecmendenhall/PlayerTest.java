@@ -13,10 +13,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(JUnit4.class)
-public class PlayerTest {
-    private final int X = 1;
-    private final int O = 2;
-    private final int _ = 0;
+public class PlayerTest extends TicTacToeTest {
 
     private Player playerx;
     private Board board;

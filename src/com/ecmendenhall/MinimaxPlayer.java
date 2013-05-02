@@ -13,35 +13,45 @@ public class MinimaxPlayer extends Player {
         super(playernumber);
     }
 
-    public List<Board> getNextStates(Board board) {
+    public List< Pair<Integer, BoardCoordinate> > scoreNextMoves(Board board) {
+        List<Pair<Board,
+                  BoardCoordinate>> possiblemoves = board.getNextStates();
 
-        board.print();
+        List<Pair< Integer,
+                   BoardCoordinate>> movescores = new ArrayList<Pair<Integer,
+                                                                     BoardCoordinate>>();
 
-        List<Board> newstates = new ArrayList<Board>();
+        for (Pair<Board,
+                  BoardCoordinate> move : possiblemoves) {
+            movescores.add(new Pair<Integer,
+                                    BoardCoordinate>(scoreMove(move.first),
+                                                     move.rest));
+        }
+        return movescores;
+    }
 
-        for (int i=0; i < board.top.squares.length; i++) {
-            if (board.top.squares[i] == _) {
-                Board newboard = board.fillSquare(new BoardCoordinate(0, i), number);
-                newstates.add(newboard);
-                newboard.print();
+    public BoardCoordinate bestMove(Board board) {
+        return new BoardCoordinate(1, 2);
+    }
+
+    public Integer scoreMove(Board board) {
+        if ( (board.hasWin() != null) || board.isFull()) {
+            return scoreBoard(board);
+        } else {
+            for (Pair<Board, BoardCoordinate> state : board.getNextStates()) {
+                return scoreMove(state.first);
             }
         }
+        return null;
+    }
 
-        for (int i=0; i < board.middle.squares.length; i++) {
-            if (board.middle.squares[i] == _) {
-                Board newboard = board.fillSquare(new BoardCoordinate(1, i), number);
-                newstates.add(newboard);
-                newboard.print();
-            }
+    public int scoreBoard(Board board) {
+        if (board.winnerIs() == number) {
+            return 1;
+        } else if (board.winnerIs() == _) {
+            return 0;
+        } else {
+            return -1;
         }
-
-        for (int i=0; i < board.bottom.squares.length; i++) {
-            if (board.bottom.squares[i] == _) {
-                Board newboard = board.fillSquare(new BoardCoordinate(2, i), number);
-                newstates.add(newboard);
-                newboard.print();
-            }
-        }
-        return newstates;
     }
 }

@@ -16,16 +16,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(JUnit4.class)
-public class MinimaxPlayerTest {
-    private final int X = 1;
-    private final int O = 2;
-    private final int _ = 0;
+public class MinimaxPlayerTest extends TicTacToeTest {
 
     private Player playerx;
     private MinimaxPlayer playero;
     private Board board;
+    private Board playerocanwin;
+    private Board playerxcanwin;
 
     public boolean sameBoards(Board expected, Board actual) {
+        System.out.println("EXPECTED");
+        expected.print();
+
+        System.out.println("ACTUAL");
+        actual.print();
 
         for (int i=0; i< actual.top.squares.length; i++) {
             if (expected.top.squares[i] != actual.top.squares[i]) return false;
@@ -46,7 +50,16 @@ public class MinimaxPlayerTest {
     public void setUp() {
         playerx = new Player(X);
         playero = new MinimaxPlayer(O);
+
         board = playerx.move(new BoardCoordinate("middle center"), new Board());
+
+        playerocanwin = new Board( new Row(X, _, _),
+                                   new Row(O, O, _),
+                                   new Row(X, X, _) );
+
+        playerxcanwin = new Board( new Row(X, _, _),
+                                   new Row(X, O, _),
+                                   new Row(_, _, O) );
     }
 
     @Test
@@ -55,46 +68,40 @@ public class MinimaxPlayerTest {
     }
 
     @Test
-    public void minimaxPlayerPredictsNextStates () {
+    public void winningMoveShouldHaveHighestScore() {
+        List<Pair<Integer, BoardCoordinate>> sortedmoves = playero.scoreNextMoves(playerocanwin);
+        Pair<Integer, BoardCoordinate> bestpair = sortedmoves.get(0);
+        int highscore = bestpair.first;
+        BoardCoordinate bestmove = bestpair.rest;
+        assertEquals(1, highscore);
+        assertEquals(1, bestmove.column);
+        assertEquals(0, bestmove.row);
+    }
 
-        Board [] expectedstates = { new Board ( new Row (O, _, _),
-                                                new Row (_, X, _),
-                                                new Row (_, _, _) ),
+    @Test
+    public void winningMoveShouldBeBest() {
+        BoardCoordinate bestmove = playero.bestMove(playerocanwin);
+        assertEquals(2, bestmove.column);
+        assertEquals(1, bestmove.row);
+    }
 
-                                    new Board ( new Row (_, O, _),
-                                                new Row (_, X, _),
-                                                new Row (_, _, _) ),
+    @Test
+    public void winningBoardScoreIsOne() {
+        assertEquals(1, playero.scoreBoard(playerowins));
+    }
 
-                                    new Board ( new Row (_, _, O),
-                                                new Row (_, X, _),
-                                                new Row (_, _, _) ),
+    @Test
+    public void drawBoardScoreIsZero() {
+        assertEquals(0, playero.scoreBoard(nowins));
+    }
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (O, X, _),
-                                                new Row (_, _, _) ),
+    @Test
+    public void losingBoardScoreIsNegativeOne() {
+        assertEquals(-1, playero.scoreBoard(playerxwins));
+    }
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, O),
-                                                new Row (_, _, _) ),
-
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, _),
-                                                new Row (O, _, _) ),
-
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, _),
-                                                new Row (_, O, _) ),
-
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, _),
-                                                new Row (_, _, O) )};
-
-        List<Board> nextstates = playero.getNextStates(board);
-
-        for (int i=0; i < expectedstates.length; i++) {
-            Board next = nextstates.get(i);
-            Board expected = expectedstates[i];
-            assertTrue(sameBoards(expected, next));
-        }
+    @Test
+    public void playerOCanWinBoardScoreIsOne() {
+        assertEquals(new Integer(1), playero.scoreMove(playerocanwin));
     }
 }

@@ -10,6 +10,7 @@ import org.junit.Assert;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,71 +21,13 @@ import static org.junit.Assert.assertArrayEquals;
 
 
 @RunWith(JUnit4.class)
-public class BoardTest {
-
-    private int X = 1;
-    private int O = 2;
-    private int _ = 0;
-
-    private Board emptyboard;
-    private Board board;
-    private Board nowins;
-    private Board playerxwins;
-    private Board playerowins;
-    private Board diagonal;
-    private Board playeronext;
-
-
-    private Player playerx;
-    private BoardCoordinate upperright;
+public class BoardTest extends TicTacToeTest {
 
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
     private final ByteArrayOutputStream error = new ByteArrayOutputStream();
 
-    public boolean sameBoards(Board expected, Board actual) {
-
-        for (int i=0; i< actual.top.squares.length; i++) {
-            if (expected.top.squares[i] != actual.top.squares[i]) return false;
-        }
-
-        for (int i=0; i< actual.middle.squares.length; i++) {
-            if (expected.middle.squares[i] != actual.middle.squares[i]) return false;
-        }
-
-        for (int i=0; i< actual.bottom.squares.length; i++) {
-            if (expected.bottom.squares[i] != actual.bottom.squares[i]) return false;
-        }
-
-        return true;
-    }
-
     @Before
     public void setUp() {
-        emptyboard = new Board();
-        board = new Board();
-        nowins = new Board( new Row(O, O, X),
-                            new Row(X, X, O),
-                            new Row(O, X, X) );
-
-        playerxwins =  new Board( new Row(X, _, _),
-                                  new Row(X, O, _),
-                                  new Row(X, _, O) );
-
-        playerowins =  new Board( new Row(O, O, O),
-                                  new Row(X, X, _),
-                                  new Row(_, X, _) );
-
-        diagonal = new Board( new Row(X, _, _),
-                              new Row(O, X, _),
-                              new Row(_, O, X) );
-
-        playeronext = new Board( new Row(O, _, _),
-                                 new Row(_, X, _),
-                                 new Row(X, _, _) );
-
-        playerx = new Player(X);
-        upperright = new BoardCoordinate(0, 2);
-
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
     }
@@ -252,6 +195,11 @@ public class BoardTest {
     }
 
     @Test
+    public void playerOWinsWinnerIsO() {
+        assertEquals(O, playerowins.winnerIs());
+    }
+
+    @Test
     public void upperRightMoveIsInvalid() {
         board = playerx.move(upperright, board);
         assertFalse(board.moveIsValid(upperright));
@@ -300,7 +248,7 @@ public class BoardTest {
 
     @Test
     public void boardReturnsCorrectString() {
-        assertEquals("OOX\nXXO\nOXX\n", nowins.toString());
+        assertEquals("OOX\nXXO\nOXX\n\n", nowins.toString());
     }
 
     @Test
@@ -382,6 +330,50 @@ public class BoardTest {
 
         assertTrue(sameBoards(expected, newboard));
 
+    }
+
+    @Test
+    public void minimaxPlayerPredictsNextStates () {
+
+        Board [] expectedstates = { new Board ( new Row (O, _, _),
+                                                new Row (_, X, _),
+                                                new Row (_, _, _) ),
+
+                                    new Board ( new Row (_, O, _),
+                                                new Row (_, X, _),
+                                                new Row (_, _, _) ),
+
+                                    new Board ( new Row (_, _, O),
+                                                new Row (_, X, _),
+                                                new Row (_, _, _) ),
+
+                                    new Board ( new Row (_, _, _),
+                                                new Row (O, X, _),
+                                                new Row (_, _, _) ),
+
+                                    new Board ( new Row (_, _, _),
+                                                new Row (_, X, O),
+                                                new Row (_, _, _) ),
+
+                                    new Board ( new Row (_, _, _),
+                                                new Row (_, X, _),
+                                                new Row (O, _, _) ),
+
+                                    new Board ( new Row (_, _, _),
+                                                new Row (_, X, _),
+                                                new Row (_, O, _) ),
+
+                                    new Board ( new Row (_, _, _),
+                                                new Row (_, X, _),
+                                                new Row (_, _, O) )};
+
+        List<Pair<Board, BoardCoordinate>> nextstates = xincenter.getNextStates();
+
+        for (int i=0; i < expectedstates.length; i++) {
+            Board next = nextstates.get(i).first;
+            Board expected = expectedstates[i];
+            assertTrue(sameBoards(expected, next));
+        }
     }
 
     @After

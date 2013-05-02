@@ -17,10 +17,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
 
 @RunWith(JUnit4.class)
-public class RowTest {
-    final int X = 1;
-    final int O = 2;
-    final int _ = 0;
+public class RowTest extends TicTacToeTest {
 
     public Row empty;
     public Row xxo;

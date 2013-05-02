@@ -1,7 +1,6 @@
 package com.ecmendenhall;
 
-import java.awt.*;
-import java.util.HashMap;
+import java.util.*;
 
 public class Board {
     final private int X = 1;
@@ -148,12 +147,48 @@ public class Board {
 
     public String toString() {
         String boardstring = "";
-        return top.toString() + middle.toString() + bottom.toString();
+        return top.toString() + middle.toString() + bottom.toString() + "\n";
     }
 
     public void print() {
         String outputstring = toString();
         System.out.print(outputstring);
+    }
+
+    public List< Pair<Board, BoardCoordinate> > getNextStates() {
+
+        List< Pair<Board, BoardCoordinate> > newstates = new ArrayList<Pair<Board, BoardCoordinate>>();
+
+        for (int i=0; i < top.squares.length; i++) {
+            if (top.squares[i] == _) {
+                BoardCoordinate movecoordinate = new BoardCoordinate(0, i);
+                Board newboard = fillSquare(movecoordinate, nextTurn());
+                Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(newboard,
+                                                                                         movecoordinate);
+                newstates.add(movepair);
+            }
+        }
+
+        for (int i=0; i < middle.squares.length; i++) {
+            if (middle.squares[i] == _) {
+                BoardCoordinate movecoordinate = new BoardCoordinate(1, i);
+                Board newboard = fillSquare(movecoordinate, nextTurn());
+                Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(newboard,
+                                                                                         movecoordinate);
+                newstates.add(movepair);
+            }
+        }
+
+        for (int i=0; i < bottom.squares.length; i++) {
+            if (bottom.squares[i] == _) {
+                BoardCoordinate movecoordinate = new BoardCoordinate(2, i);
+                Board newboard = fillSquare(movecoordinate, nextTurn());
+                Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(newboard,
+                                                                                         movecoordinate);
+                newstates.add(movepair);
+            }
+        }
+        return newstates;
     }
 
 }
