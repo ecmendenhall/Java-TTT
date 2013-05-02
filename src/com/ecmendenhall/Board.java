@@ -92,7 +92,7 @@ public class Board {
             case 1: newboard.middle = middle.fillSquare(column, player);
                     return newboard;
 
-            case 2: newboard.bottom = middle.fillSquare(column, player);
+            case 2: newboard.bottom = bottom.fillSquare(column, player);
                     return newboard;
         }
 
@@ -126,6 +126,34 @@ public class Board {
 
     public int sum() {
         return top.sum() + middle.sum() + bottom.sum();
+    }
+
+    public int countEmptySquares() {
+        int empty = 0;
+
+        for (int i=0; i < top.squares.length; i++) {
+            if (top.squares[i] == _) empty++;
+        }
+
+        for (int i=0; i < middle.squares.length; i++) {
+            if (middle.squares[i] == _) empty++;
+        }
+
+        for (int i=0; i < bottom.squares.length; i++) {
+            if (bottom.squares[i] == _) empty++;
+        }
+
+        return empty;
+    }
+
+    public String toString() {
+        String boardstring = "";
+        return top.toString() + middle.toString() + bottom.toString();
+    }
+
+    public void print() {
+        String outputstring = toString();
+        System.out.print(outputstring);
     }
 
 }

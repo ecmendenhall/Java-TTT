@@ -48,4 +48,26 @@ public class Row {
         }
         return rowsum;
     }
+
+    public String intToSymbol(int square) {
+        switch (square) {
+            case 0:
+                return "_";
+            case 1:
+                return "X";
+            case 2:
+                return "O";
+        }
+        return "";
+    }
+
+    public String toString() {
+        String rowstring = "";
+        for (int i=0; i < squares.length; i++) {
+            int square = squares[i];
+            String symbol = intToSymbol(square);
+            rowstring += symbol;
+        }
+        return rowstring + "\n";
+    }
 }

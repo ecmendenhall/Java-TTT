@@ -1,11 +1,15 @@
 package com.ecmendenhall;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,6 +38,26 @@ public class BoardTest {
     private Player playerx;
     private BoardCoordinate upperright;
 
+    private final ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private final ByteArrayOutputStream error = new ByteArrayOutputStream();
+
+    public boolean sameBoards(Board expected, Board actual) {
+
+        for (int i=0; i< actual.top.squares.length; i++) {
+            if (expected.top.squares[i] != actual.top.squares[i]) return false;
+        }
+
+        for (int i=0; i< actual.middle.squares.length; i++) {
+            if (expected.middle.squares[i] != actual.middle.squares[i]) return false;
+        }
+
+        for (int i=0; i< actual.bottom.squares.length; i++) {
+            if (expected.bottom.squares[i] != actual.bottom.squares[i]) return false;
+        }
+
+        return true;
+    }
+
     @Before
     public void setUp() {
         emptyboard = new Board();
@@ -60,6 +84,9 @@ public class BoardTest {
 
         playerx = new Player(X);
         upperright = new BoardCoordinate(0, 2);
+
+        System.setOut(new PrintStream(output));
+        System.setErr(new PrintStream(error));
     }
 
     @Test
@@ -264,6 +291,103 @@ public class BoardTest {
     @Test
     public void playerXWinsBoardSumIsSeven() {
         assertEquals(7, playerxwins.sum());
+    }
+
+    @Test
+    public void emptyBoardHasNineEmptySquares() {
+        assertEquals(9, emptyboard.countEmptySquares());
+    }
+
+    @Test
+    public void boardReturnsCorrectString() {
+        assertEquals("OOX\nXXO\nOXX\n", nowins.toString());
+    }
+
+    @Test
+    public void boardPrintsCorrectly() {
+        nowins.print();
+        assertEquals(nowins.toString(), output.toString());
+    }
+
+    @Test
+    public void fillSquareHasNoSideEffects() {
+
+        Board newboard = emptyboard.fillSquare(new BoardCoordinate("top left"), X);
+        Board expected = new Board( new Row(X, _, _),
+                                    new Row(_, _, _),
+                                    new Row(_, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = emptyboard.fillSquare(new BoardCoordinate("bottom middle"), O);
+        expected = new Board ( new Row(_, _, _),
+                               new Row(_, _, _),
+                               new Row(_, O, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = emptyboard.fillSquare(new BoardCoordinate(2, 0), O);
+        expected = new Board ( new Row(_, _, _),
+                               new Row(_, _, _),
+                               new Row(O, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("top right"), O);
+        expected = new Board ( new Row(O, _, O),
+                               new Row(_, X, _),
+                               new Row(X, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("middle right"), O);
+        expected = new Board ( new Row(O, _, _),
+                               new Row(_, X, O),
+                               new Row(X, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("bottom right"), O);
+        expected = new Board ( new Row(O, _, _),
+                               new Row(_, X, _),
+                               new Row(X, _, O) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("top middle"), O);
+        expected = new Board ( new Row(O, O, _),
+                               new Row(_, X, _),
+                               new Row(X, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("middle left"), O);
+        expected = new Board ( new Row(O, _, _),
+                               new Row(O, X, _),
+                               new Row(X, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("middle right"), O);
+        expected = new Board ( new Row(O, _, _),
+                               new Row(_, X, O),
+                               new Row(X, _, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+        newboard = playeronext.fillSquare(new BoardCoordinate("bottom center"), O);
+        expected = new Board ( new Row(O, _, _),
+                               new Row(_, X, _),
+                               new Row(X, O, _) );
+
+        assertTrue(sameBoards(expected, newboard));
+
+    }
+
+    @After
+    public void cleanUp() {
+        System.setOut(null);
+        System.setErr(null);
     }
 
 }

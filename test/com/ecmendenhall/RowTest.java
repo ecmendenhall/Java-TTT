@@ -1,9 +1,13 @@
 package com.ecmendenhall;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.junit.Assert;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,11 +26,17 @@ public class RowTest {
     public Row xxo;
     public Row ooo;
 
+    private ByteArrayOutputStream output = new ByteArrayOutputStream();
+    private ByteArrayOutputStream error = new ByteArrayOutputStream();
+
     @Before
     public void setUp() {
         empty = new Row();
         xxo = new Row(X, X, O);
         ooo = new Row(O, O, O);
+
+        System.setOut(new PrintStream(output));
+        System.setErr(new PrintStream(error));
     }
 
     @Test
@@ -104,5 +114,19 @@ public class RowTest {
     @Test
     public void rowOOOSumIsSix() {
         assertEquals(6, ooo.sum());
+    }
+
+    @Test
+    public void rowsReturnCorrectStrings() {
+        assertEquals("XXO\n", xxo.toString());
+        assertEquals("OOO\n", ooo.toString());
+        assertEquals("O__\n", new Row(2, 0, 0).toString());
+    }
+
+    @Test
+    public void squaresReturnCorrectSymbols() {
+        assertEquals(xxo.intToSymbol(1), "X");
+        assertEquals(xxo.intToSymbol(2), "O");
+        assertEquals(xxo.intToSymbol(0), "_");
     }
 }
