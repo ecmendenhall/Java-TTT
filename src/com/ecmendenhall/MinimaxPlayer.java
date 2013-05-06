@@ -8,50 +8,96 @@ public class MinimaxPlayer extends Player {
     final private int X = 1;
     final private int O = 2;
     final private int _ = 0;
+    private int alpha;
 
-    MinimaxPlayer(int playernumber) {
+    MinimaxPlayer(int playernumber) throws InvalidPlayerException {
         super(playernumber);
     }
 
-    public List< Pair<Integer, BoardCoordinate> > scoreNextMoves(Board board) {
-        List<Pair<Board,
-                  BoardCoordinate>> possiblemoves = board.getNextStates();
-
-        List<Pair< Integer,
-                   BoardCoordinate>> movescores = new ArrayList<Pair<Integer,
-                                                                     BoardCoordinate>>();
-
-        for (Pair<Board,
-                  BoardCoordinate> move : possiblemoves) {
-            movescores.add(new Pair<Integer,
-                                    BoardCoordinate>(scoreMove(move.first),
-                                                     move.rest));
-        }
-        return movescores;
-    }
-
-    public BoardCoordinate bestMove(Board board) {
-        return new BoardCoordinate(1, 2);
-    }
-
-    public Integer scoreMove(Board board) {
-        if ( (board.hasWin() != null) || board.isFull()) {
-            return scoreBoard(board);
+    public int scoreMove(Board move) throws InvalidMoveException {
+        if (move.hasWin() || move.isFull()) {
+            return scoreBoard(move);
         } else {
-            for (Pair<Board, BoardCoordinate> state : board.getNextStates()) {
-                return scoreMove(state.first);
+            GameTree.Node node = new GameTree.Node(move);
+            return miniMaxScoreMove(node);
+            //return alphaBetaScoreMove(node, Integer.MIN_VALUE + 1, Integer.MAX_VALUE -1, node.gamestate.nextTurn());
+        }
+    }
+
+    public int miniMaxScoreMove(GameTree.Node node) {
+        if (node.isTerminal()) {
+            return scoreBoard(node.gamestate);
+        } else {
+            List<Integer> movescores = new ArrayList<Integer>();
+            if (node.gamestate.nextTurn() == gamepiece) {
+                for (GameTree.Node child : node.children) {
+                    movescores.add(miniMaxScoreMove(child));
+                }
+                return Collections.max(movescores);
+            } else {
+                for (GameTree.Node child : node.children) {
+                    movescores.add(miniMaxScoreMove(child));
+                }
+                return Collections.min(movescores);
             }
         }
-        return null;
     }
 
-    public int scoreBoard(Board board) {
-        if (board.winnerIs() == number) {
-            return 1;
-        } else if (board.winnerIs() == _) {
-            return 0;
+    public int alphaBetaScoreMove(GameTree.Node node,
+                                  int alpha,
+                                  int beta,
+                                  int player) {
+        if (node.isTerminal()) {
+            return scoreBoard(node.gamestate);
         } else {
-            return -1;
+            if (player == gamepiece) {
+                for (GameTree.Node child : node.children) {
+                    alpha = Math.max(alpha,
+                                     alphaBetaScoreMove(child,
+                                                        alpha,
+                                                        beta,
+                                                        otherPlayer()));
+                    if (alpha >= beta) {
+                        break;
+                    }
+                }
+                return alpha;
+            } else {
+                for (GameTree.Node child : node.children) {
+                    beta = Math.min(beta,
+                                    alphaBetaScoreMove(child,
+                                                       alpha,
+                                                       beta,
+                                                       otherPlayer()));
+                    if (alpha >= beta) {
+                        break;
+                    }
+                }
+                return beta;
+            }
         }
+    }
+
+    public Board bestMove(Board board) throws InvalidMoveException {
+
+        List<Board> nextmoves = board.getNextStates();
+
+        int bestscore = Integer.MIN_VALUE + 1;
+        Board bestmove = null;
+
+        for (Board move : nextmoves) {
+
+            if (move.winnerIs() == gamepiece) {
+                return move;
+            } else {
+                int movescore = scoreMove(move);
+
+                if (movescore >= bestscore) {
+                    bestmove = move;
+                    bestscore = movescore;
+                }
+            }
+        }
+        return bestmove;
     }
 }

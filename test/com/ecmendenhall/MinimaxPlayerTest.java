@@ -18,11 +18,7 @@ import static org.junit.Assert.assertArrayEquals;
 @RunWith(JUnit4.class)
 public class MinimaxPlayerTest extends TicTacToeTest {
 
-    private Player playerx;
-    private MinimaxPlayer playero;
-    private Board board;
-    private Board playerocanwin;
-    private Board playerxcanwin;
+    private MinimaxPlayer playerx;
 
     public boolean sameBoards(Board expected, Board actual) {
         System.out.println("EXPECTED");
@@ -31,58 +27,30 @@ public class MinimaxPlayerTest extends TicTacToeTest {
         System.out.println("ACTUAL");
         actual.print();
 
-        for (int i=0; i< actual.top.squares.length; i++) {
-            if (expected.top.squares[i] != actual.top.squares[i]) return false;
+        for (int i=0; i< actual.getTop().getSquares().length; i++) {
+            if (expected.getTop().getSquare(i) != actual.getTop().getSquare(i)) return false;
         }
 
-        for (int i=0; i< actual.middle.squares.length; i++) {
-            if (expected.middle.squares[i] != actual.middle.squares[i]) return false;
+        for (int i=0; i< actual.getMiddle().getSquares().length; i++) {
+            if (expected.getMiddle().getSquare(i) != actual.getMiddle().getSquare(i)) return false;
         }
 
-        for (int i=0; i< actual.bottom.squares.length; i++) {
-            if (expected.bottom.squares[i] != actual.bottom.squares[i]) return false;
+        for (int i=0; i< actual.getBottom().getSquares().length; i++) {
+            if (expected.getBottom().getSquare(i) != actual.getBottom().getSquare(i)) return false;
         }
 
         return true;
     }
 
     @Before
-    public void setUp() {
-        playerx = new Player(X);
-        playero = new MinimaxPlayer(O);
-
+    public void setUp() throws InvalidPlayerException, InvalidMoveException {
+        playerx = new MinimaxPlayer(X);
         board = playerx.move(new BoardCoordinate("middle center"), new Board());
-
-        playerocanwin = new Board( new Row(X, _, _),
-                                   new Row(O, O, _),
-                                   new Row(X, X, _) );
-
-        playerxcanwin = new Board( new Row(X, _, _),
-                                   new Row(X, O, _),
-                                   new Row(_, _, O) );
     }
 
     @Test
-    public void minimaxPlayerExists() {
+    public void minimaxPlayerExists() throws InvalidPlayerException {
         new MinimaxPlayer(O);
-    }
-
-    @Test
-    public void winningMoveShouldHaveHighestScore() {
-        List<Pair<Integer, BoardCoordinate>> sortedmoves = playero.scoreNextMoves(playerocanwin);
-        Pair<Integer, BoardCoordinate> bestpair = sortedmoves.get(0);
-        int highscore = bestpair.first;
-        BoardCoordinate bestmove = bestpair.rest;
-        assertEquals(1, highscore);
-        assertEquals(1, bestmove.column);
-        assertEquals(0, bestmove.row);
-    }
-
-    @Test
-    public void winningMoveShouldBeBest() {
-        BoardCoordinate bestmove = playero.bestMove(playerocanwin);
-        assertEquals(2, bestmove.column);
-        assertEquals(1, bestmove.row);
     }
 
     @Test
@@ -99,9 +67,59 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     public void losingBoardScoreIsNegativeOne() {
         assertEquals(-1, playero.scoreBoard(playerxwins));
     }
+ /*
+    @Test
+    public void winningMoveScoreIsOne() {
+        BoardCoordinate winningmove = new BoardCoordinate("middle right");
+        Pair<Board, BoardCoordinate> winningpair = new Pair<Board, BoardCoordinate>(playerocanwin, winningmove);
+        assertEquals(1, playero.scoreMove(new GameTree.Node(winningpair)));
+
+        winningmove = new BoardCoordinate("bottom left");
+        winningpair = new Pair<Board, BoardCoordinate>(playerxcanwin, winningmove);
+        assertEquals(1, playerx.scoreMove(new GameTree.Node(winningpair)));
+    }
 
     @Test
-    public void playerOCanWinBoardScoreIsOne() {
-        assertEquals(new Integer(1), playero.scoreMove(playerocanwin));
+    public void drawnGameMoveScoreIsZero() {
+        BoardCoordinate move = new BoardCoordinate("middle left");
+        Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(willdraw, move);
+        assertEquals(0, playero.scoreMove(new GameTree.Node(movepair)));
     }
+
+    @Test
+    public void losingPathMoveScoreIsNegativeOne() {
+        BoardCoordinate move = new BoardCoordinate("bottom right");
+        Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(playeronext, move);
+        assertEquals(-1, playero.scoreMove(new GameTree.Node(movepair)));
+    } */
+
+    @Test
+    public void winningMoveXIsBestMove() throws InvalidMoveException {
+        Board bestmove = new Board( new Row(X, _, _),
+                                    new Row(X, O, _),
+                                    new Row(X, _, O) );
+
+        assertTrue(playerx.bestMove(playerxcanwin).equals(bestmove));
+    }
+
+    @Test
+    public void winningMoveOIsBestMove() throws InvalidMoveException {
+        Board bestmove = new Board( new Row(X, _, _),
+                                    new Row(O, O, O),
+                                    new Row(X, X, _));
+
+        assertTrue(playero.bestMove(playerocanwin).equals(bestmove));
+    }
+
+    @Test
+    public void blockIsBestMove() throws InvalidMoveException {
+        Board bestmove = new Board( new Row(_, X, _),
+                                    new Row(_, X, _),
+                                    new Row(X, O, O) );
+
+        assertTrue(playerx.bestMove(playerxshouldblock).equals(bestmove));
+
+
+    }
+
 }

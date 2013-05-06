@@ -190,40 +190,53 @@ public class Board {
         System.out.print(outputstring);
     }
 
-    public List< Pair<Board, BoardCoordinate> > getNextStates() {
+    public List<Board> getNextStates() throws InvalidMoveException {
 
-        List< Pair<Board, BoardCoordinate> > newstates = new ArrayList<Pair<Board, BoardCoordinate>>();
+        List<Board> newstates = new ArrayList<Board>();
 
-        for (int i=0; i < top.squares.length; i++) {
-            if (top.squares[i] == _) {
+        if (isFull() || hasWin()) {
+            return newstates;
+        }
+
+        for (int i=0; i < top.getSquares().length; i++) {
+            if (top.getSquare(i) == _) {
                 BoardCoordinate movecoordinate = new BoardCoordinate(0, i);
                 Board newboard = fillSquare(movecoordinate, nextTurn());
-                Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(newboard,
-                                                                                         movecoordinate);
-                newstates.add(movepair);
+                newstates.add(newboard);
             }
         }
 
-        for (int i=0; i < middle.squares.length; i++) {
-            if (middle.squares[i] == _) {
+        for (int i=0; i < middle.getSquares().length; i++) {
+            if (middle.getSquare(i) == _) {
                 BoardCoordinate movecoordinate = new BoardCoordinate(1, i);
                 Board newboard = fillSquare(movecoordinate, nextTurn());
-                Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(newboard,
-                                                                                         movecoordinate);
-                newstates.add(movepair);
+                newstates.add(newboard);
             }
         }
 
-        for (int i=0; i < bottom.squares.length; i++) {
-            if (bottom.squares[i] == _) {
+        for (int i=0; i < bottom.getSquares().length; i++) {
+            if (bottom.getSquare(i) == _) {
                 BoardCoordinate movecoordinate = new BoardCoordinate(2, i);
                 Board newboard = fillSquare(movecoordinate, nextTurn());
-                Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(newboard,
-                                                                                         movecoordinate);
-                newstates.add(movepair);
+                newstates.add(newboard);
             }
         }
         return newstates;
+    }
+
+    public boolean equals(Board otherboard) {
+        for (int i=0; i< top.getSquares().length; i++) {
+            if (otherboard.getTop().getSquare(i) != top.getSquare(i)) return false;
+        }
+
+        for (int i=0; i< middle.getSquares().length; i++) {
+            if (otherboard.getMiddle().getSquare(i) != middle.getSquare(i)) return false;
+        }
+
+        for (int i=0; i< bottom.getSquares().length; i++) {
+            if (otherboard.getBottom().getSquare(i) != bottom.getSquare(i)) return false;
+        }
+        return true;
     }
 
 }
