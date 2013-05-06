@@ -15,8 +15,10 @@ public class BoardCoordinate {
 
     BoardCoordinate(String locationphrase) {
         wordmap.put("top", 0);
+        wordmap.put("upper", 0);
         wordmap.put("middle", 1);
         wordmap.put("bottom", 2);
+        wordmap.put("lower", 2);
         wordmap.put("left", 0);
         wordmap.put("center", 1);
         wordmap.put("right", 2);
