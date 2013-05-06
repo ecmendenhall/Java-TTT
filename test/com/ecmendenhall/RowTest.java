@@ -19,21 +19,15 @@ import static org.junit.Assert.assertArrayEquals;
 @RunWith(JUnit4.class)
 public class RowTest extends TicTacToeTest {
 
-    public Row empty;
-    public Row xxo;
-    public Row ooo;
+    public Row empty = new Row();
+    public Row xxo = new Row(X, X, O);
+    public Row ooo = new Row(O, O, O);
 
     private ByteArrayOutputStream output = new ByteArrayOutputStream();
-    private ByteArrayOutputStream error = new ByteArrayOutputStream();
 
     @Before
     public void setUp() {
-        empty = new Row();
-        xxo = new Row(X, X, O);
-        ooo = new Row(O, O, O);
-
         System.setOut(new PrintStream(output));
-        System.setErr(new PrintStream(error));
     }
 
     @Test
@@ -115,15 +109,20 @@ public class RowTest extends TicTacToeTest {
 
     @Test
     public void rowsReturnCorrectStrings() {
-        assertEquals("XXO\n", xxo.toString());
-        assertEquals("OOO\n", ooo.toString());
-        assertEquals("O__\n", new Row(2, 0, 0).toString());
+        assertEquals(" X \u2502 X \u2502 O\n", xxo.toString());
+        assertEquals(" O \u2502 O \u2502 O\n", ooo.toString());
+        assertEquals(" O \u2502   \u2502  \n", new Row(2, 0, 0).toString());
     }
 
     @Test
     public void squaresReturnCorrectSymbols() {
         assertEquals(xxo.intToSymbol(1), "X");
         assertEquals(xxo.intToSymbol(2), "O");
-        assertEquals(xxo.intToSymbol(0), "_");
+        assertEquals(xxo.intToSymbol(0), " ");
+    }
+
+    @After
+    public void cleanUp() {
+        System.setOut(stdout);
     }
 }

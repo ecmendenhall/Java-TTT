@@ -2,6 +2,7 @@ package com.ecmendenhall;
 
 import org.junit.Before;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 public class TicTacToeTest {

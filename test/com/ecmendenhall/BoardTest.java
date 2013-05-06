@@ -22,12 +22,10 @@ import static org.junit.Assert.assertArrayEquals;
 public class BoardTest extends TicTacToeTest {
 
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream error = new ByteArrayOutputStream();
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(output));
-        System.setErr(new PrintStream(error));
     }
 
     @Test
@@ -175,6 +173,12 @@ public class BoardTest extends TicTacToeTest {
     @Test
     public void emptyBoardIsNotFull() {
         assertFalse(emptyboard.isFull());
+    }
+
+    @Test
+    public void partiallyFullBoardIsNotFull() {
+        assertFalse(playeronext.isFull());
+        assertFalse(playerxshouldblock.isFull());
     }
 
     @Test
