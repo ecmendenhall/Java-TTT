@@ -26,7 +26,7 @@ public class BoardCoordinateTest {
     private BoardCoordinate lowerleft;
 
     @Before
-    public void setUp() {
+    public void setUp() throws InvalidPlayerException {
         board = new Board();
         playerx = new Player(X);
         upperright = new BoardCoordinate(0, 2);

@@ -1,21 +1,19 @@
 package com.ecmendenhall;
 
-import org.junit.After;
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.*;
 
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.Assert;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertArrayEquals;
 
@@ -169,7 +167,7 @@ public class BoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void addXToTopLeft() {
+    public void addXToTopLeft() throws InvalidMoveException {
         board = board.fillSquare(new BoardCoordinate(0, 0), X);
         assertEquals(X, board.getSquare("top left"));
     }
@@ -200,7 +198,7 @@ public class BoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void upperRightMoveIsInvalid() {
+    public void upperRightMoveIsInvalid() throws InvalidMoveException {
         board = playerx.move(upperright, board);
         assertFalse(board.moveIsValid(upperright));
     }
@@ -248,138 +246,153 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardReturnsCorrectString() {
-        assertEquals("OOX\nXXO\nOXX\n\n", nowins.toString());
+        assertEquals(" O \u2502 O \u2502 X\n" + HORIZONTAL_LINE +
+                     " X \u2502 X \u2502 O\n" + HORIZONTAL_LINE +
+                     " O \u2502 X \u2502 X\n\n",
+                     nowins.toString());
     }
 
     @Test
-    public void boardPrintsCorrectly() {
-        nowins.print();
-        assertEquals(nowins.toString(), output.toString());
-    }
-
-    @Test
-    public void fillSquareHasNoSideEffects() {
+    public void fillSquareHasNoSideEffects() throws InvalidMoveException {
 
         Board newboard = emptyboard.fillSquare(new BoardCoordinate("top left"), X);
         Board expected = new Board( new Row(X, _, _),
                                     new Row(_, _, _),
                                     new Row(_, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = emptyboard.fillSquare(new BoardCoordinate("bottom middle"), O);
         expected = new Board ( new Row(_, _, _),
                                new Row(_, _, _),
                                new Row(_, O, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = emptyboard.fillSquare(new BoardCoordinate(2, 0), O);
         expected = new Board ( new Row(_, _, _),
                                new Row(_, _, _),
                                new Row(O, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("top right"), O);
         expected = new Board ( new Row(O, _, O),
                                new Row(_, X, _),
                                new Row(X, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("middle right"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, O),
                                new Row(X, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("bottom right"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, _),
                                new Row(X, _, O) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("top middle"), O);
         expected = new Board ( new Row(O, O, _),
                                new Row(_, X, _),
                                new Row(X, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("middle left"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(O, X, _),
                                new Row(X, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("middle right"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, O),
                                new Row(X, _, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
         newboard = playeronext.fillSquare(new BoardCoordinate("bottom center"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, _),
                                new Row(X, O, _) );
 
-        assertTrue(sameBoards(expected, newboard));
+        assertTrue(expected.equals(newboard));
 
     }
 
     @Test
-    public void minimaxPlayerPredictsNextStates () {
+    public void boardReturnsNextStates () throws InvalidMoveException {
 
-        Board [] expectedstates = { new Board ( new Row (O, _, _),
-                                                new Row (_, X, _),
-                                                new Row (_, _, _) ),
+        List<Board> nextboards = new ArrayList<Board>();
 
-                                    new Board ( new Row (_, O, _),
-                                                new Row (_, X, _),
-                                                new Row (_, _, _) ),
+        nextboards.add( new Board ( new Row (O, _, _),
+                                    new Row (_, X, _),
+                                    new Row (_, _, _) ));
 
-                                    new Board ( new Row (_, _, O),
-                                                new Row (_, X, _),
-                                                new Row (_, _, _) ),
+        nextboards.add( new Board ( new Row (_, O, _),
+                                    new Row (_, X, _),
+                                    new Row (_, _, _) ));
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (O, X, _),
-                                                new Row (_, _, _) ),
+        nextboards.add( new Board ( new Row (_, _, O),
+                                    new Row (_, X, _),
+                                    new Row (_, _, _) ));
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, O),
-                                                new Row (_, _, _) ),
+        nextboards.add( new Board ( new Row (_, _, _),
+                                    new Row (O, X, _),
+                                    new Row (_, _, _) ));
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, _),
-                                                new Row (O, _, _) ),
+        nextboards.add( new Board ( new Row (_, _, _),
+                                    new Row (_, X, O),
+                                    new Row (_, _, _) ));
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, _),
-                                                new Row (_, O, _) ),
+        nextboards.add( new Board ( new Row (_, _, _),
+                                    new Row (_, X, _),
+                                    new Row (O, _, _) ));
 
-                                    new Board ( new Row (_, _, _),
-                                                new Row (_, X, _),
-                                                new Row (_, _, O) )};
+        nextboards.add( new Board ( new Row (_, _, _),
+                                    new Row (_, X, _),
+                                    new Row (_, O, _) ));
 
-        List<Pair<Board, BoardCoordinate>> nextstates = xincenter.getNextStates();
+        nextboards.add( new Board ( new Row (_, _, _),
+                                    new Row (_, X, _),
+                                    new Row (_, _, O) ));
 
-        for (int i=0; i < expectedstates.length; i++) {
-            Board next = nextstates.get(i).first;
-            Board expected = expectedstates[i];
-            assertTrue(sameBoards(expected, next));
+        List<Board> nextstates = xincenter.getNextStates();
+
+        for (int i=0; i < nextstates.size(); i++) {
+            Board expected = nextboards.get(i);
+            Board actual = nextstates.get(i);
+            assertTrue(expected.equals(actual));
         }
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void occupiedSquareMoveThrowsError() throws InvalidMoveException {
+        thrown.expect(InvalidMoveException.class);
+        thrown.expectMessage("Square is already full.");
+        Board invalid = playeronext.fillSquare(new BoardCoordinate("middle center"), O);
+    }
+
+    @Test
+    public void invalidMoveThrowsError() throws InvalidMoveException {
+        thrown.expect(InvalidMoveException.class);
+        thrown.expectMessage("Invalid move coordinate.");
+        Board invalid = playeronext.fillSquare(new BoardCoordinate(5, 7), O);
     }
 
     @After
     public void cleanUp() {
-        System.setOut(null);
-        System.setErr(null);
+        System.setOut(stdout);
     }
 
 }

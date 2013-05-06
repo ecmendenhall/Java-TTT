@@ -98,27 +98,40 @@ public class Board {
         return getSquareByCoordinate(coordinate);
     }
 
-    public Board fillSquare(BoardCoordinate coordinate, int player) {
-        return fillSquareByCoordinate(coordinate.row, coordinate.column, player);
+    public Board fillSquare(BoardCoordinate coordinate, int player) throws InvalidMoveException {
+        return fillSquareByCoordinate(coordinate.getRow(), coordinate.getColumn(), player);
     }
 
-    public Board fillSquareByCoordinate(int row, int column, int player) {
+    private Board fillSquareByCoordinate(int row, int column, int player) throws InvalidMoveException {
 
-        Board newboard = new Board(top, middle, bottom);
+        InvalidMoveException fullsquare = new InvalidMoveException("Square is already full.");
 
         switch (row) {
+            case 0:
+                if (top.squareIsFull(column)) {
+                    throw fullsquare;
+                } else {
+                    Row newtop = top.fillSquare(column, player);
+                    return new Board(newtop, middle, bottom);
+                }
 
-            case 0: newboard.top = top.fillSquare(column, player);
-                    return newboard;
+            case 1:
+                if (middle.squareIsFull(column)) {
+                    throw fullsquare;
+                } else {
+                    Row newmiddle = middle.fillSquare(column, player);
+                    return new Board(top, newmiddle, bottom);
+                }
 
-            case 1: newboard.middle = middle.fillSquare(column, player);
-                    return newboard;
-
-            case 2: newboard.bottom = bottom.fillSquare(column, player);
-                    return newboard;
+            case 2:
+                if (bottom.squareIsFull(column)) {
+                    throw fullsquare;
+                } else {
+                    Row newbottom = bottom.fillSquare(column, player);
+                    return new Board(top, middle, newbottom);
+                }
         }
-
-        return null;
+        throw new InvalidMoveException("Invalid move coordinate.");
     }
 
     public boolean isFull() {

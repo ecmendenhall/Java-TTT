@@ -10,62 +10,62 @@ public class TicTacToeTest {
     public int O = 2;
     public int _ = 0;
 
-    public Board emptyboard;
-    public Board board;
-    public Board nowins;
-    public Board playerxwins;
-    public Board playerowins;
-    public Board diagonal;
-    public Board playeronext;
-    public Board xincenter;
+    public PrintStream stdout = System.out;
 
+    public final String HORIZONTAL_LINE = "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n";
+
+    public final ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+    public Board emptyboard = new Board();
+    public Board board = new Board();
+
+    public Board nowins = new Board( new Row(O, O, X),
+                                     new Row(X, X, O),
+                                     new Row(O, X, X) );
+
+    public Board playerxwins =  new Board( new Row(X, _, _),
+                                           new Row(X, O, _),
+                                           new Row(X, _, O) );
+
+    public Board playerowins = new Board( new Row(O, O, O),
+                                          new Row(X, X, _),
+                                          new Row(_, X, _) );
+
+    public Board diagonal = new Board( new Row(X, _, _),
+                                       new Row(O, X, _),
+                                       new Row(_, O, X) );
+
+    public Board playeronext = new Board( new Row(O, _, _),
+                                          new Row(_, X, _),
+                                          new Row(X, _, _) );
+
+    public Board xincenter = new Board( new Row(_, _, _),
+                                        new Row(_, X, _),
+                                        new Row(_, _, _) );
+
+    public Board playerocanwin = new Board( new Row(X, _, _),
+                                            new Row(O, O, _),
+                                            new Row(X, X, _) );
+
+    public Board playerxcanwin = new Board( new Row(X, _, _),
+                                            new Row(X, O, _),
+                                            new Row(_, _, O) );
+
+    public Board playerxshouldblock = new Board( new Row(_, X, _),
+                                                 new Row(_, X, _),
+                                                 new Row(_, O, O) );
+    public Board willdraw = new Board( new Row(X, O, X),
+                                       new Row(_, X, O),
+                                       new Row(_, X, O) );
 
     public Player playerx;
+    public MinimaxPlayer playero;
     public BoardCoordinate upperright;
 
-    public boolean sameBoards(Board expected, Board actual) {
-
-        for (int i=0; i< actual.top.squares.length; i++) {
-            if (expected.top.squares[i] != actual.top.squares[i]) return false;
-        }
-
-        for (int i=0; i< actual.middle.squares.length; i++) {
-            if (expected.middle.squares[i] != actual.middle.squares[i]) return false;
-        }
-
-        for (int i=0; i< actual.bottom.squares.length; i++) {
-            if (expected.bottom.squares[i] != actual.bottom.squares[i]) return false;
-        }
-
-        return true;
-    }
-
     @Before
-    public void sharedSetUp() {
-        emptyboard = new Board();
-        board = new Board();
-        nowins = new Board( new Row(O, O, X),
-                new Row(X, X, O),
-                new Row(O, X, X) );
-
-        playerxwins =  new Board( new Row(X, _, _),
-                new Row(X, O, _),
-                new Row(X, _, O) );
-
-        playerowins =  new Board( new Row(O, O, O),
-                new Row(X, X, _),
-                new Row(_, X, _) );
-
-        diagonal = new Board( new Row(X, _, _),
-                new Row(O, X, _),
-                new Row(_, O, X) );
-
-        playeronext = new Board( new Row(O, _, _),
-                new Row(_, X, _),
-                new Row(X, _, _) );
-
+    public void sharedSetUp() throws InvalidPlayerException {
         playerx = new Player(X);
         upperright = new BoardCoordinate(0, 2);
-        xincenter = playerx.move(new BoardCoordinate("middle center"), new Board());
+        playero = new MinimaxPlayer(O);
     }
 }
