@@ -25,11 +25,11 @@ public class GameTree {
     }
 
     public static class Node {
-        public Board gamestate;
+        public Board gameState;
         public List<Node> children;
 
         public Node(Board state) throws InvalidMoveException {
-            gamestate = state;
+            gameState = state;
             children = new ArrayList<Node>();
             if (state.getNextStates().isEmpty()) {
                 return;
@@ -57,7 +57,7 @@ public class GameTree {
             List<Node> leaves = getLeaves();
             List<Integer> scores = new ArrayList<Integer>();
             for (Node leaf : leaves) {
-                scores.add(player.scoreBoard(leaf.gamestate));
+                scores.add(player.scoreBoard(leaf.gameState));
             }
             return Collections.max(scores);
         }
@@ -66,13 +66,13 @@ public class GameTree {
             List<Node> leaves = getLeaves();
             List<Integer> scores = new ArrayList<Integer>();
             for (Node leaf : leaves) {
-                scores.add(player.scoreBoard(leaf.gamestate));
+                scores.add(player.scoreBoard(leaf.gameState));
             }
             return Collections.min(scores);
         }
 
         public boolean isTerminal() {
-            return (gamestate.isFull() || gamestate.hasWin());
+            return (gameState.isFull() || gameState.hasWin());
         }
     }
 

@@ -11,8 +11,8 @@ public class MinimaxPlayer extends Player {
     final private int _ = 0;
     private int alpha;
 
-    MinimaxPlayer(int playernumber) throws InvalidPlayerException {
-        super(playernumber);
+    MinimaxPlayer(int playerNumber) throws InvalidPlayerException {
+        super(playerNumber);
     }
 
     public int scoreMove(Board move) throws InvalidMoveException {
@@ -21,25 +21,24 @@ public class MinimaxPlayer extends Player {
         } else {
             GameTree.Node node = new GameTree.Node(move);
             return miniMaxScoreMove(node);
-            //return alphaBetaScoreMove(node, Integer.MIN_VALUE + 1, Integer.MAX_VALUE -1, node.gamestate.nextTurn());
         }
     }
 
     public int miniMaxScoreMove(GameTree.Node node) {
         if (node.isTerminal()) {
-            return scoreBoard(node.gamestate);
+            return scoreBoard(node.gameState);
         } else {
-            List<Integer> movescores = new ArrayList<Integer>();
-            if (node.gamestate.nextTurn() == gamepiece) {
+            List<Integer> moveScores = new ArrayList<Integer>();
+            if (node.gameState.nextTurn() == gamePiece) {
                 for (GameTree.Node child : node.children) {
-                    movescores.add(miniMaxScoreMove(child));
+                    moveScores.add(miniMaxScoreMove(child));
                 }
-                return Collections.max(movescores);
+                return Collections.max(moveScores);
             } else {
                 for (GameTree.Node child : node.children) {
-                    movescores.add(miniMaxScoreMove(child));
+                    moveScores.add(miniMaxScoreMove(child));
                 }
-                return Collections.min(movescores);
+                return Collections.min(moveScores);
             }
         }
     }
@@ -49,9 +48,9 @@ public class MinimaxPlayer extends Player {
                                   int beta,
                                   int player) {
         if (node.isTerminal()) {
-            return scoreBoard(node.gamestate);
+            return scoreBoard(node.gameState);
         } else {
-            if (player == gamepiece) {
+            if (player == gamePiece) {
                 for (GameTree.Node child : node.children) {
                     alpha = Math.max(alpha,
                                      alphaBetaScoreMove(child,
@@ -81,21 +80,21 @@ public class MinimaxPlayer extends Player {
 
     public Board bestMove(Board board) throws InvalidMoveException {
 
-        List<Board> nextmoves = board.getNextStates();
+        List<Board> nextMoves = board.getNextStates();
 
         int bestscore = Integer.MIN_VALUE + 1;
         Board bestmove = null;
 
-        for (Board move : nextmoves) {
+        for (Board move : nextMoves) {
 
-            if (move.winnerIs() == gamepiece) {
+            if (move.winnerIs() == gamePiece) {
                 return move;
             } else {
-                int movescore = scoreMove(move);
+                int moveScore = scoreMove(move);
 
-                if (movescore >= bestscore) {
+                if (moveScore >= bestscore) {
                     bestmove = move;
-                    bestscore = movescore;
+                    bestscore = moveScore;
                 }
             }
         }

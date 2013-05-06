@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.Assert;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +37,7 @@ public class PlayerTest extends TicTacToeTest {
 
     @Test
     public void playerOHasSymbol() {
-        assertEquals('O', playero.symbol);
+        assertEquals('O', playerO.symbol);
     }
 
     @Test
@@ -49,17 +48,17 @@ public class PlayerTest extends TicTacToeTest {
 
     @Test
     public void playerCorrectlyScoresWinningBoard() {
-        assertEquals(1, playerx.scoreBoard(playerxwins));
+        assertEquals(1, playerx.scoreBoard(playerXWins));
     }
 
     @Test
     public void playerCorrectlyScoresBoardWithoutWin() {
-        assertEquals(0, playerx.scoreBoard(nowins));
+        assertEquals(0, playerx.scoreBoard(noWins));
     }
 
     @Test
     public void playerCorrectlyScoresLosingBoard() {
-        assertEquals(-1, playerx.scoreBoard(playerowins));
+        assertEquals(-1, playerx.scoreBoard(playerOWins));
     }
 
     @Rule

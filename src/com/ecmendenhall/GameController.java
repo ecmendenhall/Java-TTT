@@ -7,12 +7,12 @@ public class GameController {
     final private int O = 2;
     final private int _ = 0;
 
-    private Board currentboard;
+    private Board currentBoard;
     private Player human;
     private MinimaxPlayer computer;
 
     public GameController() throws InvalidPlayerException {
-        currentboard = new Board();
+        currentBoard = new Board();
         human = new Player(X);
         computer = new MinimaxPlayer(O);
     }
@@ -22,12 +22,12 @@ public class GameController {
     }
 
     public void newGame(TerminalView view, Boolean pause) throws InvalidMoveException, IOException {
-        currentboard = new Board();
-        passNewBoardToView(currentboard, view, pause);
+        currentBoard = new Board();
+        passNewBoardToView(currentBoard, view, pause);
     }
 
     public Board getCurrentBoard() {
-        return currentboard;
+        return currentBoard;
     }
 
     public void processMove(BoardCoordinate move, TerminalView view) throws InvalidMoveException, IOException {
@@ -36,16 +36,16 @@ public class GameController {
 
     public void processMove(BoardCoordinate move, TerminalView view, Boolean pause) throws InvalidMoveException, IOException {
         try {
-            currentboard = human.move(move, currentboard);
+            currentBoard = human.move(move, currentBoard);
         } catch (InvalidMoveException e) {
-            view.promptWithMessage(e.getMessage(), currentboard, this, pause);
+            view.promptWithMessage(e.getMessage(), currentBoard, this, pause);
             return;
         }
-        currentboard = computer.bestMove(currentboard);
+        currentBoard = computer.bestMove(currentBoard);
         if (pause) {
             return;
         }
-        passNewBoardToView(currentboard, view, pause);
+        passNewBoardToView(currentBoard, view, pause);
     }
 
     public void passNewBoardToView(Board board, TerminalView view, Boolean pause) throws InvalidMoveException, IOException {

@@ -16,25 +16,25 @@ import static org.junit.Assert.assertArrayEquals;
 public class TerminalViewTest extends TicTacToeTest {
 
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
-    private TerminalView terminalview;
+    private TerminalView terminalView;
 
     @Before
     public void setUp() throws UnsupportedEncodingException, InvalidPlayerException {
-        terminalview = new TerminalView(true);
+        terminalView = new TerminalView(true);
         System.setOut(new PrintStream(output, true, "UTF-8"));
     }
 
     @Test
     public void terminalViewShouldPrintBoards() {
-        terminalview.print(nowins);
-        assertEquals(nowins.toString(), output.toString());
+        terminalView.print(noWins);
+        assertEquals(noWins.toString(), output.toString());
 
     }
 
     @Test
     public void terminalViewShouldPromptUserForInput() throws Exception {
-        terminalview.io.setTestInput("top left");
-        BoardCoordinate coordinate = terminalview.prompt();
+        terminalView.io.setTestInput("top left");
+        BoardCoordinate coordinate = terminalView.prompt();
 
         BoardCoordinate expected = new BoardCoordinate("top left");
         assertEquals(expected.getRow(), coordinate.getRow());

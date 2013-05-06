@@ -30,35 +30,35 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardExists() {
-        Board newboard = new Board();
+        Board newBoard = new Board();
     }
 
     @Test
     public void newBoardIsEmpty() {
-        Row emptyrow = new Row(_, _, _);
-        assertArrayEquals(emptyrow.getSquares(), emptyboard.getTop().getSquares());
-        assertArrayEquals(emptyrow.getSquares(), emptyboard.getMiddle().getSquares());
-        assertArrayEquals(emptyrow.getSquares(), emptyboard.getBottom().getSquares());
+        Row emptyRow = new Row(_, _, _);
+        assertArrayEquals(emptyRow.getSquares(), emptyBoard.getTop().getSquares());
+        assertArrayEquals(emptyRow.getSquares(), emptyBoard.getMiddle().getSquares());
+        assertArrayEquals(emptyRow.getSquares(), emptyBoard.getBottom().getSquares());
     }
 
     @Test
     public void noWinsOnNewBoard() {
-        assertFalse(emptyboard.hasWin());
+        assertFalse(emptyBoard.hasWin());
     }
 
     @Test
     public void boardHasRows() {
-        assertNotNull(emptyboard.getRows());
+        assertNotNull(emptyBoard.getRows());
     }
 
     @Test
     public void boardHasThreeRows() {
-        Row[] rows = emptyboard.getRows();
+        Row[] rows = emptyBoard.getRows();
         assertEquals(3, rows.length);
     }
 
     @Test public void rowsHaveThreeSquares() {
-        Row[] rows = emptyboard.getRows();
+        Row[] rows = emptyBoard.getRows();
         for (Row row : rows) {
             assertEquals(3, row.getSquares().length);
         }
@@ -66,18 +66,18 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardHasColumns() {
-        assertNotNull(emptyboard.getColumns());
+        assertNotNull(emptyBoard.getColumns());
     }
 
     @Test
     public void boardHasThreeColumns() {
-        Column[] columns = emptyboard.getColumns();
+        Column[] columns = emptyBoard.getColumns();
         assertEquals(3, columns.length);
     }
 
     @Test
     public void columnsHaveThreeSquares() {
-        Column[] columns = emptyboard.getColumns();
+        Column[] columns = emptyBoard.getColumns();
         for (Column column : columns) {
             assertEquals(3, column.getSquares().length);
         }
@@ -85,52 +85,52 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardReturnsCorrectRows() {
-        Row toprow    = new Row(O, O, X);
-        Row middlerow = new Row(X, X, O);
-        Row bottomrow = new Row(O, X, X);
+        Row topRow    = new Row(O, O, X);
+        Row middleRow = new Row(X, X, O);
+        Row bottomRow = new Row(O, X, X);
 
-        Row[] rows = nowins.getRows();
-        assertArrayEquals(toprow.getSquares(), rows[0].getSquares());
-        assertArrayEquals(middlerow.getSquares(), rows[1].getSquares());
-        assertArrayEquals(bottomrow.getSquares(), rows[2].getSquares());
+        Row[] rows = noWins.getRows();
+        assertArrayEquals(topRow.getSquares(), rows[0].getSquares());
+        assertArrayEquals(middleRow.getSquares(), rows[1].getSquares());
+        assertArrayEquals(bottomRow.getSquares(), rows[2].getSquares());
     }
 
     @Test
     public void boardReturnsCorrectColumns() {
-        Column firstcolumn  = new Column(O, X, O);
-        Column middlecolumn = new Column(O, X, X);
-        Column lastcolumn   = new Column(X, O, X);
+        Column firstColumn  = new Column(O, X, O);
+        Column middleColumn = new Column(O, X, X);
+        Column lastColumn   = new Column(X, O, X);
 
-        Column[] columns = nowins.getColumns();
-        assertArrayEquals(firstcolumn.getSquares(), columns[0].getSquares());
-        assertArrayEquals(middlecolumn.getSquares(), columns[1].getSquares());
-        assertArrayEquals(lastcolumn.getSquares(), columns[2].getSquares());
+        Column[] columns = noWins.getColumns();
+        assertArrayEquals(firstColumn.getSquares(), columns[0].getSquares());
+        assertArrayEquals(middleColumn.getSquares(), columns[1].getSquares());
+        assertArrayEquals(lastColumn.getSquares(), columns[2].getSquares());
     }
 
     @Test
     public void boardReturnsCorrectDiags() {
-        Diagonal leftright = new Diagonal(O, X, X);
-        Diagonal rightleft = new Diagonal(X, X, O);
+        Diagonal leftRight = new Diagonal(O, X, X);
+        Diagonal rightLeft = new Diagonal(X, X, O);
 
-        Diagonal[] diagonals = nowins.getDiagonals();
-        assertArrayEquals(leftright.getSquares(), diagonals[0].getSquares());
-        assertArrayEquals(rightleft.getSquares(), diagonals[1].getSquares());
+        Diagonal[] diagonals = noWins.getDiagonals();
+        assertArrayEquals(leftRight.getSquares(), diagonals[0].getSquares());
+        assertArrayEquals(rightLeft.getSquares(), diagonals[1].getSquares());
     }
 
 
     @Test
     public void boardHasHorizontalWin() {
-        assertTrue(playerowins.hasWin());
+        assertTrue(playerOWins.hasWin());
     }
 
     @Test
     public void boardHasVerticalWin() {
-        assertTrue(playerxwins.hasWin());
+        assertTrue(playerXWins.hasWin());
     }
 
     @Test
     public void drawBoardDoesNotHaveWin() {
-        assertFalse(nowins.hasWin());
+        assertFalse(noWins.hasWin());
     }
 
     @Test
@@ -140,28 +140,28 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void getTopLeftByCoordinate() {
-        assertEquals(X, nowins.getSquareByCoordinate(new BoardCoordinate(1, 1)));
+        assertEquals(X, noWins.getSquareByCoordinate(new BoardCoordinate(1, 1)));
     }
 
     @Test
     public void getTopLeft() {
-        assertEquals(O, nowins.getSquare("Top Left"));
+        assertEquals(O, noWins.getSquare("Top Left"));
     }
 
     @Test
     public void getBottomRight() {
-        assertEquals(X, nowins.getSquare("bottom right"));
+        assertEquals(X, noWins.getSquare("bottom right"));
     }
 
     @Test
     public void getSquareWorksForAllSquares() {
-        assertEquals(O, nowins.getSquare("Top center"));
-        assertEquals(X, nowins.getSquare("top Right"));
-        assertEquals(X, nowins.getSquare("MIDDLE LEFT"));
-        assertEquals(X, nowins.getSquare("Middle Center"));
-        assertEquals(O, nowins.getSquare("middle rIght"));
-        assertEquals(O, nowins.getSquare("bottom left"));
-        assertEquals(X, nowins.getSquare("BOTTOM CENTER"));
+        assertEquals(O, noWins.getSquare("Top center"));
+        assertEquals(X, noWins.getSquare("top Right"));
+        assertEquals(X, noWins.getSquare("MIDDLE LEFT"));
+        assertEquals(X, noWins.getSquare("Middle Center"));
+        assertEquals(O, noWins.getSquare("middle rIght"));
+        assertEquals(O, noWins.getSquare("bottom left"));
+        assertEquals(X, noWins.getSquare("BOTTOM CENTER"));
     }
 
     @Test
@@ -172,80 +172,80 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void emptyBoardIsNotFull() {
-        assertFalse(emptyboard.isFull());
+        assertFalse(emptyBoard.isFull());
     }
 
     @Test
     public void partiallyFullBoardIsNotFull() {
-        assertFalse(playeronext.isFull());
-        assertFalse(playerxshouldblock.isFull());
+        assertFalse(playerONext.isFull());
+        assertFalse(playerXShouldBlock.isFull());
     }
 
     @Test
     public void noWinsIsFull() {
-        assertTrue(nowins.isFull());
+        assertTrue(noWins.isFull());
     }
 
     @Test
     public void noWinsHasNoWinner() {
-        assertEquals(_, nowins.winnerIs());
+        assertEquals(_, noWins.winnerIs());
     }
 
     @Test
     public void playerXWinsWinnerIsX() {
-        assertEquals(X, playerxwins.winnerIs());
+        assertEquals(X, playerXWins.winnerIs());
     }
 
     @Test
     public void playerOWinsWinnerIsO() {
-        assertEquals(O, playerowins.winnerIs());
+        assertEquals(O, playerOWins.winnerIs());
     }
 
     @Test
     public void upperRightMoveIsInvalid() throws InvalidMoveException {
-        board = playerx.move(upperright, board);
-        assertFalse(board.moveIsValid(upperright));
+        board = playerX.move(upperRight, board);
+        assertFalse(board.moveIsValid(upperRight));
     }
 
     @Test
     public void lowerLeftMoveIsValid() {
-        BoardCoordinate lowerleft = new BoardCoordinate("bottom left");
-        assertTrue(board.moveIsValid(lowerleft));
+        BoardCoordinate lowerLeft = new BoardCoordinate("bottom left");
+        assertTrue(board.moveIsValid(lowerLeft));
     }
 
     @Test
     public void playerXMovesFirst() {
-        assertEquals(X, emptyboard.nextTurn());
+        assertEquals(X, emptyBoard.nextTurn());
     }
 
     @Test
     public void playerOMovesNext() {
-        assertEquals(O, playeronext.nextTurn());
+        assertEquals(O, playerONext.nextTurn());
     }
 
     @Test
     public void fullBoardHasNoNextTurn() {
-        assertEquals(_, nowins.nextTurn());
+        assertEquals(_, noWins.nextTurn());
     }
 
     @Test
     public void emptyBoardSumIsZero() {
-        assertEquals(0, emptyboard.sum());
+        assertEquals(0, emptyBoard.sum());
     }
 
     @Test
     public void noWinsBoardSumIsThirteen() {
-        assertEquals(13, nowins.sum());
+        assertEquals(13, noWins.sum());
     }
 
     @Test
     public void playerXWinsBoardSumIsSeven() {
-        assertEquals(7, playerxwins.sum());
+        assertEquals(7, playerXWins.sum());
     }
 
     @Test
     public void emptyBoardHasNineEmptySquares() {
-        assertEquals(9, emptyboard.countEmptySquares());
+        assertEquals(9, emptyBoard.countEmptySquares());
     }
 
     @Test
@@ -253,126 +253,126 @@ public class BoardTest extends TicTacToeTest {
         assertEquals(" O \u2502 O \u2502 X\n" + HORIZONTAL_LINE +
                      " X \u2502 X \u2502 O\n" + HORIZONTAL_LINE +
                      " O \u2502 X \u2502 X\n\n",
-                     nowins.toString());
+                     noWins.toString());
     }
 
     @Test
     public void fillSquareHasNoSideEffects() throws InvalidMoveException {
 
-        Board newboard = emptyboard.fillSquare(new BoardCoordinate("top left"), X);
+        Board newBoard = emptyBoard.fillSquare(new BoardCoordinate("top left"), X);
         Board expected = new Board( new Row(X, _, _),
                                     new Row(_, _, _),
                                     new Row(_, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = emptyboard.fillSquare(new BoardCoordinate("bottom middle"), O);
+        newBoard = emptyBoard.fillSquare(new BoardCoordinate("bottom middle"), O);
         expected = new Board ( new Row(_, _, _),
                                new Row(_, _, _),
                                new Row(_, O, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = emptyboard.fillSquare(new BoardCoordinate(2, 0), O);
+        newBoard = emptyBoard.fillSquare(new BoardCoordinate(2, 0), O);
         expected = new Board ( new Row(_, _, _),
                                new Row(_, _, _),
                                new Row(O, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("top right"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("top right"), O);
         expected = new Board ( new Row(O, _, O),
                                new Row(_, X, _),
                                new Row(X, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("middle right"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("middle right"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, O),
                                new Row(X, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("bottom right"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("bottom right"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, _),
                                new Row(X, _, O) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("top middle"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("top middle"), O);
         expected = new Board ( new Row(O, O, _),
                                new Row(_, X, _),
                                new Row(X, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("middle left"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("middle left"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(O, X, _),
                                new Row(X, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("middle right"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("middle right"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, O),
                                new Row(X, _, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
-        newboard = playeronext.fillSquare(new BoardCoordinate("bottom center"), O);
+        newBoard = playerONext.fillSquare(new BoardCoordinate("bottom center"), O);
         expected = new Board ( new Row(O, _, _),
                                new Row(_, X, _),
                                new Row(X, O, _) );
 
-        assertTrue(expected.equals(newboard));
+        assertTrue(expected.equals(newBoard));
 
     }
 
     @Test
     public void boardReturnsNextStates () throws InvalidMoveException {
 
-        List<Board> nextboards = new ArrayList<Board>();
+        List<Board> nextBoards = new ArrayList<Board>();
 
-        nextboards.add( new Board ( new Row (O, _, _),
-                                    new Row (_, X, _),
-                                    new Row (_, _, _) ));
+        nextBoards.add(new Board(new Row(O, _, _),
+                new Row(_, X, _),
+                new Row(_, _, _)));
 
-        nextboards.add( new Board ( new Row (_, O, _),
-                                    new Row (_, X, _),
-                                    new Row (_, _, _) ));
+        nextBoards.add(new Board(new Row(_, O, _),
+                new Row(_, X, _),
+                new Row(_, _, _)));
 
-        nextboards.add( new Board ( new Row (_, _, O),
-                                    new Row (_, X, _),
-                                    new Row (_, _, _) ));
+        nextBoards.add(new Board(new Row(_, _, O),
+                new Row(_, X, _),
+                new Row(_, _, _)));
 
-        nextboards.add( new Board ( new Row (_, _, _),
-                                    new Row (O, X, _),
-                                    new Row (_, _, _) ));
+        nextBoards.add(new Board(new Row(_, _, _),
+                new Row(O, X, _),
+                new Row(_, _, _)));
 
-        nextboards.add( new Board ( new Row (_, _, _),
-                                    new Row (_, X, O),
-                                    new Row (_, _, _) ));
+        nextBoards.add(new Board(new Row(_, _, _),
+                new Row(_, X, O),
+                new Row(_, _, _)));
 
-        nextboards.add( new Board ( new Row (_, _, _),
-                                    new Row (_, X, _),
-                                    new Row (O, _, _) ));
+        nextBoards.add(new Board(new Row(_, _, _),
+                new Row(_, X, _),
+                new Row(O, _, _)));
 
-        nextboards.add( new Board ( new Row (_, _, _),
-                                    new Row (_, X, _),
-                                    new Row (_, O, _) ));
+        nextBoards.add(new Board(new Row(_, _, _),
+                new Row(_, X, _),
+                new Row(_, O, _)));
 
-        nextboards.add( new Board ( new Row (_, _, _),
-                                    new Row (_, X, _),
-                                    new Row (_, _, O) ));
+        nextBoards.add(new Board(new Row(_, _, _),
+                new Row(_, X, _),
+                new Row(_, _, O)));
 
-        List<Board> nextstates = xincenter.getNextStates();
+        List<Board> nextStates = xInCenter.getNextStates();
 
-        for (int i=0; i < nextstates.size(); i++) {
-            Board expected = nextboards.get(i);
-            Board actual = nextstates.get(i);
+        for (int i=0; i < nextStates.size(); i++) {
+            Board expected = nextBoards.get(i);
+            Board actual = nextStates.get(i);
             assertTrue(expected.equals(actual));
         }
     }
@@ -384,14 +384,14 @@ public class BoardTest extends TicTacToeTest {
     public void occupiedSquareMoveThrowsError() throws InvalidMoveException {
         thrown.expect(InvalidMoveException.class);
         thrown.expectMessage("Square is already full.");
-        Board invalid = playeronext.fillSquare(new BoardCoordinate("middle center"), O);
+        Board invalid = playerONext.fillSquare(new BoardCoordinate("middle center"), O);
     }
 
     @Test
     public void invalidMoveThrowsError() throws InvalidMoveException {
         thrown.expect(InvalidMoveException.class);
         thrown.expectMessage("Invalid move coordinate.");
-        Board invalid = playeronext.fillSquare(new BoardCoordinate(5, 7), O);
+        Board invalid = playerONext.fillSquare(new BoardCoordinate(5, 7), O);
     }
 
     @After

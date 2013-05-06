@@ -16,24 +16,24 @@ public class TerminalView {
     }
 
     public TerminalView() throws InvalidPlayerException {
-            Console systemconsole = System.console();
-        if (systemconsole == null) {
+            Console systemConsole = System.console();
+        if (systemConsole == null) {
             System.err.println("No console found.");
             io = streamDevice(System.in, System.out, false);
         } else {
-            io = new SystemConsole(systemconsole);
+            io = new SystemConsole(systemConsole);
         }
     }
 
     public TerminalView(Boolean test) throws InvalidPlayerException {
-        Console systemconsole = System.console();
+        Console systemConsole = System.console();
         if (test) {
             io = streamDevice(System.in, System.out, true);
-        } else if (systemconsole == null) {
+        } else if (systemConsole == null) {
             System.err.println("No console found.");
             io = streamDevice(System.in, System.out, false);
         } else {
-            io = new SystemConsole(systemconsole);
+            io = new SystemConsole(systemConsole);
         }
     }
 
@@ -139,7 +139,7 @@ public class TerminalView {
     }
 
     private static class TestConsole extends CharStreamConsole {
-        public String testinput = "";
+        public String testInput = "";
 
         public TestConsole(BufferedReader reader, PrintWriter writer) {
             super(reader, writer);
@@ -147,12 +147,12 @@ public class TerminalView {
 
         @Override
         public void setTestInput(String input) {
-            testinput = input;
+            testInput = input;
         }
 
         @Override
         public String readLine(String unused) {
-            return testinput;
+            return testInput;
         }
 
     }
@@ -162,38 +162,38 @@ public class TerminalView {
     }
 
     public BoardCoordinate prompt() throws IOException {
-        String locationphrase = io.readLine("Your move: ");
-        return new BoardCoordinate(locationphrase);
+        String locationPhrase = io.readLine("Your move: ");
+        return new BoardCoordinate(locationPhrase);
     }
 
-    public void passMoveToController(BoardCoordinate move, GameController gamecontroller) throws InvalidMoveException, IOException {
-        gamecontroller.processMove(move, this, false);
+    public void passMoveToController(BoardCoordinate move, GameController gameController) throws InvalidMoveException, IOException {
+        gameController.processMove(move, this, false);
     }
 
-    public void passMoveToController(BoardCoordinate move, GameController gamecontroller, boolean pause) throws InvalidMoveException, IOException {
-        gamecontroller.processMove(move, this, pause);
+    public void passMoveToController(BoardCoordinate move, GameController gameController, boolean pause) throws InvalidMoveException, IOException {
+        gameController.processMove(move, this, pause);
     }
 
-    public void processBoard(Board board, GameController gamecontroller) throws InvalidMoveException, IOException {
-        processBoard(board, gamecontroller, false);
+    public void processBoard(Board board, GameController gameController) throws InvalidMoveException, IOException {
+        processBoard(board, gameController, false);
     }
 
-    public void processBoard(Board board, GameController gamecontroller, Boolean pause) throws InvalidMoveException, IOException {
+    public void processBoard(Board board, GameController gameController, Boolean pause) throws InvalidMoveException, IOException {
         print(board);
         if (pause) {
             return;
         }
-        BoardCoordinate nextmove = prompt();
-        passMoveToController(nextmove, gamecontroller);
+        BoardCoordinate nextMove = prompt();
+        passMoveToController(nextMove, gameController);
     }
 
-    public void promptWithMessage(String message, Board board, GameController gamecontroller) throws InvalidMoveException, IOException {
-        promptWithMessage(message, board, gamecontroller, false);
+    public void promptWithMessage(String message, Board board, GameController gameController) throws InvalidMoveException, IOException {
+        promptWithMessage(message, board, gameController, false);
     }
 
-    public void promptWithMessage(String message, Board board, GameController gamecontroller, Boolean pause) throws InvalidMoveException, IOException {
+    public void promptWithMessage(String message, Board board, GameController gameController, Boolean pause) throws InvalidMoveException, IOException {
         System.out.println(message);
-        processBoard(board, gamecontroller, pause);
+        processBoard(board, gameController, pause);
     }
 
 }

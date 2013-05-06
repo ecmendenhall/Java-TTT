@@ -93,8 +93,8 @@ public class Board {
         return getRows()[coordinate.getRow()].getSquare(coordinate.getColumn());
     }
 
-    public int getSquare(String locationphrase) {
-        BoardCoordinate coordinate = new BoardCoordinate(locationphrase);
+    public int getSquare(String locationPhrase) {
+        BoardCoordinate coordinate = new BoardCoordinate(locationPhrase);
         return getSquareByCoordinate(coordinate);
     }
 
@@ -104,31 +104,31 @@ public class Board {
 
     private Board fillSquareByCoordinate(int row, int column, int player) throws InvalidMoveException {
 
-        InvalidMoveException fullsquare = new InvalidMoveException("Square is already full.");
+        InvalidMoveException fullSquare = new InvalidMoveException("Square is already full.");
 
         switch (row) {
             case 0:
                 if (top.squareIsFull(column)) {
-                    throw fullsquare;
+                    throw fullSquare;
                 } else {
-                    Row newtop = top.fillSquare(column, player);
-                    return new Board(newtop, middle, bottom);
+                    Row newTop = top.fillSquare(column, player);
+                    return new Board(newTop, middle, bottom);
                 }
 
             case 1:
                 if (middle.squareIsFull(column)) {
-                    throw fullsquare;
+                    throw fullSquare;
                 } else {
-                    Row newmiddle = middle.fillSquare(column, player);
-                    return new Board(top, newmiddle, bottom);
+                    Row newMiddle = middle.fillSquare(column, player);
+                    return new Board(top, newMiddle, bottom);
                 }
 
             case 2:
                 if (bottom.squareIsFull(column)) {
-                    throw fullsquare;
+                    throw fullSquare;
                 } else {
-                    Row newbottom = bottom.fillSquare(column, player);
-                    return new Board(top, middle, newbottom);
+                    Row newBottom = bottom.fillSquare(column, player);
+                    return new Board(top, middle, newBottom);
                 }
         }
         throw new InvalidMoveException("Invalid move coordinate.");
@@ -186,55 +186,55 @@ public class Board {
     }
 
     public void print() {
-        String outputstring = toString();
-        System.out.print(outputstring);
+        String outputString = toString();
+        System.out.print(outputString);
     }
 
     public List<Board> getNextStates() throws InvalidMoveException {
 
-        List<Board> newstates = new ArrayList<Board>();
+        List<Board> newStates = new ArrayList<Board>();
 
         if (isFull() || hasWin()) {
-            return newstates;
+            return newStates;
         }
 
         for (int i=0; i < top.getSquares().length; i++) {
             if (top.getSquare(i) == _) {
-                BoardCoordinate movecoordinate = new BoardCoordinate(0, i);
-                Board newboard = fillSquare(movecoordinate, nextTurn());
-                newstates.add(newboard);
+                BoardCoordinate moveCoordinate = new BoardCoordinate(0, i);
+                Board newboard = fillSquare(moveCoordinate, nextTurn());
+                newStates.add(newboard);
             }
         }
 
         for (int i=0; i < middle.getSquares().length; i++) {
             if (middle.getSquare(i) == _) {
-                BoardCoordinate movecoordinate = new BoardCoordinate(1, i);
-                Board newboard = fillSquare(movecoordinate, nextTurn());
-                newstates.add(newboard);
+                BoardCoordinate moveCoordinate = new BoardCoordinate(1, i);
+                Board newboard = fillSquare(moveCoordinate, nextTurn());
+                newStates.add(newboard);
             }
         }
 
         for (int i=0; i < bottom.getSquares().length; i++) {
             if (bottom.getSquare(i) == _) {
-                BoardCoordinate movecoordinate = new BoardCoordinate(2, i);
-                Board newboard = fillSquare(movecoordinate, nextTurn());
-                newstates.add(newboard);
+                BoardCoordinate moveCoordinate = new BoardCoordinate(2, i);
+                Board newBoard = fillSquare(moveCoordinate, nextTurn());
+                newStates.add(newBoard);
             }
         }
-        return newstates;
+        return newStates;
     }
 
-    public boolean equals(Board otherboard) {
+    public boolean equals(Board otherBoard) {
         for (int i=0; i< top.getSquares().length; i++) {
-            if (otherboard.getTop().getSquare(i) != top.getSquare(i)) return false;
+            if (otherBoard.getTop().getSquare(i) != top.getSquare(i)) return false;
         }
 
         for (int i=0; i< middle.getSquares().length; i++) {
-            if (otherboard.getMiddle().getSquare(i) != middle.getSquare(i)) return false;
+            if (otherBoard.getMiddle().getSquare(i) != middle.getSquare(i)) return false;
         }
 
         for (int i=0; i< bottom.getSquares().length; i++) {
-            if (otherboard.getBottom().getSquare(i) != bottom.getSquare(i)) return false;
+            if (otherBoard.getBottom().getSquare(i) != bottom.getSquare(i)) return false;
         }
         return true;
     }

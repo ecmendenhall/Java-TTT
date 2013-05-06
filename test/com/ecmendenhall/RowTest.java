@@ -32,7 +32,7 @@ public class RowTest extends TicTacToeTest {
 
     @Test
     public void rowExists() {
-        Row newrow = new Row();
+        Row newRow = new Row();
     }
 
     @Test

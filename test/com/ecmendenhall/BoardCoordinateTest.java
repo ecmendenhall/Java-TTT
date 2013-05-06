@@ -5,7 +5,6 @@ import org.junit.Before;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.junit.Assert;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -21,31 +20,31 @@ public class BoardCoordinateTest {
     private final int _ = 0;
 
     private Board board;
-    private Player playerx;
-    private BoardCoordinate upperright;
-    private BoardCoordinate lowerleft;
+    private Player playerX;
+    private BoardCoordinate upperRight;
+    private BoardCoordinate lowerLeft;
 
     @Before
     public void setUp() throws InvalidPlayerException {
         board = new Board();
-        playerx = new Player(X);
-        upperright = new BoardCoordinate(0, 2);
-        lowerleft = new BoardCoordinate("bottom left");
+        playerX = new Player(X);
+        upperRight = new BoardCoordinate(0, 2);
+        lowerLeft = new BoardCoordinate("bottom left");
     }
 
     @Test
     public void rowIsZero() {
-        assertEquals(0, upperright.getRow());
+        assertEquals(0, upperRight.getRow());
     }
 
     @Test
     public void columnIsTwo() {
-        assertEquals(2, upperright.getColumn());
+        assertEquals(2, upperRight.getColumn());
     }
 
     @Test
     public void coordinateCanBeConstructedFromString() {
-        assertEquals(2, lowerleft.getRow());
-        assertEquals(0, lowerleft.getColumn());
+        assertEquals(2, lowerLeft.getRow());
+        assertEquals(0, lowerLeft.getColumn());
     }
 }

@@ -7,9 +7,9 @@ public class Main {
 
     public static void main(String[] args) throws InvalidPlayerException, InvalidMoveException, IOException {
 
-        //TerminalView tv = new TerminalView();
-        //GameController gc = new GameController();
+        TerminalView view = new TerminalView();
+        GameController controller = new GameController();
 
-        //gc.newGame(tv);
+        controller.newGame(view);
     }
 }

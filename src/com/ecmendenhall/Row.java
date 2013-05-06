@@ -60,11 +60,11 @@ public class Row {
     }
 
     public int sum() {
-        int rowsum = 0;
+        int rowSum = 0;
         for (int square : squares) {
-            rowsum += square;
+            rowSum += square;
         }
-        return rowsum;
+        return rowSum;
     }
 
     public String intToSymbol(int square) {
@@ -80,13 +80,13 @@ public class Row {
     }
 
     public String toString() {
-        String rowstring = "";
-        int nsquares = squares.length;
-        for (int i=0; i < nsquares - 1; i++) {
+        String rowString = "";
+        int nSquares = squares.length;
+        for (int i=0; i < nSquares - 1; i++) {
             String symbol = intToSymbol(squares[i]);
-            rowstring += " " + symbol + " \u2502";
+            rowString += " " + symbol + " \u2502";
         }
-        String lastsquare = intToSymbol(squares[nsquares - 1]);
-        return rowstring + " " + lastsquare + "\n";
+        String lastSquare = intToSymbol(squares[nSquares - 1]);
+        return rowString + " " + lastSquare + "\n";
     }
 }

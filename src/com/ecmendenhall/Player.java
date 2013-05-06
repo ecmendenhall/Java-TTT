@@ -2,17 +2,17 @@ package com.ecmendenhall;
 
 public class Player {
     public char symbol;
-    public final int gamepiece;
+    public final int gamePiece;
     public final int X = 1;
     public final int O = 2;
     public final int _ = 0;
 
-    Player(int playernumber) throws InvalidPlayerException {
-        if (playernumber != 2 && playernumber != 1) {
+    Player(int playerNumber) throws InvalidPlayerException {
+        if (playerNumber != 2 && playerNumber != 1) {
             throw new InvalidPlayerException("Invalid player number.");
         }
-        gamepiece = playernumber;
-        if (gamepiece == 1) {
+        gamePiece = playerNumber;
+        if (gamePiece == 1) {
             symbol = 'X';
         } else {
             symbol = 'O';
@@ -21,7 +21,7 @@ public class Player {
     }
 
     public int otherPlayer() {
-        if (gamepiece == 1) {
+        if (gamePiece == 1) {
             return 2;
         } else {
             return 1;
@@ -29,11 +29,11 @@ public class Player {
     }
 
     public Board move(BoardCoordinate square, Board board) throws InvalidMoveException {
-        return board.fillSquare(square, gamepiece);
+        return board.fillSquare(square, gamePiece);
     }
 
     public int scoreBoard(Board board) {
-        if (board.winnerIs() == gamepiece) {
+        if (board.winnerIs() == gamePiece) {
             return 1;
         } else if (board.winnerIs() == otherPlayer()) {
             return -1;
