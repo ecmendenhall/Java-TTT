@@ -7,9 +7,11 @@ public class Board {
     final private int O = 2;
     final private int _ = 0;
 
-    Row top;
-    Row middle;
-    Row bottom;
+    final private String HORIZONTAL_LINE = "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n";
+
+    final private Row top;
+    final private Row middle;
+    final private Row bottom;
 
     public Board() {
         top = new Row();

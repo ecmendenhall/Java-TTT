@@ -52,7 +52,7 @@ public class Row {
     public String intToSymbol(int square) {
         switch (square) {
             case 0:
-                return "_";
+                return " ";
             case 1:
                 return "X";
             case 2:
@@ -63,11 +63,12 @@ public class Row {
 
     public String toString() {
         String rowstring = "";
-        for (int i=0; i < squares.length; i++) {
-            int square = squares[i];
-            String symbol = intToSymbol(square);
-            rowstring += symbol;
+        int nsquares = squares.length;
+        for (int i=0; i < nsquares - 1; i++) {
+            String symbol = intToSymbol(squares[i]);
+            rowstring += " " + symbol + " \u2502";
         }
-        return rowstring + "\n";
+        String lastsquare = intToSymbol(squares[nsquares - 1]);
+        return rowstring + " " + lastsquare + "\n";
     }
 }
