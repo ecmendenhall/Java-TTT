@@ -25,7 +25,7 @@ public class BoardCoordinateTest {
     private BoardCoordinate lowerLeft;
 
     @Before
-    public void setUp() throws InvalidPlayerException {
+    public void setUp() throws InvalidPlayerException, InvalidCoordinateException {
         board = new Board();
         playerX = new Player(X);
         upperRight = new BoardCoordinate(0, 2);
@@ -34,17 +34,17 @@ public class BoardCoordinateTest {
 
     @Test
     public void rowIsZero() {
-        assertEquals(0, upperRight.getRow());
+        assertEquals((Integer) 0, upperRight.getRow());
     }
 
     @Test
     public void columnIsTwo() {
-        assertEquals(2, upperRight.getColumn());
+        assertEquals((Integer) 2, upperRight.getColumn());
     }
 
     @Test
     public void coordinateCanBeConstructedFromString() {
-        assertEquals(2, lowerLeft.getRow());
-        assertEquals(0, lowerLeft.getColumn());
+        assertEquals((Integer) 2, lowerLeft.getRow());
+        assertEquals((Integer) 0, lowerLeft.getColumn());
     }
 }

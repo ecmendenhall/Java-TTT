@@ -39,7 +39,7 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     }
 
     @Before
-    public void setUp() throws InvalidPlayerException, InvalidMoveException {
+    public void setUp() throws InvalidPlayerException, InvalidMoveException, InvalidCoordinateException {
         playerX = new MinimaxPlayer(X);
         board = playerX.move(new BoardCoordinate("middle center"), new Board());
     }

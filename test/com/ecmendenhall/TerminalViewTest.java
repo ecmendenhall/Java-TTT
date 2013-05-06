@@ -27,7 +27,7 @@ public class TerminalViewTest extends TicTacToeTest {
     @Test
     public void terminalViewShouldPrintBoards() {
         terminalView.print(noWins);
-        assertEquals(noWins.toString(), output.toString());
+        assertEquals("\n" + noWins.toString(), output.toString());
 
     }
 

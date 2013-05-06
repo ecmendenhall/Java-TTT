@@ -19,7 +19,7 @@ public class Row {
         return squares;
     }
 
-    public int getSquare(int square) {
+    public int getSquare(Integer square) {
         return squares[square];
     }
 

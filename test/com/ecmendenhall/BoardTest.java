@@ -144,17 +144,17 @@ public class BoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void getTopLeft() {
+    public void getTopLeft() throws InvalidCoordinateException {
         assertEquals(O, noWins.getSquare("Top Left"));
     }
 
     @Test
-    public void getBottomRight() {
+    public void getBottomRight() throws InvalidCoordinateException {
         assertEquals(X, noWins.getSquare("bottom right"));
     }
 
     @Test
-    public void getSquareWorksForAllSquares() {
+    public void getSquareWorksForAllSquares() throws InvalidCoordinateException {
         assertEquals(O, noWins.getSquare("Top center"));
         assertEquals(X, noWins.getSquare("top Right"));
         assertEquals(X, noWins.getSquare("MIDDLE LEFT"));
@@ -165,7 +165,7 @@ public class BoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void addXToTopLeft() throws InvalidMoveException {
+    public void addXToTopLeft() throws InvalidMoveException, InvalidCoordinateException {
         board = board.fillSquare(new BoardCoordinate(0, 0), X);
         assertEquals(X, board.getSquare("top left"));
     }
@@ -208,7 +208,7 @@ public class BoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void lowerLeftMoveIsValid() {
+    public void lowerLeftMoveIsValid() throws Exception {
         BoardCoordinate lowerLeft = new BoardCoordinate("bottom left");
         assertTrue(board.moveIsValid(lowerLeft));
     }
@@ -257,7 +257,7 @@ public class BoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void fillSquareHasNoSideEffects() throws InvalidMoveException {
+    public void fillSquareHasNoSideEffects() throws InvalidMoveException, InvalidCoordinateException {
 
         Board newBoard = emptyBoard.fillSquare(new BoardCoordinate("top left"), X);
         Board expected = new Board( new Row(X, _, _),
@@ -381,7 +381,7 @@ public class BoardTest extends TicTacToeTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void occupiedSquareMoveThrowsError() throws InvalidMoveException {
+    public void occupiedSquareMoveThrowsError() throws InvalidMoveException, InvalidCoordinateException {
         thrown.expect(InvalidMoveException.class);
         thrown.expectMessage("Square is already full.");
         Board invalid = playerONext.fillSquare(new BoardCoordinate("middle center"), O);

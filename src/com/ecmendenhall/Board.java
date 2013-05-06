@@ -93,7 +93,7 @@ public class Board {
         return getRows()[coordinate.getRow()].getSquare(coordinate.getColumn());
     }
 
-    public int getSquare(String locationPhrase) {
+    public int getSquare(String locationPhrase) throws InvalidCoordinateException {
         BoardCoordinate coordinate = new BoardCoordinate(locationPhrase);
         return getSquareByCoordinate(coordinate);
     }

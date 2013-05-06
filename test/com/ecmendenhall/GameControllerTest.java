@@ -1,5 +1,6 @@
 package com.ecmendenhall;
 import org.junit.*;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -61,13 +62,13 @@ public class GameControllerTest extends TicTacToeTest {
         terminalView = new TerminalView(true);
         gameController.passNewBoardToView(topLeftResponse, terminalView, true);
 
-        assertEquals(topLeftResponse.toString(), output.toString());
+        assertEquals("\n" + topLeftResponse.toString(), output.toString());
 
         System.setOut(stdout);
     }
 
     @Test
-    public void gameControllerShouldPassCorrectResponseToView() throws InvalidPlayerException, InvalidMoveException, IOException {
+    public void gameControllerShouldPassCorrectResponseToView() throws InvalidPlayerException, InvalidMoveException, IOException, InvalidCoordinateException {
         System.setOut(new PrintStream(output));
 
         gameController = new GameController();
@@ -75,7 +76,7 @@ public class GameControllerTest extends TicTacToeTest {
         assertTrue(topRightResponse.equals(gameController.getCurrentBoard()));
 
         gameController.passNewBoardToView(gameController.getCurrentBoard(), terminalView, true);
-        assertEquals(topRightResponse.toString(), output.toString());
+        assertEquals("\n" + topRightResponse.toString(), output.toString());
 
         System.setOut(stdout);
     }
@@ -86,7 +87,7 @@ public class GameControllerTest extends TicTacToeTest {
         terminalView.io.setTestInput("middle center");
 
         gameController.newGame(terminalView, true);
-        assertEquals(gameController.getCurrentBoard().toString(), output.toString());
+        assertEquals("\n" + gameController.getCurrentBoard().toString(), output.toString());
 
         System.setOut(stdout);
     }
@@ -105,7 +106,67 @@ public class GameControllerTest extends TicTacToeTest {
                 terminalView,
                 true);
 
-        assertEquals("Square is already full.\n" + gameController.getCurrentBoard(), output.toString());
+        assertEquals("Square is already full.\n\n" + gameController.getCurrentBoard(), output.toString());
+
+        System.setOut(stdout);
+    }
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+    @Test
+    public void gameControllerShouldCheckForWins() throws Exception {
+        exit.expectSystemExitWithStatus(0);
+
+        terminalView.io.setTestInput("lower left");
+
+        System.setOut(new PrintStream(output));
+        gameController = new GameController(playerXCanWin);
+        BoardCoordinate nextMove = terminalView.prompt();
+        terminalView.passMoveToController(nextMove, gameController);
+
+
+        assertEquals(gameController.getCurrentBoard() +
+                     "Game over: Player X wins.", output.toString());
+
+
+        System.setOut(stdout);
+    }
+
+    @Rule
+    public final ExpectedSystemExit drawExit = ExpectedSystemExit.none();
+
+    @Test
+    public void gameControllerShouldCheckForEndStates() throws Exception {
+
+        exit.expectSystemExitWithStatus(0);
+
+        terminalView.io.setTestInput("lower left");
+
+        System.setOut(new PrintStream(output));
+        gameController = new GameController(noWins);
+        BoardCoordinate nextMove = terminalView.prompt();
+        terminalView.passMoveToController(nextMove, gameController);
+
+        assertEquals(gameController.getCurrentBoard() +
+                     "Game over: It's a draw.", output.toString());
+
+        System.setOut(stdout);
+    }
+
+    @Test
+    public void gameControllerShouldCatchInvalidBoardCoordinates() throws Exception {
+        terminalView.io.setTestInput("THIS IS NOT A VALID MOVE");
+
+        gameController.newGame(terminalView, true);
+        System.setOut(new PrintStream(output));
+        BoardCoordinate nextMove = terminalView.prompt(true);
+        terminalView.passMoveToController(nextMove, gameController, true);
+
+        assertEquals("That's not a valid board location.\n" +
+                     "Invalid move coordinate.\n\n" +
+                     gameController.getCurrentBoard(),
+                     output.toString());
 
         System.setOut(stdout);
     }

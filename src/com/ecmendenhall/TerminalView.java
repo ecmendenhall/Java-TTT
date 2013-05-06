@@ -158,27 +158,40 @@ public class TerminalView {
     }
 
     public void print(Board board) {
+        System.out.println();
         board.print();
     }
 
-    public BoardCoordinate prompt() throws IOException {
-        String locationPhrase = io.readLine("Your move: ");
-        return new BoardCoordinate(locationPhrase);
+    public BoardCoordinate prompt() throws IOException, InvalidCoordinateException {
+        return prompt(false);
     }
 
-    public void passMoveToController(BoardCoordinate move, GameController gameController) throws InvalidMoveException, IOException {
+    public BoardCoordinate prompt(Boolean pause) throws IOException, InvalidCoordinateException {
+        String locationPhrase = io.readLine("Your move: ");
+        try {
+            return new BoardCoordinate(locationPhrase);
+        } catch (InvalidCoordinateException e) {
+            System.out.println(e.getMessage());
+            if (pause) {
+                return new BoardCoordinate(-1, -1);
+            }
+            return prompt();
+        }
+    }
+
+    public void passMoveToController(BoardCoordinate move, GameController gameController) throws InvalidMoveException, IOException, InvalidCoordinateException {
         gameController.processMove(move, this, false);
     }
 
-    public void passMoveToController(BoardCoordinate move, GameController gameController, boolean pause) throws InvalidMoveException, IOException {
+    public void passMoveToController(BoardCoordinate move, GameController gameController, boolean pause) throws InvalidMoveException, IOException, InvalidCoordinateException {
         gameController.processMove(move, this, pause);
     }
 
-    public void processBoard(Board board, GameController gameController) throws InvalidMoveException, IOException {
+    public void processBoard(Board board, GameController gameController) throws InvalidMoveException, IOException, InvalidCoordinateException {
         processBoard(board, gameController, false);
     }
 
-    public void processBoard(Board board, GameController gameController, Boolean pause) throws InvalidMoveException, IOException {
+    public void processBoard(Board board, GameController gameController, Boolean pause) throws InvalidMoveException, IOException, InvalidCoordinateException {
         print(board);
         if (pause) {
             return;
@@ -187,11 +200,11 @@ public class TerminalView {
         passMoveToController(nextMove, gameController);
     }
 
-    public void promptWithMessage(String message, Board board, GameController gameController) throws InvalidMoveException, IOException {
+    public void promptWithMessage(String message, Board board, GameController gameController) throws InvalidMoveException, IOException, InvalidCoordinateException {
         promptWithMessage(message, board, gameController, false);
     }
 
-    public void promptWithMessage(String message, Board board, GameController gameController, Boolean pause) throws InvalidMoveException, IOException {
+    public void promptWithMessage(String message, Board board, GameController gameController, Boolean pause) throws InvalidMoveException, IOException, InvalidCoordinateException {
         System.out.println(message);
         processBoard(board, gameController, pause);
     }
