@@ -25,7 +25,19 @@ public class Board {
         bottom = last;
     }
 
-    public Row hasWin() {
+    public Row getTop() {
+        return top;
+    }
+
+    public Row getMiddle() {
+        return middle;
+    }
+
+    public Row getBottom() {
+        return bottom;
+    }
+
+    public Row getWinningRow() {
         Row[]      rows  = getRows();
         Column[]   cols  = getColumns();
         Diagonal[] diags = getDiagonals();
@@ -42,7 +54,16 @@ public class Board {
             if (diag.hasWin()) return diag;
         }
 
-        return null;
+        return new Row(-1, -1, -1);
+    }
+
+    public boolean hasWin() {
+        if (getWinningRow().getSquare(0) != -1) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public Row[] getRows() {
@@ -50,26 +71,26 @@ public class Board {
     }
 
     public Column[] getColumns() {
-        return new Column[] { new Column(top.squares[0],
-                                         middle.squares[0],
-                                         bottom.squares[0]),
+        return new Column[] { new Column(top.getSquare(0),
+                                         middle.getSquare(0),
+                                         bottom.getSquare(0)),
 
-                              new Column(top.squares[1],
-                                         middle.squares[1],
-                                         bottom.squares[1]),
+                              new Column(top.getSquare(1),
+                                         middle.getSquare(1),
+                                         bottom.getSquare(1)),
 
-                              new Column(top.squares[2],
-                                         middle.squares[2],
-                                         bottom.squares[2]) };
+                              new Column(top.getSquare(2),
+                                         middle.getSquare(2),
+                                         bottom.getSquare(2)) };
     }
 
     public Diagonal[] getDiagonals() {
-        return new Diagonal[] { new Diagonal(top.squares[0], middle.squares[1], bottom.squares[2]),
-                                new Diagonal(top.squares[2], middle.squares[1], bottom.squares[0])};
+        return new Diagonal[] { new Diagonal(top.getSquare(0), middle.getSquare(1), bottom.getSquare(2)),
+                                new Diagonal(top.getSquare(2), middle.getSquare(1), bottom.getSquare(0))};
     }
 
     public int getSquareByCoordinate(BoardCoordinate coordinate) {
-        return getRows()[coordinate.row].squares[coordinate.column];
+        return getRows()[coordinate.getRow()].getSquare(coordinate.getColumn());
     }
 
     public int getSquare(String locationphrase) {
@@ -105,9 +126,8 @@ public class Board {
     }
 
     public int winnerIs() {
-        Row winningrow = hasWin();
-        if (winningrow != null) {
-            return winningrow.winner();
+        if (hasWin()) {
+            return getWinningRow().winner();
         }
         return _;
     }
@@ -125,31 +145,31 @@ public class Board {
         }
     }
 
-    public int sum() {
+    protected int sum() {
         return top.sum() + middle.sum() + bottom.sum();
     }
 
-    public int countEmptySquares() {
+    protected int countEmptySquares() {
         int empty = 0;
 
-        for (int i=0; i < top.squares.length; i++) {
-            if (top.squares[i] == _) empty++;
+        for (int i=0; i < top.getSquares().length; i++) {
+            if (top.getSquare(i) == _) empty++;
         }
 
-        for (int i=0; i < middle.squares.length; i++) {
-            if (middle.squares[i] == _) empty++;
+        for (int i=0; i < middle.getSquares().length; i++) {
+            if (middle.getSquare(i) == _) empty++;
         }
 
-        for (int i=0; i < bottom.squares.length; i++) {
-            if (bottom.squares[i] == _) empty++;
+        for (int i=0; i < bottom.getSquares().length; i++) {
+            if (bottom.getSquare(i) == _) empty++;
         }
 
         return empty;
     }
 
+    @Override
     public String toString() {
-        String boardstring = "";
-        return top.toString() + middle.toString() + bottom.toString() + "\n";
+        return top.toString() + HORIZONTAL_LINE + middle.toString() + HORIZONTAL_LINE + bottom.toString() + "\n";
     }
 
     public void print() {

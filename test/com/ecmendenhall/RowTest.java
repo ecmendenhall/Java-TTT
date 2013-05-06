@@ -43,13 +43,13 @@ public class RowTest extends TicTacToeTest {
 
     @Test
     public void emptyRowContainsAllZeroes() {
-        for (int square : empty.squares) assertEquals(0, square);
+        for (int square : empty.getSquares()) assertEquals(0, square);
     }
 
     @Test
     public void rowXXOContainsCorrectSquares() {
         int[] expected = {X, X, O};
-        assertArrayEquals(expected, xxo.squares);
+        assertArrayEquals(expected, xxo.getSquares());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class RowTest extends TicTacToeTest {
     @Test
     public void emptyRowSquaresAreFillable() {
         empty = empty.fillSquare(0, X);
-        assertEquals(X, empty.squares[0]);
+        assertEquals(X, empty.getSquare(0));
     }
 
     @Test

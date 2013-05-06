@@ -5,7 +5,7 @@ public class Row {
     final private int X = 1;
     final private int O = 2;
     final private int _ = 0;
-    public int[] squares;
+    protected int[] squares;
 
     public Row() {
         squares = new int[] { _, _, _ };
@@ -15,11 +15,19 @@ public class Row {
         squares = new int[] { left, middle, right };
     }
 
+    public int[] getSquares() {
+        return squares;
+    }
+
+    public int getSquare(int square) {
+        return squares[square];
+    }
+
     public boolean hasWin() {
         for (int square : squares) {
             if (square == _) return false;
         }
-        return (squares[0] == squares[1]) &&  (squares[0] == squares[2]);
+        return (squares[0] == squares[1]) && (squares[0] == squares[2]);
     }
 
     public int winner() {
@@ -32,13 +40,23 @@ public class Row {
     }
 
     public Row fillSquare(int column, int player) {
-        Row newrow = new Row(squares[0], squares[1], squares[2]);
-        newrow.squares[column] = player;
-        return newrow;
+        switch (column) {
+            case 0:
+                return new Row(player, squares[1], squares[2]);
+            case 1:
+                return new Row(squares[0], player, squares[2]);
+            case 2:
+                return new Row(squares[0], squares[1], player);
+        }
+        return this;
     }
 
     public boolean isFull() {
         return (squares[0] != 0 && squares[1] != 0 && squares[2] != 0);
+    }
+
+    public boolean squareIsFull(int square) {
+        return squares[square] != _;
     }
 
     public int sum() {

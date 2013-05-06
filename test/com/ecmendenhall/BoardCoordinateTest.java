@@ -35,17 +35,17 @@ public class BoardCoordinateTest {
 
     @Test
     public void rowIsZero() {
-        assertEquals(0, upperright.row);
+        assertEquals(0, upperright.getRow());
     }
 
     @Test
     public void columnIsTwo() {
-        assertEquals(2, upperright.column);
+        assertEquals(2, upperright.getColumn());
     }
 
     @Test
     public void coordinateCanBeConstructedFromString() {
-        assertEquals(2, lowerleft.row);
-        assertEquals(0, lowerleft.column);
+        assertEquals(2, lowerleft.getRow());
+        assertEquals(0, lowerleft.getColumn());
     }
 }

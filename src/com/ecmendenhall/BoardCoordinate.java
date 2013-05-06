@@ -3,8 +3,8 @@ package com.ecmendenhall;
 import java.util.HashMap;
 
 public class BoardCoordinate {
-    public int row;
-    public int column;
+    private final int row;
+    private final int column;
 
     private HashMap<String, Integer> wordmap = new HashMap<String, Integer>();
 
@@ -25,5 +25,13 @@ public class BoardCoordinate {
 
         row = wordmap.get(words[0].toLowerCase());
         column = wordmap.get(words[1].toLowerCase());
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
     }
 }

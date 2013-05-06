@@ -40,14 +40,14 @@ public class BoardTest extends TicTacToeTest {
     @Test
     public void newBoardIsEmpty() {
         Row emptyrow = new Row(_, _, _);
-        assertArrayEquals(emptyrow.squares, emptyboard.top.squares);
-        assertArrayEquals(emptyrow.squares, emptyboard.middle.squares);
-        assertArrayEquals(emptyrow.squares, emptyboard.bottom.squares);
+        assertArrayEquals(emptyrow.getSquares(), emptyboard.getTop().getSquares());
+        assertArrayEquals(emptyrow.getSquares(), emptyboard.getMiddle().getSquares());
+        assertArrayEquals(emptyrow.getSquares(), emptyboard.getBottom().getSquares());
     }
 
     @Test
     public void noWinsOnNewBoard() {
-        assertNull(emptyboard.hasWin());
+        assertFalse(emptyboard.hasWin());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class BoardTest extends TicTacToeTest {
     @Test public void rowsHaveThreeSquares() {
         Row[] rows = emptyboard.getRows();
         for (Row row : rows) {
-            assertEquals(3, row.squares.length);
+            assertEquals(3, row.getSquares().length);
         }
     }
 
@@ -83,7 +83,7 @@ public class BoardTest extends TicTacToeTest {
     public void columnsHaveThreeSquares() {
         Column[] columns = emptyboard.getColumns();
         for (Column column : columns) {
-            assertEquals(3, column.squares.length);
+            assertEquals(3, column.getSquares().length);
         }
     }
 
@@ -94,9 +94,9 @@ public class BoardTest extends TicTacToeTest {
         Row bottomrow = new Row(O, X, X);
 
         Row[] rows = nowins.getRows();
-        assertArrayEquals(toprow.squares, rows[0].squares);
-        assertArrayEquals(middlerow.squares, rows[1].squares);
-        assertArrayEquals(bottomrow.squares, rows[2].squares);
+        assertArrayEquals(toprow.getSquares(), rows[0].getSquares());
+        assertArrayEquals(middlerow.getSquares(), rows[1].getSquares());
+        assertArrayEquals(bottomrow.getSquares(), rows[2].getSquares());
     }
 
     @Test
@@ -106,9 +106,9 @@ public class BoardTest extends TicTacToeTest {
         Column lastcolumn   = new Column(X, O, X);
 
         Column[] columns = nowins.getColumns();
-        assertArrayEquals(firstcolumn.squares, columns[0].squares);
-        assertArrayEquals(middlecolumn.squares, columns[1].squares);
-        assertArrayEquals(lastcolumn.squares, columns[2].squares);
+        assertArrayEquals(firstcolumn.getSquares(), columns[0].getSquares());
+        assertArrayEquals(middlecolumn.getSquares(), columns[1].getSquares());
+        assertArrayEquals(lastcolumn.getSquares(), columns[2].getSquares());
     }
 
     @Test
@@ -117,29 +117,29 @@ public class BoardTest extends TicTacToeTest {
         Diagonal rightleft = new Diagonal(X, X, O);
 
         Diagonal[] diagonals = nowins.getDiagonals();
-        assertArrayEquals(leftright.squares, diagonals[0].squares);
-        assertArrayEquals(rightleft.squares, diagonals[1].squares);
+        assertArrayEquals(leftright.getSquares(), diagonals[0].getSquares());
+        assertArrayEquals(rightleft.getSquares(), diagonals[1].getSquares());
     }
 
 
     @Test
     public void boardHasHorizontalWin() {
-        assertNotNull(playerxwins.hasWin());
+        assertTrue(playerowins.hasWin());
     }
 
     @Test
     public void boardHasVerticalWin() {
-        assertNotNull(playerowins.hasWin());
+        assertTrue(playerxwins.hasWin());
     }
 
     @Test
     public void drawBoardDoesNotHaveWin() {
-        assertNull(nowins.hasWin());
+        assertFalse(nowins.hasWin());
     }
 
     @Test
     public void boardHasDiagonalWin() {
-        assertNotNull(diagonal.hasWin());
+        assertTrue(diagonal.hasWin());
     }
 
     @Test

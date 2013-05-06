@@ -4,11 +4,8 @@ import org.junit.Before;
 
 public class ColumnTest extends RowTest {
 
-    @Before
-    public void setUp() {
-        empty = new Column();
-        xxo = new Column(X, X, O);
-        ooo = new Column(O, O, O);
-    }
+    private Column empty = new Column();
+    private Column xxo = new Column(X, X, O);
+    private Column ooo = new Column(O, O, O);
 
 }

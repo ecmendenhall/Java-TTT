@@ -4,11 +4,8 @@ import org.junit.Before;
 
 public class DiagonalTest extends RowTest {
 
-    @Before
-    public void setUp() {
-        empty = new Diagonal();
-        xxo = new Diagonal(X, X, O);
-        ooo = new Diagonal(O, O, O);
-    }
+    private Diagonal empty = new Diagonal();
+    private Diagonal xxo = new Diagonal(X, X, O);
+    private Diagonal ooo = new Diagonal(O, O, O);
 
 }
