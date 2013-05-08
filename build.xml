@@ -11,6 +11,7 @@
 
     <property name="main-class" value="com.cmendenhall.Main"/>
 
+    <mkdir dir="lib" />
     <property name="lib.dir" value="lib"/>
     <property name="test.dir" value="test" />
 
