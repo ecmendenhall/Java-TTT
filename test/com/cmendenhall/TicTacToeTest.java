@@ -1,7 +1,6 @@
 package com.cmendenhall;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -73,7 +72,7 @@ public class TicTacToeTest {
     public BoardCoordinate upperRight;
 
     @Before
-    public void sharedSetUp() throws InvalidPlayerException {
+    public void sharedSetUp() {
         playerX = new Player(X);
         upperRight = new BoardCoordinate(0, 2);
         playerO = new MinimaxPlayer(O);

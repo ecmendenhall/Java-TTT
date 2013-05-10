@@ -1,8 +1,12 @@
 package com.cmendenhall;
 
-public class Row extends GameElement {
+import static com.cmendenhall.TicTacToeSymbols.X;
+import static com.cmendenhall.TicTacToeSymbols.O;
+import static com.cmendenhall.TicTacToeSymbols._;
 
-    protected int[] squares;
+public class Row {
+
+    final private int[] squares;
 
     public Row() {
         squares = new int[] { _, _, _ };

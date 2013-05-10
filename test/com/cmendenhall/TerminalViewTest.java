@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.*;
+import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,13 +13,8 @@ public class TerminalViewTest extends TicTacToeTest {
 
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
-    private TerminalView terminalView;
-    private GameController gameController;
-
-    @Before
-    public void setUp() throws UnsupportedEncodingException, InvalidPlayerException {
-        terminalView = new TerminalView(true);
-    }
+    private MockTerminalView terminalView = new MockTerminalView();
+    private TestConsole testConsole = terminalView.getTestConsole();
 
     @Test
     public void terminalViewShouldPrintBoards() throws UnsupportedEncodingException {
@@ -30,7 +26,7 @@ public class TerminalViewTest extends TicTacToeTest {
 
     @Test
     public void terminalViewShouldPromptUserForInput() throws Exception {
-        terminalView.io.setTestInput("top left");
+        testConsole.setTestInput("top left");
         BoardCoordinate coordinate = terminalView.prompt();
 
         BoardCoordinate expected = new BoardCoordinate("top left");

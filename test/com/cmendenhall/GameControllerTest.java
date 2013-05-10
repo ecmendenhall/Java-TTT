@@ -5,22 +5,40 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.*;
+import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class GameControllerTest extends TicTacToeTest {
-    private GameController gameController;
-    private TerminalView terminalView;
+    private MockGameController gameController = new MockGameController();
+    private MockTerminalView terminalView = new MockTerminalView();
+    private TestConsole testConsole =  terminalView.getTestConsole();
     private Board topLeftResponse;
     private Board topRightResponse;
-    private Board playerXToLowerRight;
+    private String welcome;
+    private String playagain;
+    private String gameoverwin;
+    private String gameoverdraw;
+    private String xwins;
 
     @Before
-    public void setUp() throws InvalidPlayerException {
-        gameController = new GameController();
-        terminalView = new TerminalView(true);
+    public void setUp() {
+
+        Properties viewstrings = new Properties();
+
+        try {
+            viewstrings.load(getClass().getResourceAsStream("viewstrings.properties"));
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        welcome = viewstrings.getProperty("welcome");
+        playagain = viewstrings.getProperty("playagain");
+        gameoverwin = viewstrings.getProperty("gameoverwin");
+        gameoverdraw = viewstrings.getProperty("gameoverdraw");
+        xwins = viewstrings.getProperty("xwins");
 
         topLeftResponse = new Board( new Row(X, _, _),
                                      new Row(_, O, _),
@@ -30,9 +48,6 @@ public class GameControllerTest extends TicTacToeTest {
                                       new Row(_, O, _),
                                       new Row(_, _, _) );
 
-        playerXToLowerRight = new Board( new Row(_, _, X),
-                                         new Row(_, O, _),
-                                         new Row(_, _, _) );
     }
 
     @Test
@@ -45,8 +60,8 @@ public class GameControllerTest extends TicTacToeTest {
     public void gameControllerShouldGetPlayerMoveFromView() throws Exception {
         assertTrue(gameController.getCurrentBoard().equals(emptyBoard));
 
-        terminalView.io.setTestInput("top left");
-        terminalView.passMoveToController(new BoardCoordinate("top left"), gameController, true);
+        testConsole.setTestInput("top left");
+        terminalView.passMoveToController(new BoardCoordinate("top left"), gameController);
         assertTrue(gameController.getCurrentBoard().equals(topLeftResponse));
     }
 
@@ -54,9 +69,9 @@ public class GameControllerTest extends TicTacToeTest {
     public void gameControllerShouldPassNewBoardToView() throws Exception {
         System.setOut(new PrintStream(output));
 
-        gameController = new GameController();
-        terminalView = new TerminalView(true);
-        gameController.passNewBoardToView(topLeftResponse, terminalView, true);
+        gameController = new MockGameController();
+        terminalView = new MockTerminalView();
+        gameController.passNewBoardToView(topLeftResponse, terminalView);
 
         assertEquals("\n" + topLeftResponse.toString(), output.toString());
 
@@ -67,11 +82,11 @@ public class GameControllerTest extends TicTacToeTest {
     public void gameControllerShouldPassCorrectResponseToView() throws Exception {
         System.setOut(new PrintStream(output));
 
-        gameController = new GameController();
-        gameController.processMove(new BoardCoordinate("top right"), terminalView, true);
+        gameController = new MockGameController();
+        gameController.processMove(new BoardCoordinate("top right"), terminalView);
         assertTrue(topRightResponse.equals(gameController.getCurrentBoard()));
 
-        gameController.passNewBoardToView(gameController.getCurrentBoard(), terminalView, true);
+        gameController.passNewBoardToView(gameController.getCurrentBoard(), terminalView);
         assertEquals("\n" + topRightResponse.toString(), output.toString());
 
         System.setOut(stdout);
@@ -80,18 +95,12 @@ public class GameControllerTest extends TicTacToeTest {
     @Test
     public void gameControllerShouldStartNewGame() throws Exception {
         System.setOut(new PrintStream(output));
-        terminalView.io.setTestInput("middle center");
+        testConsole.setTestInput("middle center");
 
-        gameController.newGame(terminalView, true);
+        gameController = new MockGameController();
+        gameController.newGame(terminalView);
 
-        String expected = "Welcome to Tic-Tac-Toe.\n" +
-                           HORIZONTAL_DIVIDER + "\n" +
-                           "You are player X.\n\n" +
-                           "Please enter your move as\n" +
-                           "a natural phrase, like\n" +
-                           "'Top left,' 'Lower right,'\n" +
-                           "or 'Middle center.'\n\n" +
-                           gameController.getCurrentBoard().toString();
+        String expected = welcome + "\n\n" + new Board().toString();
 
         assertEquals(expected, output.toString());
 
@@ -101,16 +110,14 @@ public class GameControllerTest extends TicTacToeTest {
     @Test
     public void gameControllerShouldCatchInvalidMoves() throws Exception {
 
-        terminalView.io.setTestInput("lower left");
-        gameController.newGame(terminalView, true);
+        testConsole.setTestInput("lower left");
+        gameController.newGame(terminalView);
         BoardCoordinate nextMove = terminalView.prompt();
-        terminalView.passMoveToController(nextMove, gameController, true);
+        terminalView.passMoveToController(nextMove, gameController);
 
         System.setOut(new PrintStream(output));
 
-        gameController.processMove(new BoardCoordinate("lower left"),
-                terminalView,
-                true);
+        gameController.processMove(new BoardCoordinate("lower left"), terminalView);
 
         assertEquals("Square is already full.\n\n" + gameController.getCurrentBoard(), output.toString());
 
@@ -122,21 +129,13 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void gameControllerShouldCheckForWins() throws Exception {
-        exit.expectSystemExitWithStatus(0);
-
-        terminalView.io.setTestInput("lower left");
+        gameController = new MockGameController();
+        gameController.setBoard(playerXWins);
 
         System.setOut(new PrintStream(output));
-        gameController = new GameController(playerXCanWin);
-        BoardCoordinate nextMove = terminalView.prompt();
+        gameController.checkForEndState(terminalView);
 
-        terminalView.io.setTestInput("n");
-        terminalView.passMoveToController(nextMove, gameController);
-
-
-        assertEquals(gameController.getCurrentBoard() +
-                     "Game over: Player X wins.", output.toString());
-
+        assertEquals("\n" + gameController.getCurrentBoard() + gameoverwin + " " + xwins + "\n" + playagain + " \n", output.toString());
 
         System.setOut(stdout);
     }
@@ -147,57 +146,33 @@ public class GameControllerTest extends TicTacToeTest {
     @Test
     public void gameControllerShouldCheckForEndStates() throws Exception {
 
-        exit.expectSystemExitWithStatus(0);
-
-        terminalView.io.setTestInput("lower left");
+        gameController = new MockGameController();
+        gameController.setBoard(noWins);
 
         System.setOut(new PrintStream(output));
-        gameController = new GameController(noWins);
-        BoardCoordinate nextMove = terminalView.prompt();
 
-        terminalView.io.setTestInput("n");
-        terminalView.passMoveToController(nextMove, gameController);
+        gameController.checkForEndState(terminalView);
 
-        assertEquals(gameController.getCurrentBoard() +
-                     "Game over: It's a draw.", output.toString());
+        assertEquals("\n" + gameController.getCurrentBoard() + gameoverdraw + "\n" + playagain + " \n", output.toString());
 
         System.setOut(stdout);
     }
 
     @Test
     public void gameControllerShouldCatchInvalidBoardCoordinates() throws Exception {
-        terminalView.io.setTestInput("THIS IS NOT A VALID MOVE");
+        testConsole.setTestInput("THIS IS NOT A VALID MOVE");
 
-        gameController.newGame(terminalView, true);
+        gameController.newGame(terminalView);
         System.setOut(new PrintStream(output));
-        BoardCoordinate nextMove = terminalView.prompt(true);
-        terminalView.passMoveToController(nextMove, gameController, true);
+        BoardCoordinate nextMove = terminalView.prompt();
+        terminalView.passMoveToController(nextMove, gameController);
 
-        assertEquals("That's not a valid board location.\n" +
+        assertEquals("Your move: \n" +
+                     "That's not a valid board location.\n" +
                      "Invalid move coordinate.\n\n" +
                      gameController.getCurrentBoard(),
                      output.toString());
 
         System.setOut(stdout);
-    }
-
-
-    @Test
-    public void gameControllerShouldPromptForRestartAfterEndGame() throws Exception {
-        exit.expectSystemExitWithStatus(0);
-        terminalView.io.setTestInput("lower left");
-
-        gameController = new GameController(noWins);
-        BoardCoordinate nextMove = terminalView.prompt();
-
-        terminalView.io.setTestInput("n");
-
-        System.setOut(new PrintStream(output));
-        terminalView.passMoveToController(nextMove, gameController);
-
-        assertEquals("Play again? (y/n): ", output.toString());
-
-        System.setOut(stdout);
-
     }
 }

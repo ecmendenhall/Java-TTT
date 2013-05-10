@@ -1,8 +1,6 @@
 package com.cmendenhall;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -15,13 +13,13 @@ public class PlayerTest extends TicTacToeTest {
     private Board board;
 
     @Before
-    public void setUp() throws InvalidPlayerException {
+    public void setUp() {
         board = new Board();
         playerx = new Player(1);
     }
 
     @Test
-    public void playerExists() throws InvalidPlayerException {
+    public void playerExists() {
         Player newplayer = new Player(2);
     }
 
@@ -54,15 +52,5 @@ public class PlayerTest extends TicTacToeTest {
     @Test
     public void playerCorrectlyScoresLosingBoard() {
         assertEquals(-1, playerx.scoreBoard(playerOWins));
-    }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void playerWithInvalidGamepieceThrowsException() throws InvalidPlayerException {
-        thrown.expect(InvalidPlayerException.class);
-        thrown.expectMessage("Invalid player number.");
-        Player invalid = new Player(3);
     }
 }
