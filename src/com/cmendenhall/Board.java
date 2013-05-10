@@ -1,14 +1,17 @@
 package com.cmendenhall;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import static com.cmendenhall.TicTacToeSymbols.X;
+import static com.cmendenhall.TicTacToeSymbols.O;
+import static com.cmendenhall.TicTacToeSymbols._;
 
-public class Board extends GameElement {
+public class Board {
 
-    // Unicode horizontal box-drawing characters
     final private String HORIZONTAL_LINE = "\u2500\u2500\u2500" +
-                                           "\u2500\u2500\u2500" +
-                                           "\u2500\u2500\u2500" +
-                                           "\u2500\u2500\n";
+            "\u2500\u2500\u2500" +
+            "\u2500\u2500\u2500" +
+            "\u2500\u2500\n";
 
     final private Row top;
     final private Row middle;
@@ -39,19 +42,19 @@ public class Board extends GameElement {
     }
 
     public Row getWinningRow() {
-        Row[]      rows  = getRows();
-        Column[]   cols  = getColumns();
-        Diagonal[] diags = getDiagonals();
+        Row[] rows  = getRows();
+        Row[] cols  = getColumns();
+        Row[] diags = getDiagonals();
 
         for (Row row : rows) {
             if (row.hasWin()) return row;
         }
 
-        for (Column col : cols) {
+        for (Row col : cols) {
             if (col.hasWin()) return col;
         }
 
-        for (Diagonal diag : diags) {
+        for (Row diag : diags) {
             if (diag.hasWin()) return diag;
         }
 
@@ -66,23 +69,23 @@ public class Board extends GameElement {
         return new Row[] { top, middle, bottom };
     }
 
-    public Column[] getColumns() {
-        return new Column[] { new Column(top.getSquare(0),
-                                         middle.getSquare(0),
-                                         bottom.getSquare(0)),
+    public Row[] getColumns() {
+        return new Row[] { new Row(top.getSquare(0),
+                middle.getSquare(0),
+                bottom.getSquare(0)),
 
-                              new Column(top.getSquare(1),
-                                         middle.getSquare(1),
-                                         bottom.getSquare(1)),
+                new Row(top.getSquare(1),
+                        middle.getSquare(1),
+                        bottom.getSquare(1)),
 
-                              new Column(top.getSquare(2),
-                                         middle.getSquare(2),
-                                         bottom.getSquare(2)) };
+                new Row(top.getSquare(2),
+                        middle.getSquare(2),
+                        bottom.getSquare(2)) };
     }
 
-    public Diagonal[] getDiagonals() {
-        return new Diagonal[] { new Diagonal(top.getSquare(0), middle.getSquare(1), bottom.getSquare(2)),
-                                new Diagonal(top.getSquare(2), middle.getSquare(1), bottom.getSquare(0))};
+    public Row[] getDiagonals() {
+        return new Row[] { new Row(top.getSquare(0), middle.getSquare(1), bottom.getSquare(2)),
+                new Row(top.getSquare(2), middle.getSquare(1), bottom.getSquare(0))};
     }
 
     public int getSquareByCoordinate(BoardCoordinate coordinate) {
@@ -173,10 +176,10 @@ public class Board extends GameElement {
     @Override
     public String toString() {
         return top.toString()    +
-               HORIZONTAL_LINE   +
-               middle.toString() +
-               HORIZONTAL_LINE   +
-               bottom.toString() + "\n";
+                HORIZONTAL_LINE   +
+                middle.toString() +
+                HORIZONTAL_LINE   +
+                bottom.toString() + "\n";
     }
 
     public void print() {
@@ -184,13 +187,18 @@ public class Board extends GameElement {
         System.out.print(outputString);
     }
 
-    private Board nextState(int row, int column) throws InvalidMoveException {
+    private Board nextState(int row, int column) {
         BoardCoordinate moveCoordinate = new BoardCoordinate(row, column);
-        Board newboard = fillSquare(moveCoordinate, nextTurn());
+        Board newboard;
+        try {
+            newboard = fillSquare(moveCoordinate, nextTurn());
+        } catch (InvalidMoveException e) {
+            newboard = new Board(top, middle, bottom);
+        }
         return newboard;
     }
 
-    public List<Board> getNextStates() throws InvalidMoveException {
+    public List<Board> getNextStates() {
 
         List<Board> newStates = new ArrayList<Board>();
 
@@ -203,6 +211,7 @@ public class Board extends GameElement {
             if (middle.getSquare(i) == _) newStates.add(nextState(1, i));
             if (bottom.getSquare(i) == _) newStates.add(nextState(2, i));
         }
+
         return newStates;
     }
 
@@ -213,3 +222,4 @@ public class Board extends GameElement {
     }
 
 }
+

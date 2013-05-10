@@ -71,14 +71,14 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardHasThreeColumns() {
-        Column[] columns = emptyBoard.getColumns();
+        Row[] columns = emptyBoard.getColumns();
         assertEquals(3, columns.length);
     }
 
     @Test
     public void columnsHaveThreeSquares() {
-        Column[] columns = emptyBoard.getColumns();
-        for (Column column : columns) {
+        Row[] columns = emptyBoard.getColumns();
+        for (Row column : columns) {
             assertEquals(3, column.getSquares().length);
         }
     }
@@ -97,11 +97,11 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardReturnsCorrectColumns() {
-        Column firstColumn  = new Column(O, X, O);
-        Column middleColumn = new Column(O, X, X);
-        Column lastColumn   = new Column(X, O, X);
+        Row firstColumn  = new Row(O, X, O);
+        Row middleColumn = new Row(O, X, X);
+        Row lastColumn   = new Row(X, O, X);
 
-        Column[] columns = noWins.getColumns();
+        Row[] columns = noWins.getColumns();
         assertArrayEquals(firstColumn.getSquares(), columns[0].getSquares());
         assertArrayEquals(middleColumn.getSquares(), columns[1].getSquares());
         assertArrayEquals(lastColumn.getSquares(), columns[2].getSquares());
@@ -109,10 +109,10 @@ public class BoardTest extends TicTacToeTest {
 
     @Test
     public void boardReturnsCorrectDiags() {
-        Diagonal leftRight = new Diagonal(O, X, X);
-        Diagonal rightLeft = new Diagonal(X, X, O);
+        Row leftRight = new Row(O, X, X);
+        Row rightLeft = new Row(X, X, O);
 
-        Diagonal[] diagonals = noWins.getDiagonals();
+        Row[] diagonals = noWins.getDiagonals();
         assertArrayEquals(leftRight.getSquares(), diagonals[0].getSquares());
         assertArrayEquals(rightLeft.getSquares(), diagonals[1].getSquares());
     }
@@ -267,63 +267,63 @@ public class BoardTest extends TicTacToeTest {
         assertTrue(expected.equals(newBoard));
 
         newBoard = emptyBoard.fillSquare(new BoardCoordinate("bottom middle"), O);
-        expected = new Board ( new Row(_, _, _),
+        expected = new Board( new Row(_, _, _),
                                new Row(_, _, _),
                                new Row(_, O, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = emptyBoard.fillSquare(new BoardCoordinate(2, 0), O);
-        expected = new Board ( new Row(_, _, _),
+        expected = new Board( new Row(_, _, _),
                                new Row(_, _, _),
                                new Row(O, _, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("top right"), O);
-        expected = new Board ( new Row(O, _, O),
+        expected = new Board( new Row(O, _, O),
                                new Row(_, X, _),
                                new Row(X, _, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("middle right"), O);
-        expected = new Board ( new Row(O, _, _),
+        expected = new Board( new Row(O, _, _),
                                new Row(_, X, O),
                                new Row(X, _, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("bottom right"), O);
-        expected = new Board ( new Row(O, _, _),
+        expected = new Board( new Row(O, _, _),
                                new Row(_, X, _),
                                new Row(X, _, O) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("top middle"), O);
-        expected = new Board ( new Row(O, O, _),
+        expected = new Board( new Row(O, O, _),
                                new Row(_, X, _),
                                new Row(X, _, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("middle left"), O);
-        expected = new Board ( new Row(O, _, _),
+        expected = new Board( new Row(O, _, _),
                                new Row(O, X, _),
                                new Row(X, _, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("middle right"), O);
-        expected = new Board ( new Row(O, _, _),
+        expected = new Board( new Row(O, _, _),
                                new Row(_, X, O),
                                new Row(X, _, _) );
 
         assertTrue(expected.equals(newBoard));
 
         newBoard = playerONext.fillSquare(new BoardCoordinate("bottom center"), O);
-        expected = new Board ( new Row(O, _, _),
+        expected = new Board( new Row(O, _, _),
                                new Row(_, X, _),
                                new Row(X, O, _) );
 

@@ -14,16 +14,16 @@ public class GameTreeTest extends TicTacToeTest {
     private GameTree tree;
     private Board twoMoreMoves;
     private Board threeMoreMoves;
-    private GameTree.Node twoMoreMovesNode;
+    private GameTree twoMoreMovesNode;
     private MinimaxPlayer playerX;
 
     @Before
-    public void setUp() throws InvalidPlayerException, InvalidMoveException {
+    public void setUp() {
         twoMoreMoves = new Board( new Row(O, X, _),
                                   new Row(O, X, X),
                                   new Row(X, O, _) );
 
-        twoMoreMovesNode = new GameTree.Node(twoMoreMoves);
+        twoMoreMovesNode = new GameTree(twoMoreMoves);
 
         threeMoreMoves = new Board( new Row(X, O, _),
                                     new Row(_, X, _),
@@ -34,9 +34,9 @@ public class GameTreeTest extends TicTacToeTest {
     }
 
     @Test
-    public void gameTreeRootContainsGameState() throws InvalidMoveException {
+    public void gameTreeRootContainsGameState() {
         GameTree tree = new GameTree(playerXWins);
-        assertEquals(playerXWins, tree.root);
+        assertEquals(playerXWins, tree.gameState);
     }
 
     @Test
@@ -45,58 +45,33 @@ public class GameTreeTest extends TicTacToeTest {
     }
 
     @Test
-    public void gameTreeReturnsCorrectLeaves() {
-        List<GameTree.Node> leaves = tree.getLeaves();
-
-        Board leaftwo = new Board( new Row(O, X, X),
-                                   new Row(O, X, X),
-                                   new Row(X, O, O) );
-
-        Board leafone = new Board( new Row(O, X, O),
-                                   new Row(O, X, X),
-                                   new Row(X, O, X) );
-
-        assertTrue(leafone.equals(leaves.get(0).gameState));
-        assertTrue(leaftwo.equals(leaves.get(1).gameState));
-    }
-
-    @Test
-    public void gameTreeReturnsCorrectNumberOfLeaves() throws InvalidMoveException {
+    public void gameTreeReturnsCorrectNumberOfLeaves() {
         GameTree gameTree = new GameTree(threeMoreMoves);
-        List<GameTree.Node> leaves = gameTree.getLeaves();
+        List<GameTree> leaves = gameTree.getLeaves();
         assertEquals(6, leaves.size());
     }
 
     /* @Test
     public void fullGameTreeContainsAllPossibleGames() {
         GameTree gametree = new GameTree(new Board());
-        List<GameTree.Node> leaves = gametree.getLeaves();
+        List<GameTree> leaves = gametree.getLeaves();
         assertEquals(362880, leaves.size());
     } */
 
-    @Test
-    public void maxLeafScoreIsOne() {
-        assertEquals(1, twoMoreMovesNode.maxLeafScore(playerX));
-    }
 
     @Test
-    public void minLeafScoreIsOne() {
-        assertEquals(0, twoMoreMovesNode.minLeafScore(playerX));
-    }
-
-    @Test
-    public void fullBoardIsTerminalNode() throws InvalidMoveException {
-        assertTrue(new GameTree.Node(noWins).isTerminal());
+    public void fullBoardIsTerminalNode() {
+        assertTrue(new GameTree(noWins).isTerminal());
 
     }
 
     @Test
-    public void winningBoardIsTerminalNode() throws InvalidMoveException {
-        assertTrue(new GameTree.Node(playerXWins).isTerminal());
+    public void winningBoardIsTerminalNode() {
+        assertTrue(new GameTree(playerXWins).isTerminal());
     }
 
     @Test
-    public void boardWithEmptySpacesAndNoWinIsNotTerminal() throws InvalidMoveException {
-        assertFalse(new GameTree.Node(playerONext).isTerminal());
+    public void boardWithEmptySpacesAndNoWinIsNotTerminal() {
+        assertFalse(new GameTree(playerONext).isTerminal());
     }
 }

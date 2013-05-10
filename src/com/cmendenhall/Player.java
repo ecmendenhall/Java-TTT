@@ -1,13 +1,13 @@
 package com.cmendenhall;
 
-public class Player extends GameElement {
+import static com.cmendenhall.TicTacToeSymbols.X;
+import static com.cmendenhall.TicTacToeSymbols.O;
+
+public class Player {
     private final char symbol;
     private final int gamePiece;
 
-    Player(int playerNumber) throws InvalidPlayerException {
-        if (playerNumber != 2 && playerNumber != 1) {
-            throw new InvalidPlayerException("Invalid player number.");
-        }
+    Player(int playerNumber) {
         gamePiece = playerNumber;
         symbol = (gamePiece == X)? 'X' : 'O';
     }

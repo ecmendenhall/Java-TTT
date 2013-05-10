@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="TicTacToe" basedir="." default="jar" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="TicTacToe" basedir="." default="jar" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:jacoco="antlib:org.jacoco.ant">
     <description>Builds the TicTacToe command line application and its associated tests.</description>
 
     <!-- Source and build directory defaults -->
@@ -7,6 +7,8 @@
 
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="classes.instrumented.dir" value="${build.dir}/instrumented-classes"/>
+    <property name="build.coverage.dir" value="${build.dir}/coverage"/>
     <property name="jar.dir" value="${build.dir}/jar"/>
 
     <property name="main-class" value="com.cmendenhall.Main"/>
@@ -25,6 +27,14 @@
     </path>
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
+
+    <!-- JaCoCo -->
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath>
+            <path refid="classpath" />
+        </classpath>
+    </taskdef>
+
 
     <!-- Automatically download Ivy -->
     <property name="ivy.jar.dir" value="${user.home}/.ant/lib" />
@@ -58,14 +68,14 @@
     <target name="compile" depends="resolve" description="Compiles project.">
         <echo message="Compiling project." />
         <mkdir dir="${classes.dir}"/>
-        <javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" >
+        <javac includeantruntime="false" debug="true" srcdir="${src.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath" />
         </javac>
     </target>
 
     <target name="compile-tests" depends="resolve" description="Compiles JUnit tests." >
         <echo message="Compiling JUnit tests." />
-        <javac includeantruntime="false" srcdir="${test.dir}" destdir="${classes.dir}" >
+        <javac includeantruntime="false" debug="true" srcdir="${test.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath" />
         </javac>
     </target>
@@ -82,14 +92,17 @@
 
     <property name="junitpath" refid="classpath.test" />
 
+
     <target name="run-tests" depends="jar, compile-tests" description="Runs JUnit tests.">
         <echo message="Running JUnit tests." />
+        <jacoco:coverage>
         <junit printsummary="on" haltonfailure="yes" failureproperty="test.failure">
-            <jvmarg value="-Dfile.encoding=UTF-8" />
+            <jvmarg value="-Dfile.encoding=UTF-8:-XX:-UseSplitVerifier" />
             <formatter type="brief" usefile="false" />
             <classpath>
                 <path refid="classpath.test"/>
             </classpath>
+
             <batchtest fork="on">
                 <fileset id="matchedtests" dir="${classes.dir}">
                     <include name="**/*Test.class"/>
@@ -97,7 +110,31 @@
                 </fileset>
             </batchtest>
         </junit>
+        </jacoco:coverage>
+        <jacoco:report>
+
+            <executiondata>
+                <file file="jacoco.exec"/>
+            </executiondata>
+
+            <structure name="TicTacToe">
+                <classfiles>
+                    <fileset dir="${classes.dir}"/>
+                </classfiles>
+                <sourcefiles encoding="UTF-8">
+                    <fileset id="matchedtests" dir="${classes.dir}">
+                        <include name="**/*Test.class"/>
+                        <exclude name="**/TicTacToeTest.class" />
+                    </fileset>
+                </sourcefiles>
+            </structure>
+
+            <html destdir="${build.coverage.dir}"/>
+
+        </jacoco:report>
     </target>
+
+
 
     <target name="clean-build" depends="clean, jar" description="Cleans output directory and builds .jar.">
         <echo message="Cleaning build directory and rebuilding .jar." />

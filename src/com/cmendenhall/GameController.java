@@ -1,81 +1,61 @@
 package com.cmendenhall;
 
+import static com.cmendenhall.TicTacToeSymbols.X;
+import static com.cmendenhall.TicTacToeSymbols.O;
+
 public class GameController {
-    final private int X = 1;
-    final private int O = 2;
-    final private int _ = 0;
+    protected Board currentBoard;
+    protected Player human;
+    protected MinimaxPlayer computer;
 
-    private Board currentBoard;
-    private Player human;
-    private MinimaxPlayer computer;
-
-    public GameController() throws InvalidPlayerException {
+    public GameController() {
         currentBoard = new Board();
         human = new Player(X);
         computer = new MinimaxPlayer(O);
     }
 
-    public GameController(Board startingBoard) throws InvalidPlayerException {
-        currentBoard = startingBoard;
-        human = new Player(X);
-        computer = new MinimaxPlayer(O);
-    }
-
-    public void newGame(TerminalView view) throws Exception {
-        newGame(view, false);
-    }
-
-    public void newGame(TerminalView view, Boolean pause) throws Exception {
+    public void newGame(TerminalView view ) {
         currentBoard = new Board();
-        view.newGame(currentBoard, this, pause);
+        view.newGame(currentBoard, this);
     }
 
     public Board getCurrentBoard() {
         return currentBoard;
     }
 
-    private void checkForWins(TerminalView view) throws Exception {
+    public void checkForWins(TerminalView view) {
         if (currentBoard.hasWin()) {
             view.winEndGame(currentBoard, this);
         }
     }
 
-    private void checkForEndState(TerminalView view) throws Exception {
+    public void checkForDraw(TerminalView view) {
         if (currentBoard.isFull() && !currentBoard.hasWin()) {
             view.drawEndGame(currentBoard, this);
         }
     }
 
-    public void processMove(BoardCoordinate move, TerminalView view) throws Exception {
-        processMove(move, view, false);
+    public void checkForEndState(TerminalView view) {
+        checkForWins(view);
+        checkForDraw(view);
     }
 
-    public void processMove(BoardCoordinate move, TerminalView view, Boolean pause) throws Exception {
+    public void processMove(BoardCoordinate move, TerminalView view) {
         try {
             currentBoard = human.move(move, currentBoard);
-            checkForWins(view);
             checkForEndState(view);
         } catch (InvalidMoveException e) {
-            checkForWins(view);
             checkForEndState(view);
-            view.promptWithMessage(e.getMessage(), currentBoard, this, pause);
+            view.promptWithMessage(e.getMessage(), currentBoard, this);
             return;
         }
         currentBoard = computer.bestMove(currentBoard);
-        checkForWins(view);
         checkForEndState(view);
-        if (pause) {
-            return;
-        }
-        passNewBoardToView(currentBoard, view, pause);
+        passNewBoardToView(currentBoard, view);
     }
 
-    public void passNewBoardToView(Board board, TerminalView view, Boolean pause) throws Exception {
-        if (pause) {
-            view.processBoard(board, this, pause);
-        } else {
-            view.processBoard(board, this);
-        }
+    public void passNewBoardToView(Board board, TerminalView view) {
+        view.getNextMove(board, this);
     }
 
 }

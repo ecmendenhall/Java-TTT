@@ -35,13 +35,13 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     }
 
     @Before
-    public void setUp() throws InvalidPlayerException, InvalidMoveException, InvalidCoordinateException {
+    public void setUp() throws InvalidCoordinateException, InvalidMoveException {
         playerX = new MinimaxPlayer(X);
         board = playerX.move(new BoardCoordinate("middle center"), new Board());
     }
 
     @Test
-    public void minimaxPlayerExists() throws InvalidPlayerException {
+    public void minimaxPlayerExists() {
         new MinimaxPlayer(O);
     }
 
@@ -86,7 +86,7 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     } */
 
     @Test
-    public void winningMoveXIsBestMove() throws InvalidMoveException {
+    public void winningMoveXIsBestMove() {
         Board bestMove = new Board( new Row(X, _, _),
                                     new Row(X, O, _),
                                     new Row(X, _, O) );
@@ -95,7 +95,7 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     }
 
     @Test
-    public void winningMoveOIsBestMove() throws InvalidMoveException {
+    public void winningMoveOIsBestMove() {
         Board bestMove = new Board( new Row(X, _, _),
                                     new Row(O, O, O),
                                     new Row(X, X, _));
@@ -104,7 +104,7 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     }
 
     @Test
-    public void blockIsBestMove() throws InvalidMoveException {
+    public void blockIsBestMove() {
         Board bestMove = new Board( new Row(_, X, _),
                                     new Row(_, X, _),
                                     new Row(X, O, O) );
