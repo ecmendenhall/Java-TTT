@@ -7,6 +7,7 @@ public class GameTree {
     public Board gameState;
     public List<GameTree> children;
 
+
     public GameTree(Board state) {
         gameState = state;
         children = new ArrayList<GameTree>();

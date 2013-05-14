@@ -1,50 +1,33 @@
 package com.cmendenhall;
 
-import static com.cmendenhall.TicTacToeSymbols.X;
+import com.sun.tools.corba.se.idl.constExpr.Terminal;
+
+import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class MockTerminalView extends TerminalView {
+    private Queue<String> inputQ = new LinkedBlockingQueue<String>();
 
     public MockTerminalView() {
-            io = new TestConsole();
     }
 
-    public TestConsole getTestConsole() {
-        return (TestConsole) io;
+    public void pushInput(String fakeInput) {
+        inputQ.add(fakeInput);
     }
 
-    public BoardCoordinate prompt() {
-        String locationPhrase = io.readLine("Your move: ");
+    public void clearInput() {
+        inputQ.clear();
+    }
+
+    @Override
+    public String getInput() {
         try {
-            return new BoardCoordinate(locationPhrase);
-        } catch (InvalidCoordinateException e) {
-            System.out.println(e.getMessage());
+            return inputQ.remove();
+        } catch (NoSuchElementException e) {
+            System.exit(2);
         }
-        return new BoardCoordinate(-1, -1);
-    }
-
-    public void getNextMove(Board board, GameController gameController) {
-        print(board);
-        return;
-    }
-
-    private void playAgainPrompt(GameController gameController) {
-        String playAgain = io.readLine("Play again? (y/n): ");
-    }
-
-    public void drawEndGame(Board board, GameController gameController) {
-        System.out.println();
-        board.print();
-        System.out.println("Game over: It's a draw.");
-        playAgainPrompt(gameController);
-    }
-
-    public void winEndGame(Board board, GameController gameController) {
-        int winner = board.getWinningRow().winner();
-        String messageTemplate = "Game over: Player ";
-        String winnerDescription = (winner == X) ? "X wins." : "O wins.";
-        System.out.println();
-        board.print();
-        System.out.println(messageTemplate + winnerDescription);
-        playAgainPrompt(gameController);
+        return "";
     }
 }

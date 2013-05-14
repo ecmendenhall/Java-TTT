@@ -16,17 +16,15 @@ public class BoardCoordinateTest {
     private final int O = 2;
     private final int _ = 0;
 
-    private Board board;
-    private Player playerX;
     private BoardCoordinate upperRight;
     private BoardCoordinate lowerLeft;
+    private BoardCoordinate alsoLowerLeft;
 
     @Before
     public void setUp() throws InvalidCoordinateException {
-        board = new Board();
-        playerX = new Player(X);
         upperRight = new BoardCoordinate(0, 2);
         lowerLeft = new BoardCoordinate("bottom left");
+        alsoLowerLeft = new BoardCoordinate("left bottom");
     }
 
     @Test
@@ -45,11 +43,24 @@ public class BoardCoordinateTest {
         assertEquals((Integer) 0, lowerLeft.getColumn());
     }
 
+    @Test
+    public void wordOrderDoesNotMatter() {
+        assertEquals(lowerLeft.getColumn(), alsoLowerLeft.getColumn());
+        assertEquals(lowerLeft.getRow(), alsoLowerLeft.getRow());
+    }
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Test public void invalidPhrasesThrowExceptions() throws InvalidCoordinateException {
+    @Test
+    public void invalidPhraseThrowsException() throws InvalidCoordinateException {
         thrown.expect(InvalidCoordinateException.class);
         BoardCoordinate invalid = new BoardCoordinate("left left");
+    }
+
+    @Test
+    public void phraseLongerThanTwoWordsThrowsException() throws InvalidCoordinateException {
+        thrown.expect(InvalidCoordinateException.class);
+        BoardCoordinate invalid = new BoardCoordinate("Please kindly place a piece on the center square");
     }
 }

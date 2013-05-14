@@ -1,5 +1,7 @@
 package com.cmendenhall;
 
+import java.util.Arrays;
+
 import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;
 import static com.cmendenhall.TicTacToeSymbols._;
@@ -8,27 +10,31 @@ public class Row {
 
     final private int[] squares;
 
-    public Row() {
-        squares = new int[] { _, _, _ };
+    public Row(int... rowSquares) {
+        squares = rowSquares;
     }
 
-    public Row(int left, int middle, int right) {
-        squares = new int[] { left, middle, right };
+    public int numberOfSquares() {
+        return squares.length;
     }
 
     public int[] getSquares() {
         return squares;
     }
 
-    public int getSquare(Integer square) {
+    public int getSquare(int square) {
         return squares[square];
     }
 
     public boolean hasWin() {
+        int firstSquare = squares[0];
+
         for (int square : squares) {
             if (square == _) return false;
+            if (square != firstSquare) return false;
         }
-        return (squares[0] == squares[1]) && (squares[0] == squares[2]);
+
+        return true;
     }
 
     public int winner() {
@@ -41,19 +47,16 @@ public class Row {
     }
 
     public Row fillSquare(int column, int player) {
-        switch (column) {
-            case 0:
-                return new Row(player, squares[1], squares[2]);
-            case 1:
-                return new Row(squares[0], player, squares[2]);
-            case 2:
-                return new Row(squares[0], squares[1], player);
-        }
-        return this;
+        int[] newSquares = squares.clone();
+        newSquares[column] = player;
+        return new Row(newSquares);
     }
 
     public boolean isFull() {
-        return (squares[0] != 0 && squares[1] != 0 && squares[2] != 0);
+        for (int square : squares) {
+            if (square == _) return false;
+        }
+        return true;
     }
 
     public boolean squareIsFull(int square) {
@@ -97,7 +100,7 @@ public class Row {
     }
 
     public Boolean equals(Row otherRow) {
-        for (int i=0; i<squares.length; i++) {
+        for (int i=0; i < squares.length; i++) {
             if (squares[i] != otherRow.getSquare(i)) return false;
         }
         return true;

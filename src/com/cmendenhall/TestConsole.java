@@ -8,9 +8,7 @@ public class TestConsole extends CharStreamConsole  {
             testInput = input;
         }
 
-        @Override
-        public String readLine(String unused) {
-            System.out.println(unused);
+        public String readLine() {
             return testInput;
         }
 

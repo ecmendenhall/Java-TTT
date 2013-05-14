@@ -1,12 +1,7 @@
 package com.cmendenhall;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ecm
- * Date: 5/14/13
- * Time: 10:22 AM
- * To change this template use File | Settings | File Templates.
- */
+import java.util.List;
+
 public interface Board {
     boolean hasWin();
 
@@ -16,8 +11,13 @@ public interface Board {
 
     int nextTurn();
 
+    Board fillSquare(BoardCoordinate square, int symbol) throws InvalidMoveException;
+
+    List<Row> getRows();
+
     @Override
     String toString();
 
-    boolean equals(Board otherBoard);
+    List<Board> getNextStates();
+
 }

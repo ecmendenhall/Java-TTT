@@ -12,32 +12,10 @@ public class MinimaxPlayerTest extends TicTacToeTest {
 
     private MinimaxPlayer playerX;
 
-    public boolean sameBoards(Board expected, Board actual) {
-        System.out.println("EXPECTED");
-        expected.print();
-
-        System.out.println("ACTUAL");
-        actual.print();
-
-        for (int i=0; i< actual.getTop().getSquares().length; i++) {
-            if (expected.getTop().getSquare(i) != actual.getTop().getSquare(i)) return false;
-        }
-
-        for (int i=0; i< actual.getMiddle().getSquares().length; i++) {
-            if (expected.getMiddle().getSquare(i) != actual.getMiddle().getSquare(i)) return false;
-        }
-
-        for (int i=0; i< actual.getBottom().getSquares().length; i++) {
-            if (expected.getBottom().getSquare(i) != actual.getBottom().getSquare(i)) return false;
-        }
-
-        return true;
-    }
-
     @Before
     public void setUp() throws InvalidCoordinateException, InvalidMoveException {
         playerX = new MinimaxPlayer(X);
-        board = playerX.move(new BoardCoordinate("middle center"), new Board());
+        board = playerX.move(new BoardCoordinate("middle center"), new GameBoard());
     }
 
     @Test
@@ -59,58 +37,35 @@ public class MinimaxPlayerTest extends TicTacToeTest {
     public void losingBoardScoreIsNegativeOne() {
         assertEquals(-1, playerO.scoreBoard(playerXWins));
     }
- /*
-    @Test
-    public void winningMoveScoreIsOne() {
-        BoardCoordinate winningmove = new BoardCoordinate("middle right");
-        Pair<Board, BoardCoordinate> winningpair = new Pair<Board, BoardCoordinate>(playerOCanWin, winningmove);
-        assertEquals(1, playerO.scoreMove(new GameTree.Node(winningpair)));
-
-        winningmove = new BoardCoordinate("bottom left");
-        winningpair = new Pair<Board, BoardCoordinate>(playerXCanWin, winningmove);
-        assertEquals(1, playerX.scoreMove(new GameTree.Node(winningpair)));
-    }
-
-    @Test
-    public void drawnGameMoveScoreIsZero() {
-        BoardCoordinate move = new BoardCoordinate("middle left");
-        Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(willDraw, move);
-        assertEquals(0, playerO.scoreMove(new GameTree.Node(movepair)));
-    }
-
-    @Test
-    public void losingPathMoveScoreIsNegativeOne() {
-        BoardCoordinate move = new BoardCoordinate("bottom right");
-        Pair<Board, BoardCoordinate> movepair = new Pair<Board, BoardCoordinate>(playerONext, move);
-        assertEquals(-1, playerO.scoreMove(new GameTree.Node(movepair)));
-    } */
 
     @Test
     public void winningMoveXIsBestMove() {
-        Board bestMove = new Board( new Row(X, _, _),
-                                    new Row(X, O, _),
-                                    new Row(X, _, O) );
+        Board expected = new GameBoard( new Row(X, _, _),
+                                        new Row(X, O, _),
+                                        new Row(X, _, O) );
 
-        assertTrue(playerX.bestMove(playerXCanWin).equals(bestMove));
+        Board actual = playerX.bestMove(playerXCanWin);
+        assertSameBoard(expected, actual);
     }
 
     @Test
     public void winningMoveOIsBestMove() {
-        Board bestMove = new Board( new Row(X, _, _),
-                                    new Row(O, O, O),
-                                    new Row(X, X, _));
+        Board expected = new GameBoard( new Row(X, _, _),
+                                        new Row(O, O, O),
+                                        new Row(X, X, _));
 
-        assertTrue(playerO.bestMove(playerOCanWin).equals(bestMove));
+        Board actual = playerO.bestMove(playerOCanWin);
+        assertSameBoard(expected, actual);
     }
 
     @Test
     public void blockIsBestMove() {
-        Board bestMove = new Board( new Row(_, X, _),
-                                    new Row(_, X, _),
-                                    new Row(X, O, O) );
+        Board expected = new GameBoard( new Row(_, X, _),
+                                        new Row(_, X, _),
+                                        new Row(X, O, O) );
 
-        assertTrue(playerX.bestMove(playerXShouldBlock).equals(bestMove));
-
+        Board actual = playerX.bestMove(playerXShouldBlock);
+        assertSameBoard(expected, actual);
 
     }
 

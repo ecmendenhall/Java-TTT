@@ -16,7 +16,7 @@ import static org.junit.Assert.assertArrayEquals;
 @RunWith(JUnit4.class)
 public class RowTest extends TicTacToeTest {
 
-    public Row empty = new Row();
+    public Row empty = new Row(_, _, _);
     public Row xxo = new Row(X, X, O);
     public Row ooo = new Row(O, O, O);
 
@@ -29,7 +29,13 @@ public class RowTest extends TicTacToeTest {
 
     @Test
     public void rowExists() {
-        Row newRow = new Row();
+        Row newRow = new Row(_);
+    }
+
+    @Test
+    public void rowsAreCorrectlyCompared() {
+        Row sameRow = new Row(X, X, O);
+        assertTrue(xxo.equals(sameRow));
     }
 
     @Test
@@ -108,7 +114,7 @@ public class RowTest extends TicTacToeTest {
     public void rowsReturnCorrectStrings() {
         assertEquals(" X \u2502 X \u2502 O\n", xxo.toString());
         assertEquals(" O \u2502 O \u2502 O\n", ooo.toString());
-        assertEquals(" O \u2502   \u2502  \n", new Row(2, 0, 0).toString());
+        assertEquals(" O \u2502   \u2502  \n", new Row(new int[] { O, _, _ }).toString());
     }
 
     @Test

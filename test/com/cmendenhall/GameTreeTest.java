@@ -19,15 +19,15 @@ public class GameTreeTest extends TicTacToeTest {
 
     @Before
     public void setUp() {
-        twoMoreMoves = new Board( new Row(O, X, _),
-                                  new Row(O, X, X),
-                                  new Row(X, O, _) );
+        twoMoreMoves = new GameBoard( new Row(O, X, _),
+                                      new Row(O, X, X),
+                                      new Row(X, O, _) );
 
         twoMoreMovesNode = new GameTree(twoMoreMoves);
 
-        threeMoreMoves = new Board( new Row(X, O, _),
-                                    new Row(_, X, _),
-                                    new Row(O, X, O) );
+        threeMoreMoves = new GameBoard( new Row(X, O, _),
+                                        new Row(_, X, _),
+                                        new Row(O, X, O) );
 
         tree = new GameTree(twoMoreMoves);
         playerX = new MinimaxPlayer(X);

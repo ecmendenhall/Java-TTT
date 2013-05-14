@@ -37,4 +37,8 @@ public class Player {
             return 0;
         }
     }
+
+    public boolean isHuman() {
+        return false;
+    }
 }
