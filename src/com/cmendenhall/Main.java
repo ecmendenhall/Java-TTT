@@ -8,12 +8,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        TerminalView view = new TerminalView();
+        View view = new TerminalView();
         GameController controller = new GameController(view);
-        controller.setPlayerOne(new MinimaxPlayer(X));
-        controller.setPlayerTwo(new MinimaxPlayer(O));
 
+        controller.setUp();
         controller.newGame();
-        controller.playRound();
+        controller.startGame();
     }
 }

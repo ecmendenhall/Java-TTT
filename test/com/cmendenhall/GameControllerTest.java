@@ -63,7 +63,7 @@ public class GameControllerTest extends TicTacToeTest {
         System.setOut(outputStream);
 
         controller.newGame();
-        String expected = newBoard.toString() +  "\n";
+        String expected = welcome + "\n" + newBoard.toString() +  "\n";
         assertEquals(expected, output.toString());
 
         System.setOut(stdout);
@@ -108,7 +108,7 @@ public class GameControllerTest extends TicTacToeTest {
 
         controller.restartGame();
 
-        String expected = playAgain + "\n" + newBoard.toString() + "\n";
+        String expected = playAgain + "\n" + welcome + "\n" + newBoard.toString() + "\n";
         assertEquals(expected, output.toString());
 
         System.setOut(stdout);
@@ -173,6 +173,36 @@ public class GameControllerTest extends TicTacToeTest {
 
         System.setOut(stdout);
         view.clearInput();
+    }
+
+    @Test
+    public void controllerShouldPrintWinnerMessageAfterWin() {
+        controller.loadGame(playerXWins);
+
+        exit.expectSystemExit();
+        System.setOut(outputStream);
+
+        controller.checkForGameOver();
+        String expected = gameOverWin + " X wins.";
+
+        assertEquals(expected, output.toString());
+
+        System.setOut(stdout);
+    }
+
+    @Test
+    public void controllerShouldLoadPlayers() {
+        view.pushInput("c");
+        view.pushInput("h");
+
+        controller.setUp();
+
+        Player playerOne = controller.getPlayerOne();
+        Player playerTwo = controller.getPlayerTwo();
+
+        assertEquals("MinimaxPlayer", playerOne.getClass().getSimpleName());
+        assertEquals("HumanPlayer", playerTwo.getClass().getSimpleName());
+
     }
 
 

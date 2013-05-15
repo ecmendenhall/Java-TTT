@@ -1,8 +1,8 @@
 package com.cmendenhall;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer extends GamePlayer {
 
-    public HumanPlayer(int playerNumber) {
+    HumanPlayer(int playerNumber) {
         super(playerNumber);
     }
 
@@ -10,4 +10,5 @@ public class HumanPlayer extends Player {
     public boolean isHuman() {
         return true;
     }
+
 }

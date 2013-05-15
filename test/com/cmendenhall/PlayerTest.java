@@ -9,23 +9,23 @@ import static org.junit.Assert.assertEquals;
 @RunWith(JUnit4.class)
 public class PlayerTest extends TicTacToeTest {
 
-    private Player playerx;
+    private Player playerX;
     private Board board;
 
     @Before
     public void setUp() {
         board = new GameBoard();
-        playerx = new Player(1);
+        playerX = new HumanPlayer(X);
     }
 
     @Test
     public void playerExists() {
-        Player newplayer = new Player(2);
+        Player newplayer = new HumanPlayer(O);
     }
 
     @Test
     public void playerXHasSymbol() {
-        assertEquals('X', playerx.getSymbol());
+        assertEquals('X', playerX.getSymbol());
     }
 
     @Test
@@ -35,23 +35,23 @@ public class PlayerTest extends TicTacToeTest {
 
     @Test
     public void playerCanMove() throws InvalidMoveException, InvalidCoordinateException {
-        board = playerx.move(new BoardCoordinate(0, 0), board);
+        board = playerX.move(new BoardCoordinate(0, 0), board);
         int topleft = board.getRows().get(0).getSquare(0);
         assertEquals(X, topleft);
     }
 
     @Test
     public void playerCorrectlyScoresWinningBoard() {
-        assertEquals(1, playerx.scoreBoard(playerXWins));
+        assertEquals(-1, playerO.scoreBoard(playerXWins));
     }
 
     @Test
     public void playerCorrectlyScoresBoardWithoutWin() {
-        assertEquals(0, playerx.scoreBoard(noWins));
+        assertEquals(0, playerO.scoreBoard(noWins));
     }
 
     @Test
     public void playerCorrectlyScoresLosingBoard() {
-        assertEquals(-1, playerx.scoreBoard(playerOWins));
+        assertEquals(1, playerO.scoreBoard(playerOWins));
     }
 }

@@ -2,6 +2,8 @@ package com.cmendenhall;
 
 import java.io.IOException;
 import java.util.Properties;
+import static com.cmendenhall.TicTacToeSymbols.X;
+import static com.cmendenhall.TicTacToeSymbols.O;
 
 public class GameController implements Controller {
     private Board board;
@@ -48,13 +50,44 @@ public class GameController implements Controller {
         playerTwo = player;
     }
 
+    public Player getPlayerOne() {
+        return playerOne;
+    }
+
+    public Player getPlayerTwo() {
+        return playerTwo;
+    }
+
     public void loadGame(Board boardState) {
         board = boardState;
     }
 
+    public void setUp() {
+        playerOne = loadPlayer(X);
+        playerTwo = loadPlayer(O);
+    }
+
+    private Player loadPlayer(int number) {
+        String playerMessage = "Choose type for Player " + number + " [h]uman/[c]omputer: ";
+        view.displayMessage(playerMessage);
+        String playerType = view.getInput();
+        if (playerType.equals("h")) {
+            return new HumanPlayer(number);
+        } else if (playerType.equals("c")) {
+            return new MinimaxPlayer(number);
+        } else {
+            return loadPlayer(number);
+        }
+    }
+
     public void newGame() {
-       board = new GameBoard();
+       view.displayMessage(welcome);
+       loadGame(new GameBoard());
        view.displayBoard(board);
+    }
+
+    public void startGame() {
+        playRound();
     }
 
     public void checkForGameOver() {
@@ -62,10 +95,15 @@ public class GameController implements Controller {
         checkForDraw();
     }
 
+    private String getWinnerMessage(int winner) {
+        return (winner == X) ? " X wins." : " O wins.";
+    }
+
     private void checkForWins() {
         if (board.hasWin()) {
             view.displayBoard(board);
-            view.displayMessage(gameOverWin);
+            String winnerMessage = getWinnerMessage(board.winnerIs());
+            view.displayMessage(gameOverWin + winnerMessage);
             view.endGame();
         }
     }
@@ -81,7 +119,7 @@ public class GameController implements Controller {
     public void restartGame() {
        view.displayMessage(playAgain);
        String restart = view.getInput();
-       if (restart == "n") {
+       if (restart.equals("n")) {
            view.endGame();
        } else {
            newGame();

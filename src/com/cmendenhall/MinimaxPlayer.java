@@ -4,10 +4,27 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MinimaxPlayer extends Player {
+import static com.cmendenhall.TicTacToeSymbols.X;
+import static com.cmendenhall.TicTacToeSymbols.O;
+
+public class MinimaxPlayer extends GamePlayer {
 
     MinimaxPlayer(int playerNumber) {
         super(playerNumber);
+    }
+
+    private int otherPlayer() {
+        return (getGamePiece() == X)? O : X;
+    }
+
+    public int scoreBoard(Board board) {
+        if (board.winnerIs() == getGamePiece()) {
+            return 1;
+        } else if (board.winnerIs() == otherPlayer()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 
     private int scoreMove(Board board) {
@@ -15,7 +32,7 @@ public class MinimaxPlayer extends Player {
             return scoreBoard(board);
         } else {
             GameTree node = new GameTree(board);
-            return miniMaxScoreMove(node);
+            return scoreMoveWithPruning(node);
         }
     }
 
@@ -37,6 +54,32 @@ public class MinimaxPlayer extends Player {
                     moveScores.add(miniMaxScoreMove(child));
                 }
                 return Collections.min(moveScores);
+            }
+        }
+    }
+
+    private int scoreMoveWithPruning(GameTree node) {
+        return alphaBetaSearch(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private int alphaBetaSearch(GameTree node, Integer alpha, Integer beta) {
+        if (node.isTerminal()) {
+            return scoreBoard(node.gameState);
+        } else {
+
+            int gamePiece = getGamePiece();
+            if (node.gameState.nextTurn() == gamePiece) {
+                for (GameTree child : node.children) {
+                    alpha = Math.max(alpha, alphaBetaSearch(child, alpha, beta));
+                    if (beta <= alpha) break;
+                }
+                return alpha;
+            } else {
+                for (GameTree child : node.children) {
+                    beta = Math.min(beta, alphaBetaSearch(child, alpha, beta));
+                    if (beta <= alpha) break;
+                }
+                return beta;
             }
         }
     }
@@ -64,4 +107,5 @@ public class MinimaxPlayer extends Player {
         }
         return bestMove;
     }
+
 }
