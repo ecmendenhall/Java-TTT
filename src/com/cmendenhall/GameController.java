@@ -82,24 +82,25 @@ public class GameController implements Controller {
 
     public void newGame() {
        view.displayMessage(welcome);
+       view.displayMessage(divider);
        loadGame(new GameBoard());
        view.displayBoard(board);
     }
 
-    public void startGame() {
+    public void startGame() throws GameOverException {
         playRound();
     }
 
-    public void checkForGameOver() {
+    public void checkForGameOver() throws GameOverException {
         checkForWins();
         checkForDraw();
     }
 
     private String getWinnerMessage(int winner) {
-        return (winner == X) ? " X wins." : " O wins.";
+        return (winner == X) ? xWins : oWins;
     }
 
-    private void checkForWins() {
+    private void checkForWins() throws GameOverException {
         if (board.hasWin()) {
             view.displayBoard(board);
             String winnerMessage = getWinnerMessage(board.winnerIs());
@@ -108,7 +109,7 @@ public class GameController implements Controller {
         }
     }
 
-    private void checkForDraw() {
+    private void checkForDraw() throws GameOverException {
         if (board.isFull() && !board.hasWin()) {
             view.displayBoard(board);
             view.displayMessage(gameOverDraw);
@@ -116,7 +117,7 @@ public class GameController implements Controller {
         }
     }
 
-    public void restartGame() {
+    public void restartGame() throws GameOverException {
        view.displayMessage(playAgain);
        String restart = view.getInput();
        if (restart.equals("n")) {

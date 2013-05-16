@@ -29,8 +29,8 @@ public class TerminalView implements View {
         io.print(message);
     }
 
-    public void endGame() {
-        System.exit(0);
+    public void endGame() throws GameOverException {
+        throw new GameOverException("Game over.");
     }
 
     public String getInput() {

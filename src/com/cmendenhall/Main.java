@@ -7,12 +7,15 @@ import static com.cmendenhall.TicTacToeSymbols._;
 public class Main {
 
     public static void main(String[] args) {
+        try {
+            View view = new TerminalView();
+            GameController controller = new GameController(view);
 
-        View view = new TerminalView();
-        GameController controller = new GameController(view);
-
-        controller.setUp();
-        controller.newGame();
-        controller.startGame();
+            controller.setUp();
+            controller.newGame();
+            controller.startGame();
+        } catch (GameOverException e) {
+            System.exit(0);
+        }
     }
 }

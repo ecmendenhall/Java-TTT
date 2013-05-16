@@ -46,15 +46,10 @@ public class TerminalViewTest extends TicTacToeTest {
         System.setOut(stdout);
     }
 
-    @Rule
-    public final ExpectedSystemExit gameOver = ExpectedSystemExit.none();
-
-    @Test
-    public void viewShouldEndGame() {
-        gameOver.expectSystemExit();
+    @Test(expected = GameOverException.class)
+    public void viewShouldEndGame() throws GameOverException {
         view.endGame();
     }
-
 
     @Test
     public void viewShouldGetInput() {

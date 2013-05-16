@@ -8,6 +8,6 @@ public interface View {
 
     public String getInput ();
 
-    public void endGame ();
+    public void endGame () throws GameOverException;
 
 }

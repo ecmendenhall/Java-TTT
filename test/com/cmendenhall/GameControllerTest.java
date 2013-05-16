@@ -60,34 +60,30 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldStartNewGame() {
-        System.setOut(outputStream);
+        System.setOut(outputRecorder);
 
         controller.newGame();
-        String expected = welcome + "\n" + newBoard.toString() +  "\n";
-        assertEquals(expected, output.toString());
+
+        assertEquals(welcome, outputRecorder.popFirstOutput());
+        assertEquals(divider, outputRecorder.popFirstOutput());
+        assertEquals(emptyBoard.toString(), outputRecorder.popFirstOutput());
 
         System.setOut(stdout);
-
     }
 
     @Test
-    public void controllerShouldCheckForGameOverStates() {
+    public void controllerShouldCheckForGameOverStates() throws GameOverException {
         controller.checkForGameOver();
     }
 
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
-
-    @Test
-    public void controllerShouldLoadGames() {
-        exit.expectSystemExit();
+    @Test(expected = GameOverException.class)
+    public void controllerShouldLoadGames() throws GameOverException {
         controller.loadGame(noWins);
         controller.playRound();
     }
 
-    @Test
-    public void controllerShouldEndGameOnRestartIfInputIsNo() {
-        exit.expectSystemExit();
+    @Test(expected = GameOverException.class)
+    public void controllerShouldEndGameOnRestartIfInputIsNo() throws GameOverException {
         System.setOut(outputStream);
 
         view.pushInput("n");
@@ -101,36 +97,44 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldStartNewGameOnRestartIfInputIsYes() {
-        System.setOut(outputStream);
+    public void controllerShouldStartNewGameOnRestartIfInputIsYes() throws GameOverException {
+        System.setOut(outputRecorder);
 
         view.pushInput("y");
 
         controller.restartGame();
 
-        String expected = playAgain + "\n" + welcome + "\n" + newBoard.toString() + "\n";
-        assertEquals(expected, output.toString());
+        assertEquals(playAgain, outputRecorder.popFirstOutput());
+        assertEquals(welcome, outputRecorder.popFirstOutput());
 
         System.setOut(stdout);
         view.clearInput();
     }
 
     @Test
-    public void controllerShouldHandleNextRound() {
+    public void controllerShouldHandleNextRound() throws GameOverException {
         view.pushInput("middle center");
         view.pushInput("top right");
         view.pushInput("middle right");
 
-        exit.expectSystemExit();
-
         controller.newGame();
 
-        System.setOut(outputStream);
+        System.setOut(outputRecorder);
 
-        controller.playRound();
-        String expected = yourMove + "\n" + xInCenter.toString() + "\n";
+        try {
+            controller.playRound();
+        } catch (GameOverException e) {
+            String expectedFirst = yourMove + " X.";
+            String expectedNext = xInCenter.toString();
 
-        assertEquals(expected, output.toString());
+            String outputFirst = outputRecorder.popFirstOutput();
+            String outputNext = outputRecorder.popFirstOutput();
+
+            assertEquals(expectedFirst, outputFirst);
+            assertEquals(expectedNext, outputNext);
+
+
+        }
 
         System.setOut(stdout);
         view.clearInput();
@@ -138,54 +142,67 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldPassErrorMessageToViewOnInvalidInput() {
+    public void controllerShouldPassErrorMessageToViewOnInvalidInput() throws GameOverException {
         view.pushInput("invalid phrase");
-        view.pushInput("middle center");
 
-        exit.expectSystemExitWithStatus(2);
         controller.newGame();
 
-        System.setOut(outputStream);
+        System.setOut(outputRecorder);
 
-        controller.playRound();
-        String expected = yourMove + "\n" + xInCenter.toString() + "\n";
+        try {
+            controller.playRound();
+        } catch (NoSuchElementException e) {
 
-        assertEquals(expected, output.toString());
+            outputRecorder.discardFirstNStrings(1);
+            String output = outputRecorder.popFirstOutput();
+
+            assertEquals("That's not a valid board location.", output);
+
+        }
 
         System.setOut(stdout);
         view.clearInput();
     }
 
     @Test
-    public void controllerShouldPassErrorMessageToViewOnInvalidMove() {
+    public void controllerShouldPassErrorMessageToViewOnInvalidMove() throws GameOverException {
         view.pushInput("middle center");
         view.pushInput("middle center");
 
-        exit.expectSystemExitWithStatus(2);
         controller.newGame();
 
-        System.setOut(outputStream);
+        System.setOut(outputRecorder);
 
-        controller.playRound();
-        String expected = yourMove + "\n" + xInCenter.toString() + "\n";
+        try {
+            controller.playRound();
+        } catch (NoSuchElementException e) {
 
-        assertEquals(expected, output.toString());
+            outputRecorder.discardFirstNStrings(4);
+            String output = outputRecorder.popFirstOutput();
 
+            assertEquals("Square is already full.", output);
+        }
         System.setOut(stdout);
         view.clearInput();
     }
 
     @Test
-    public void controllerShouldPrintWinnerMessageAfterWin() {
+    public void controllerShouldPrintWinnerMessageAfterWin() throws GameOverException {
         controller.loadGame(playerXWins);
 
-        exit.expectSystemExit();
-        System.setOut(outputStream);
+        System.setOut(outputRecorder);
 
-        controller.checkForGameOver();
-        String expected = gameOverWin + " X wins.";
+        try {
+            controller.checkForGameOver();
+        } catch (GameOverException e) {
+            String expected = gameOverWin + xWins;
+            System.setOut(stdout);
 
-        assertEquals(expected, output.toString());
+            outputRecorder.discardFirstNStrings(1);
+            String output = outputRecorder.popFirstOutput();
+
+            assertEquals(expected, output);
+        }
 
         System.setOut(stdout);
     }
