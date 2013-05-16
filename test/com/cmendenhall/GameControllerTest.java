@@ -222,5 +222,74 @@ public class GameControllerTest extends TicTacToeTest {
 
     }
 
+    @Test(expected = GameOverException.class)
+    public void gameShouldEndOnWin() throws GameOverException {
+
+        controller.newGame();
+
+        view.pushInput("h");
+        view.pushInput("h");
+
+        controller.setUp();
+
+        view.pushInput("middle center");
+        view.pushInput("top left");
+        view.pushInput("top right");
+        view.pushInput("middle left");
+        view.pushInput("lower right");
+        view.pushInput("lower left");
+
+        controller.startGame();
+    }
+
+    @Test
+    public void playersShouldBeSettable() {
+        controller = new GameController(view);
+
+        controller.setPlayerOne(new HumanPlayer(X));
+        controller.setPlayerTwo(new HumanPlayer(O));
+
+        Player playerOne = controller.getPlayerOne();
+        Player playerTwo = controller.getPlayerTwo();
+
+        assertEquals("HumanPlayer", playerOne.getClass().getSimpleName());
+        assertEquals("HumanPlayer", playerTwo.getClass().getSimpleName());
+    }
+
+    @Test
+    public void setUpShouldSetPlayers() {
+        controller = new GameController(view);
+
+        view.pushInput("h");
+        view.pushInput("c");
+
+        controller.setUp();
+
+        Player playerOne = controller.getPlayerOne();
+        Player playerTwo = controller.getPlayerTwo();
+
+        assertEquals("HumanPlayer", playerOne.getClass().getSimpleName());
+        assertEquals("MinimaxPlayer", playerTwo.getClass().getSimpleName());
+
+        view.clearInput();
+    }
+
+    @Test
+    public void setUpRepromptsForInputIfPlayerTypeIsInvalid() {
+        controller = new GameController(view);
+
+        view.pushInput("z");
+        view.pushInput("x");
+        view.pushInput("f");
+
+        System.setOut(outputRecorder);
+
+        try {
+            controller.setUp();
+        } catch (NoSuchElementException e) {
+            String output = outputRecorder.popLastOutput();
+            assertEquals(choosePlayerOne, output);
+        }
+    }
 
 }
