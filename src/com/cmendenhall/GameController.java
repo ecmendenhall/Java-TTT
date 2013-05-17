@@ -111,10 +111,10 @@ public class GameController implements Controller {
        view.displayMessage(welcome);
        view.displayMessage(divider);
        loadGame(new GameBoard());
-       view.displayBoard(board);
     }
 
     public void startGame() throws GameOverException {
+        view.displayBoard(board);
         playRound();
     }
 
@@ -132,7 +132,7 @@ public class GameController implements Controller {
             view.displayBoard(board);
             String winnerMessage = getWinnerMessage(board.winnerIs());
             view.displayMessage(gameOverWin + winnerMessage);
-            view.endGame();
+            restartGame();
         }
     }
 
@@ -140,7 +140,7 @@ public class GameController implements Controller {
         if (board.isFull() && !board.hasWin()) {
             view.displayBoard(board);
             view.displayMessage(gameOverDraw);
-            view.endGame();
+            restartGame();
         }
     }
 
@@ -150,7 +150,9 @@ public class GameController implements Controller {
        if (restart.equals("n")) {
            view.endGame();
        } else {
-           newGame();
+           loadGame(new GameBoard());
+           setUp();
+           startGame();
        }
     }
 
