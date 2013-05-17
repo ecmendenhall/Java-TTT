@@ -12,12 +12,17 @@ public class GameController implements Controller {
     private Player playerTwo;
 
     private String welcome;
+    private String divider;
     private String yourMove;
+    private String yourMoveThreeSquares;
     private String playAgain;
     private String gameOverDraw;
     private String gameOverWin;
     private String xWins;
     private String oWins;
+    private String choosePlayerOne;
+    private String choosePlayerTwo;
+    private String boardSize;
 
     public GameController(View gameView) {
         loadViewStrings();
@@ -26,20 +31,26 @@ public class GameController implements Controller {
     }
 
     private void loadViewStrings() {
-        Properties viewstrings = new Properties();
+        Properties viewStrings = new Properties();
         try {
-            viewstrings.load(getClass().getResourceAsStream("viewstrings.properties"));
+            viewStrings.load(getClass().getResourceAsStream("viewstrings.properties"));
         } catch (IOException e) {
             System.out.println(e);
         }
 
-        welcome = viewstrings.getProperty("welcome");
-        yourMove = viewstrings.getProperty("yourmove");
-        playAgain = viewstrings.getProperty("playagain");
-        gameOverDraw  = viewstrings.getProperty("gameoverdraw");
-        gameOverWin = viewstrings.getProperty("gameoverwin");
-        xWins = viewstrings.getProperty("xwins");
-        oWins = viewstrings.getProperty("owins");
+        welcome = viewStrings.getProperty("welcome");
+        divider = viewStrings.getProperty("divider");
+        yourMove = viewStrings.getProperty("yourmove");
+        yourMoveThreeSquares = viewStrings.getProperty("yourmovethreesquares");
+        playAgain = viewStrings.getProperty("playagain");
+        gameOverDraw  = viewStrings.getProperty("gameoverdraw");
+        gameOverWin = viewStrings.getProperty("gameoverwin");
+        xWins = viewStrings.getProperty("xwins");
+        oWins = viewStrings.getProperty("owins");
+        choosePlayerOne = viewStrings.getProperty("chooseplayerone");
+        choosePlayerTwo = viewStrings.getProperty("chooseplayertwo");
+        boardSize = viewStrings.getProperty("boardsize");
+
     }
 
     public void setPlayerOne(Player player) {

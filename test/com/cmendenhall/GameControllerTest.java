@@ -21,15 +21,18 @@ public class GameControllerTest extends TicTacToeTest {
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
     private PrintStream outputStream;
+    private OutputRecorder outputRecorder;
 
 
     private String welcome;
+    private String divider;
     private String yourMove;
+    private String yourMoveThreeSquares;
     private String playAgain;
-    private String gameOverDraw;
     private String gameOverWin;
     private String xWins;
-    private String oWins;
+    private String choosePlayerOne;
+    private String boardSize;
 
     private void loadViewStrings() {
         Properties viewstrings = new Properties();
@@ -40,18 +43,21 @@ public class GameControllerTest extends TicTacToeTest {
         }
 
         welcome = viewstrings.getProperty("welcome");
+        divider = viewstrings.getProperty("divider");
         yourMove = viewstrings.getProperty("yourmove");
+        yourMoveThreeSquares = viewstrings.getProperty("yourmovethreesquares");
         playAgain = viewstrings.getProperty("playagain");
-        gameOverDraw  = viewstrings.getProperty("gameoverdraw");
         gameOverWin = viewstrings.getProperty("gameoverwin");
         xWins = viewstrings.getProperty("xwins");
-        oWins = viewstrings.getProperty("owins");
+        choosePlayerOne = viewstrings.getProperty("chooseplayerone");
+        boardSize = viewstrings.getProperty("boardsize");
     }
 
     @Before
     public void setUp() throws Exception {
         loadViewStrings();
         outputStream = new PrintStream(output, true, "UTF-8");
+        outputRecorder = new OutputRecorder(output, true, "UTF-8");
         Player playerOne = new HumanPlayer(X);
         Player playerTwo = new MinimaxPlayer(O);
         controller.setPlayerOne(playerOne);
@@ -290,6 +296,78 @@ public class GameControllerTest extends TicTacToeTest {
             String output = outputRecorder.popLastOutput();
             assertEquals(choosePlayerOne, output);
         }
+    }
+
+    @Test
+    public void controllerShouldPromptForBoardSizeDuringSetup() {
+        controller = new GameController(view);
+
+        view.enqueueInput("4");
+
+        System.setOut(outputRecorder);
+
+        try {
+            controller.setUp();
+        } catch (NoSuchElementException e) {
+            String output = outputRecorder.popFirstOutput();
+            assertEquals(boardSize, output);
+        }
+    }
+
+    @Test
+    public void controllerShouldRepromptForBoardSizeAfterInvalidInput() {
+        controller = new GameController(view);
+
+        view.enqueueInput("Kindly create a board with five squares and five columns.");
+
+        System.setOut(outputRecorder);
+
+        try {
+            controller.setUp();
+        } catch (NoSuchElementException e) {
+            String output = outputRecorder.popLastOutput();
+            assertEquals(boardSize, output);
+        }
+    }
+
+    @Test
+    public void movePromptShouldHaveDifferentMessageBasedOnBoardSize() throws GameOverException {
+        controller = new GameController(view);
+
+        view.enqueueInput("3");
+        view.enqueueInput("h");
+        view.enqueueInput("h");
+
+        System.setOut(outputRecorder);
+
+        try {
+            controller.setUp();
+            controller.startGame();
+        } catch (NoSuchElementException e) {
+            String output = outputRecorder.popLastOutput();
+            assertEquals(yourMoveThreeSquares + " X.", output);
+        }
+
+        view.clearInput();
+
+        controller = new GameController(view);
+
+        view.enqueueInput("4");
+        view.enqueueInput("h");
+        view.enqueueInput("h");
+
+        System.setOut(outputRecorder);
+
+        try {
+            controller.setUp();
+            controller.startGame();
+        } catch (NoSuchElementException e) {
+            String output = outputRecorder.popLastOutput();
+             assertEquals(yourMove + " X.", output);
+        }
+
+        view.clearInput();
+        System.setOut(stdout);
     }
 
 }
