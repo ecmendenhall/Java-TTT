@@ -33,7 +33,7 @@ public class GameController implements Controller {
     private void loadViewStrings() {
         Properties viewStrings = new Properties();
         try {
-            viewStrings.load(getClass().getResourceAsStream("viewstrings.properties"));
+            viewStrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
         } catch (IOException e) {
             System.out.println(e);
         }

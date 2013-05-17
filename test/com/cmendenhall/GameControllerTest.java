@@ -35,7 +35,7 @@ public class GameControllerTest extends TicTacToeTest {
     private void loadViewStrings() {
         Properties viewstrings = new Properties();
         try {
-            viewstrings.load(getClass().getResourceAsStream("viewstrings.properties"));
+            viewstrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
         } catch (IOException e) {
             System.out.println(e);
         }
