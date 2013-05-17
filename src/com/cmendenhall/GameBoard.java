@@ -20,6 +20,16 @@ public class GameBoard implements Board {
         divider = makeDivider();
     }
 
+    public GameBoard(int n) {
+        rows = new ArrayList<Row>();
+        for (int i=0; i < n; i++ ) {
+            int[] newRowSquares = new int[n];
+            Arrays.fill(newRowSquares, _);
+            rows.add(new Row(newRowSquares));
+        }
+        divider = makeDivider();
+    }
+
     public GameBoard(Row... boardRows) {
         rows = Arrays.asList(boardRows);
         divider = makeDivider();
@@ -161,7 +171,7 @@ public class GameBoard implements Board {
 
     private Board fillSquareByCoordinate(int row, int column, int player) throws InvalidMoveException {
 
-        if (row > rows.size() || column > rows.size()) {
+        if (row >= rows.size() || column >= rows.size()) {
             throw new InvalidMoveException("Invalid move coordinate.");
         }
 

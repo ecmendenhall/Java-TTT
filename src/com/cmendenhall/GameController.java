@@ -74,12 +74,28 @@ public class GameController implements Controller {
     }
 
     public void setUp() {
+        board = getBoardSize();
         playerOne = loadPlayer(X);
         playerTwo = loadPlayer(O);
     }
 
+    private Board getBoardSize() {
+        view.displayMessage(boardSize);
+        String boardDimensions = view.getInput();
+        try {
+            Integer size = Integer.parseInt(boardDimensions);
+            if (size > 0) {
+                return new GameBoard(size);
+            } else {
+                return getBoardSize();
+            }
+        } catch (NumberFormatException e) {
+                return getBoardSize();
+        }
+    }
+
     private Player loadPlayer(int number) {
-        String playerMessage = "Choose type for Player " + number + " [h]uman/[c]omputer: ";
+        String playerMessage = (number == X) ? choosePlayerOne : choosePlayerTwo;
         view.displayMessage(playerMessage);
         String playerType = view.getInput();
         if (playerType.equals("h")) {
