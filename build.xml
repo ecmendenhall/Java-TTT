@@ -4,6 +4,7 @@
 
     <!-- Source and build directory defaults -->
     <property name="src.dir" value="src"/>
+    <property name="resources.dir" value="resources"/>
 
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
@@ -22,6 +23,7 @@
     <path id="classpath.test">
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
         <pathelement location="${classes.dir}" />
+        <pathelement location="${resources.dir}" />
     </path>
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
@@ -64,7 +66,6 @@
         <javac includeantruntime="false" debug="true" srcdir="${src.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath" />
         </javac>
-        <copy file="resources/viewstrings.properties" todir="${classes.dir}" />
     </target>
 
     <target name="compile-tests" depends="resolve" description="Compiles JUnit tests." >
@@ -77,12 +78,14 @@
     <target name="jar" depends="compile" description="Packages project as .jar file.">
         <echo message="Packaging project as .jar file." />
         <mkdir dir="${jar.dir}"/>
-        <jar destfile="${jar.dir}/${ant.project.name}" basedir="${classes.dir}">
+        <jar destfile="${jar.dir}/${ant.project.name}.jar">
             <manifest>
                 <attribute name="Main-class" value="${main-class}"/>
             </manifest>
             <fileset dir="${classes.dir}">
                 <include name="**/*.class" />
+            </fileset>
+            <fileset dir="${resources.dir}">
                 <include name="**/*.properties" />
             </fileset>
         </jar>
@@ -91,7 +94,7 @@
     <property name="junitpath" refid="classpath.test" />
 
 
-    <target name="test" depends="jar, compile-tests" description="Runs JUnit tests.">
+    <target name="test" depends="compile, compile-tests" description="Runs JUnit tests.">
         <echo message="Running JUnit tests." />
         <junit printsummary="on" haltonfailure="yes" failureproperty="test.failure">
             <jvmarg value="-Dfile.encoding=UTF-8:-XX:-UseSplitVerifier" />
