@@ -122,6 +122,7 @@ public class RowTest extends TicTacToeTest {
         assertEquals(xxo.intToSymbol(1), "X");
         assertEquals(xxo.intToSymbol(2), "O");
         assertEquals(xxo.intToSymbol(0), " ");
+        assertEquals(xxo.intToSymbol(5), "");
     }
 
     @After

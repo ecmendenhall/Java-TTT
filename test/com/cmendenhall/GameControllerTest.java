@@ -71,7 +71,6 @@ public class GameControllerTest extends TicTacToeTest {
 
         assertEquals(welcome, outputRecorder.popFirstOutput());
         assertEquals(divider, outputRecorder.popFirstOutput());
-        assertEquals(emptyBoard.toString(), outputRecorder.popFirstOutput());
 
         System.setOut(stdout);
     }
@@ -83,6 +82,8 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test(expected = GameOverException.class)
     public void controllerShouldLoadGames() throws GameOverException {
+        view.enqueueInput("n");
+
         controller.loadGame(noWins);
         controller.playRound();
     }
@@ -91,7 +92,7 @@ public class GameControllerTest extends TicTacToeTest {
     public void controllerShouldEndGameOnRestartIfInputIsNo() throws GameOverException {
         System.setOut(outputStream);
 
-        view.pushInput("n");
+        view.enqueueInput("n");
 
         controller.restartGame();
         assertEquals(playAgain, output.toString());
@@ -105,12 +106,24 @@ public class GameControllerTest extends TicTacToeTest {
     public void controllerShouldStartNewGameOnRestartIfInputIsYes() throws GameOverException {
         System.setOut(outputRecorder);
 
-        view.pushInput("y");
+        view.enqueueInput("y");
+        view.enqueueInput("3");
+        view.enqueueInput("h");
+        view.enqueueInput("h");
 
-        controller.restartGame();
+        view.enqueueInput("top left");
+        view.enqueueInput("bottom left");
+        view.enqueueInput("top middle");
+        view.enqueueInput("bottom middle");
+        view.enqueueInput("top right");
 
-        assertEquals(playAgain, outputRecorder.popFirstOutput());
-        assertEquals(welcome, outputRecorder.popFirstOutput());
+        view.enqueueInput("n");
+
+        try {
+            controller.restartGame();
+        } catch (GameOverException e) {
+            assertEquals(playAgain, outputRecorder.popFirstOutput());
+        }
 
         System.setOut(stdout);
         view.clearInput();
@@ -118,27 +131,29 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldHandleNextRound() throws GameOverException {
-        view.pushInput("middle center");
-        view.pushInput("top right");
-        view.pushInput("middle right");
+        view.enqueueInput("middle center");
+        view.enqueueInput("top right");
+        view.enqueueInput("middle right");
+        view.enqueueInput("n");
 
         controller.newGame();
 
         System.setOut(outputRecorder);
 
         try {
-            controller.playRound();
+            controller.startGame();
         } catch (GameOverException e) {
-            String expectedFirst = yourMove + " X.";
-            String expectedNext = xInCenter.toString();
+            String expectedFirst = emptyBoard.toString();
+            String expectedSecond = yourMoveThreeSquares + " X.";
+            String expectedThird = xInCenter.toString();
 
             String outputFirst = outputRecorder.popFirstOutput();
-            String outputNext = outputRecorder.popFirstOutput();
+            String outputSecond = outputRecorder.popFirstOutput();
+            String outputThird = outputRecorder.popFirstOutput();
 
             assertEquals(expectedFirst, outputFirst);
-            assertEquals(expectedNext, outputNext);
-
-
+            assertEquals(expectedSecond, outputSecond);
+            assertEquals(expectedThird, outputThird);
         }
 
         System.setOut(stdout);
@@ -148,7 +163,7 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldPassErrorMessageToViewOnInvalidInput() throws GameOverException {
-        view.pushInput("invalid phrase");
+        view.enqueueInput("invalid phrase");
 
         controller.newGame();
 
@@ -171,8 +186,8 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldPassErrorMessageToViewOnInvalidMove() throws GameOverException {
-        view.pushInput("middle center");
-        view.pushInput("middle center");
+        view.enqueueInput("middle center");
+        view.enqueueInput("middle center");
 
         controller.newGame();
 
@@ -182,10 +197,10 @@ public class GameControllerTest extends TicTacToeTest {
             controller.playRound();
         } catch (NoSuchElementException e) {
 
-            outputRecorder.discardFirstNStrings(4);
-            String output = outputRecorder.popFirstOutput();
+              outputRecorder.discardFirstNStrings(4);
+              String output = outputRecorder.popFirstOutput();
 
-            assertEquals("Square is already full.", output);
+              assertEquals("Square is already full.", output);
         }
         System.setOut(stdout);
         view.clearInput();
@@ -193,6 +208,7 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldPrintWinnerMessageAfterWin() throws GameOverException {
+        view.enqueueInput("n");
         controller.loadGame(playerXWins);
 
         System.setOut(outputRecorder);
@@ -201,7 +217,6 @@ public class GameControllerTest extends TicTacToeTest {
             controller.checkForGameOver();
         } catch (GameOverException e) {
             String expected = gameOverWin + xWins;
-            System.setOut(stdout);
 
             outputRecorder.discardFirstNStrings(1);
             String output = outputRecorder.popFirstOutput();
@@ -210,12 +225,14 @@ public class GameControllerTest extends TicTacToeTest {
         }
 
         System.setOut(stdout);
+        view.clearInput();
     }
 
     @Test
     public void controllerShouldLoadPlayers() {
-        view.pushInput("c");
-        view.pushInput("h");
+        view.enqueueInput("2");
+        view.enqueueInput("c");
+        view.enqueueInput("h");
 
         controller.setUp();
 
@@ -232,17 +249,20 @@ public class GameControllerTest extends TicTacToeTest {
 
         controller.newGame();
 
-        view.pushInput("h");
-        view.pushInput("h");
+        view.enqueueInput("3");
+        view.enqueueInput("h");
+        view.enqueueInput("h");
 
         controller.setUp();
 
-        view.pushInput("middle center");
-        view.pushInput("top left");
-        view.pushInput("top right");
-        view.pushInput("middle left");
-        view.pushInput("lower right");
-        view.pushInput("lower left");
+        view.enqueueInput("middle center");
+        view.enqueueInput("top left");
+        view.enqueueInput("top right");
+        view.enqueueInput("middle left");
+        view.enqueueInput("lower right");
+        view.enqueueInput("lower left");
+
+        view.enqueueInput("n");
 
         controller.startGame();
     }
@@ -265,8 +285,9 @@ public class GameControllerTest extends TicTacToeTest {
     public void setUpShouldSetPlayers() {
         controller = new GameController(view);
 
-        view.pushInput("h");
-        view.pushInput("c");
+        view.enqueueInput("3");
+        view.enqueueInput("h");
+        view.enqueueInput("c");
 
         controller.setUp();
 
@@ -283,9 +304,10 @@ public class GameControllerTest extends TicTacToeTest {
     public void setUpRepromptsForInputIfPlayerTypeIsInvalid() {
         controller = new GameController(view);
 
-        view.pushInput("z");
-        view.pushInput("x");
-        view.pushInput("f");
+        view.enqueueInput("3");
+        view.enqueueInput("z");
+        view.enqueueInput("x");
+        view.enqueueInput("f");
 
         System.setOut(outputRecorder);
 
