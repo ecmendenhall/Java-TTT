@@ -136,20 +136,32 @@ public class GameController implements Controller {
         }
     }
 
-    public void playRound() {
+    public void playRound() throws GameOverException {
         checkForGameOver();
         board = getNextMove();
         view.displayBoard(board);
         playRound();
     }
 
+    private String nextTurnMessage() {
+        Player currentPlayer = getCurrentPlayer();
+        char currentSymbol = currentPlayer.getSymbol();
+        String moveMessage = (board.getRows().size() == 3) ? yourMoveThreeSquares : yourMove;
+        return moveMessage + " " + currentSymbol + ".";
+    }
+
     private Board getNextMove() {
         Player currentPlayer = getCurrentPlayer();
         if (currentPlayer.isHuman()) {
-            view.displayMessage(yourMove);
+            view.displayMessage(nextTurnMessage());
             String input = view.getInput();
             try {
-                BoardCoordinate move = new BoardCoordinate(input);
+                BoardCoordinate move;
+                if (board.getRows().size() == 3) {
+                    move = new ThreeByThreeBoardCoordinate(input);
+                } else {
+                    move = new UniversalBoardCoordinate(input);
+                }
                 return currentPlayer.move(move, board);
             } catch (InvalidCoordinateException e) {
                 view.displayMessage(e.getMessage());

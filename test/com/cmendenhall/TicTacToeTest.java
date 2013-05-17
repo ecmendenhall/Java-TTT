@@ -96,7 +96,7 @@ public class TicTacToeTest {
     @Before
     public void sharedSetUp() {
         playerX = new HumanPlayer(X);
-        upperRight = new BoardCoordinate(0, 2);
+        upperRight = new UniversalBoardCoordinate(0, 2);
         playerO = new MinimaxPlayer(O);
     }
 

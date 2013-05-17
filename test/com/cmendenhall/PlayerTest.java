@@ -35,7 +35,7 @@ public class PlayerTest extends TicTacToeTest {
 
     @Test
     public void playerCanMove() throws InvalidMoveException, InvalidCoordinateException {
-        board = playerX.move(new BoardCoordinate(0, 0), board);
+        board = playerX.move(new UniversalBoardCoordinate(0, 0), board);
         int topleft = board.getRows().get(0).getSquare(0);
         assertEquals(X, topleft);
     }

@@ -188,7 +188,7 @@ public class GameBoard implements Board {
     }
 
     private Board nextState(int row, int column) {
-        BoardCoordinate moveCoordinate = new BoardCoordinate(row, column);
+        BoardCoordinate moveCoordinate = new UniversalBoardCoordinate(row, column);
         Board newBoard;
         try {
             newBoard = fillSquare(moveCoordinate, nextTurn());
