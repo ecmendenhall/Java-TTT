@@ -15,7 +15,6 @@ public class GameControllerTest extends TicTacToeTest {
 
     private MockTerminalView view = new MockTerminalView();
     private GameController controller = new GameController(view);
-    private Board newBoard = new GameBoard();
 
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();

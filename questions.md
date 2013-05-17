@@ -1,4 +1,28 @@
 ## Questions
-+ Managing mutable state/creating immutable objects
-+ Duplication of tests—does "no more of a test than sufficient to fail" mean not testing all squares or the other player?
-+ Board.isFull() requires Row.isFull(). What happens if I need to change a different class to pass a test? Start by writing a new row test? (This is what I've been doing).
+
++ Coverage corner cases:
+
+    @Override
+    public String getInput() {
+      try {
+        return inputQ.remove();
+      } catch (NoSuchElementException e) {
+        System.exit(2);
+        return ""; // <-- This line will never be called!
+      }
+    }
+
+    private Board nextState(int row, int column) {
+      BoardCoordinate moveCoordinate = new BoardCoordinate(row, column);
+      Board newBoard;
+        try {
+          newBoard = fillSquare(moveCoordinate, nextTurn());
+        } catch (InvalidMoveException e) { // <-- This will never throw an InvalidMoveException!
+          newBoard = new GameBoard(rows);
+        }
+        return newBoard;
+    }
+
++ Exception handling/System.exit()/bubbling
++ Tradeoffs: public methods are easy to test, private methods are cleaner
++ Decorator pattern in Java?
