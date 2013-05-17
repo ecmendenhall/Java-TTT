@@ -8,7 +8,6 @@
     <property name="build.dir" value="build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir" value="${build.dir}/jar"/>
-    <property name="properties.dir" value="src/"/>
 
     <property name="main-class" value="com.cmendenhall.Main"/>
 
@@ -23,7 +22,6 @@
     <path id="classpath.test">
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
         <pathelement location="${classes.dir}" />
-        <pathelement location="${properties.dir}" />
     </path>
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
@@ -63,6 +61,7 @@
         <javac includeantruntime="false" debug="true" srcdir="${src.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath" />
         </javac>
+        <copy file="${src.dir}/viewstrings.properties" todir="${classes.dir}" />
     </target>
 
     <target name="compile-tests" depends="resolve" description="Compiles JUnit tests." >
