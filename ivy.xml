@@ -3,10 +3,5 @@
     <info organisation="com.cmendenhall" module="TTT" />
     <dependencies>
         <dependency org="junit" name="junit" rev="4.10" />
-        <dependency org="com.github.stefanbirkner" name="system-rules" rev="1.3.0">
-            <artifact name="system-rules" type="jar" />
-        </dependency>
-        <dependency org="log4j" name="log4j" rev="1.2.17"/>
-        <dependency org="org.jacoco" name="jacoco" rev="6.2.+" />
     </dependencies>
 </ivy-module>
