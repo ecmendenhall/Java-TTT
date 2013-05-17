@@ -1,15 +1,11 @@
 package com.cmendenhall;
-import com.googlecode.lanterna.terminal.Terminal;
-import junit.extensions.TestSetup;
 import org.junit.*;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.*;
 
 import static junit.framework.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class LanternaViewTest extends TicTacToeTest {

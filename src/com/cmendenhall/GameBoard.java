@@ -2,7 +2,6 @@ package com.cmendenhall;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;

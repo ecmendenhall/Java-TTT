@@ -1,7 +1,5 @@
 package com.cmendenhall;
-import junit.extensions.TestSetup;
 import org.junit.*;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
