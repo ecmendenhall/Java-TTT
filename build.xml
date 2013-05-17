@@ -43,6 +43,9 @@
         <mkdir dir="${user.home}/.ant/lib"/>
         <get dest="${user.home}/.ant/lib/ivy.jar"
              src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>
+        <mkdir dir="/usr/share/ant/lib" />
+        <get dest="/usr/share/ant/lib/ivy.jar"
+             src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar" />
     </target>
 
     <target name="resolve" description="Retrieve dependencies with Ivy." depends="check-ivy, bootstrap-ivy">
@@ -61,7 +64,7 @@
         <javac includeantruntime="false" debug="true" srcdir="${src.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath" />
         </javac>
-        <copy file="${src.dir}/com/cmendenhall/viewstrings.properties" todir="${classes.dir}" />
+        <copy file="src/com/cmendenhall/viewstrings.properties" todir="${classes.dir}" />
     </target>
 
     <target name="compile-tests" depends="resolve" description="Compiles JUnit tests." >
@@ -78,6 +81,10 @@
             <manifest>
                 <attribute name="Main-class" value="${main-class}"/>
             </manifest>
+            <fileset dir="${classes.dir}">
+                <include name="**/*.class" />
+                <include name="**/*.properties" />
+            </fileset>
         </jar>
     </target>
 
