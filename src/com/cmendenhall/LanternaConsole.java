@@ -74,25 +74,75 @@ public class LanternaConsole implements IOHandler {
         }
     }
 
-    private void readLinePrompt() {
-        TerminalPosition position = screen.getCursorPosition();
-        int column = position.getColumn();
-        int row = position.getRow();
-        screen.setCursorPosition(column, row + 1);
+    public void pushCursorUp(int rows) {
+        int currentRow = screen.getCursorPosition().getRow();
+        int currentColumn = screen.getCursorPosition().getColumn();
+        screen.setCursorPosition(currentColumn, currentRow - rows);
+    }
+
+    public void pushCursorDown(int rows) {
+        int currentRow = screen.getCursorPosition().getRow();
+        int currentColumn = screen.getCursorPosition().getColumn();
+        screen.setCursorPosition(currentColumn, currentRow + rows);
+    }
+
+    private void pushCursorRight(int columns) {
+        int currentRow = screen.getCursorPosition().getRow();
+        int currentColumn = screen.getCursorPosition().getColumn();
+        screen.setCursorPosition(currentColumn + columns, currentRow);
+    }
+
+    private void pushCursorLeft(int columns) {
+        int currentRow = screen.getCursorPosition().getRow();
+        int currentColumn = screen.getCursorPosition().getColumn();
+        screen.setCursorPosition(currentColumn - columns, currentRow);
+    }
+
+    public String readLine(String prompt) {
+        setUpScreen();
+        Key key;
+        String buffer = "";
+        int startRow = screen.getCursorPosition().getRow();
+        int startColumn = screen.getCursorPosition().getColumn();
+        writer.drawString(startColumn, startRow, prompt);
+        pushCursorRight(prompt.length());
+        screen.refresh();
+        while(true) {
+            key = screen.readInput();
+            if (key != null) {
+                Character keyChar = key.getCharacter();
+                int charCode  = keyChar.charValue();
+
+                if (charCode == 66) {
+                    try {
+                        buffer = buffer.substring(0, buffer.length() - 1);
+                        System.out.println(buffer);
+                        screen.refresh();
+                        screen.clear();
+                        pushCursorLeft(1);
+                        writer.drawString(startColumn, startRow, prompt);
+                        writer.drawString(startColumn, startRow, buffer);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        buffer = "";
+                    }
+                }
+
+                else if (charCode == 10) {
+                    screen.setCursorPosition(0, 0);
+                    break;
+                } else {
+                    buffer += keyChar;
+                    writer.drawString(startColumn, startRow, buffer);
+                    pushCursorRight(1);
+                    screen.refresh();
+                }
+            }
+        }
+        return buffer;
     }
 
     public String readLine() {
-        setUpScreen();
-        readLinePrompt();
-        Key key;
-        String buffer = "";
-        while(true) {
-            key = screen.readInput();
-            if (key != null) buffer += key.getCharacter();
-            System.out.println(buffer);
-            if (key != null && key.getCharacter() == '\n') break;
-        }
-        return buffer;
+        return readLine("");
     }
 
     public void print(String output) {

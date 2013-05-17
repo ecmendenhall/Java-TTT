@@ -26,10 +26,13 @@ public class LanternaView implements View {
     public void displayBoard(Board board) {
         String boardString = board.toString();
         io.print(boardString);
+        io.waitForNewline();
     }
 
     public void displayMessage(String message) {
         io.print(message);
+        io.pushCursorDown(1);
+        screen.refresh();
     }
 
     public String getInput() {
@@ -37,6 +40,7 @@ public class LanternaView implements View {
     }
 
     public void endGame() {
+        io.waitForNewline();
         screen.stopScreen();
         System.exit(0);
     }
