@@ -2,6 +2,7 @@ package com.cmendenhall;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;
 
@@ -43,7 +44,7 @@ public class GameController implements Controller {
         yourMove = viewStrings.getProperty("yourmove");
         yourMoveThreeSquares = viewStrings.getProperty("yourmovethreesquares");
         playAgain = viewStrings.getProperty("playagain");
-        gameOverDraw  = viewStrings.getProperty("gameoverdraw");
+        gameOverDraw = viewStrings.getProperty("gameoverdraw");
         gameOverWin = viewStrings.getProperty("gameoverwin");
         xWins = viewStrings.getProperty("xwins");
         oWins = viewStrings.getProperty("owins");
@@ -90,7 +91,7 @@ public class GameController implements Controller {
                 return getBoardSize();
             }
         } catch (NumberFormatException e) {
-                return getBoardSize();
+            return getBoardSize();
         }
     }
 
@@ -108,9 +109,9 @@ public class GameController implements Controller {
     }
 
     public void newGame() {
-       view.displayMessage(welcome);
-       view.displayMessage(divider);
-       loadGame(new GameBoard());
+        view.displayMessage(welcome);
+        view.displayMessage(divider);
+        loadGame(new GameBoard());
     }
 
     public void startGame() throws GameOverException {
@@ -128,16 +129,16 @@ public class GameController implements Controller {
     }
 
     private void checkForWins() throws GameOverException {
-        if (board.hasWin()) {
+        if (BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
-            String winnerMessage = getWinnerMessage(board.winnerIs());
+            String winnerMessage = getWinnerMessage(BoardAnalyzer.winnerIs(board));
             view.displayMessage(gameOverWin + winnerMessage);
             restartGame();
         }
     }
 
     private void checkForDraw() throws GameOverException {
-        if (board.isFull() && !board.hasWin()) {
+        if (BoardAnalyzer.isFull(board) && !BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
             view.displayMessage(gameOverDraw);
             restartGame();
@@ -145,19 +146,19 @@ public class GameController implements Controller {
     }
 
     public void restartGame() throws GameOverException {
-       view.displayMessage(playAgain);
-       String restart = view.getInput();
-       if (restart.equals("n")) {
-           view.endGame();
-       } else {
-           loadGame(new GameBoard());
-           setUp();
-           startGame();
-       }
+        view.displayMessage(playAgain);
+        String restart = view.getInput();
+        if (restart.equals("n")) {
+            view.endGame();
+        } else {
+            loadGame(new GameBoard());
+            setUp();
+            startGame();
+        }
     }
 
     private Player getCurrentPlayer() {
-        int turn = board.nextTurn();
+        int turn = BoardAnalyzer.nextTurn(board);
         if (turn == playerOne.getGamePiece()) {
             return playerOne;
         } else {
@@ -191,6 +192,7 @@ public class GameController implements Controller {
                 } else {
                     move = new UniversalBoardCoordinate(input);
                 }
+
                 return currentPlayer.move(move, board);
             } catch (InvalidCoordinateException e) {
                 view.displayMessage(e.getMessage());

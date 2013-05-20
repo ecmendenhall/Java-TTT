@@ -6,17 +6,17 @@ import java.io.InputStreamReader;
 
 public class CharStreamConsole implements IOHandler {
 
-        private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        public String readLine() {
-            try {
-                return reader.readLine();
-            } catch (IOException e) {
-                throw new IllegalStateException();
-            }
-        }
-
-        public void print(String output) {
-            System.out.println(output);
+    public String readLine() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new IllegalStateException();
         }
     }
+
+    public void print(String output) {
+        System.out.println(output);
+    }
+}

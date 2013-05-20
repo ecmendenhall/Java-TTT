@@ -6,21 +6,23 @@ import java.util.List;
 
 import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;
+import static com.cmendenhall.TicTacToeSymbols._;
 
 public class MinimaxPlayer extends GamePlayer {
+    private GameTree tree;
 
     MinimaxPlayer(int playerNumber) {
         super(playerNumber);
     }
 
     private int otherPlayer() {
-        return (getGamePiece() == X)? O : X;
+        return (getGamePiece() == X) ? O : X;
     }
 
     public int scoreBoard(Board board) {
-        if (board.winnerIs() == getGamePiece()) {
+        if (BoardAnalyzer.winnerIs(board) == getGamePiece()) {
             return 1;
-        } else if (board.winnerIs() == otherPlayer()) {
+        } else if (BoardAnalyzer.winnerIs(board) == otherPlayer()) {
             return -1;
         } else {
             return 0;
@@ -28,11 +30,11 @@ public class MinimaxPlayer extends GamePlayer {
     }
 
     private int scoreMove(Board board) {
-        if (board.hasWin() || board.isFull()) {
+        if (BoardAnalyzer.hasWin(board) || BoardAnalyzer.isFull(board)) {
             return scoreBoard(board);
         } else {
-            GameTree node = new GameTree(board);
-            return scoreMoveWithPruning(node);
+            tree = new GameTree(board);
+            return scoreMoveWithPruning(tree);
         }
     }
 
@@ -44,7 +46,7 @@ public class MinimaxPlayer extends GamePlayer {
             List<Integer> moveScores = new ArrayList<Integer>();
 
             int gamePiece = getGamePiece();
-            if (node.gameState.nextTurn() == gamePiece) {
+            if (BoardAnalyzer.nextTurn(node.gameState) == gamePiece) {
                 for (GameTree child : node.children) {
                     moveScores.add(miniMaxScoreMove(child));
                 }
@@ -68,7 +70,7 @@ public class MinimaxPlayer extends GamePlayer {
         } else {
 
             int gamePiece = getGamePiece();
-            if (node.gameState.nextTurn() == gamePiece) {
+            if (BoardAnalyzer.nextTurn(node.gameState) == gamePiece) {
                 for (GameTree child : node.children) {
                     alpha = Math.max(alpha, alphaBetaSearch(child, alpha, beta));
                     if (beta <= alpha) break;
@@ -86,7 +88,7 @@ public class MinimaxPlayer extends GamePlayer {
 
     public Board bestMove(Board board) {
 
-        List<Board> nextMoves = board.getNextStates();
+        List<Board> nextMoves = BoardAnalyzer.getNextStates(board);
 
         int bestScore = Integer.MIN_VALUE + 1;
         Board bestMove = null;
@@ -94,7 +96,7 @@ public class MinimaxPlayer extends GamePlayer {
         for (Board move : nextMoves) {
 
             int gamePiece = getGamePiece();
-            if (move.winnerIs() == gamePiece) {
+            if (BoardAnalyzer.winnerIs(move) == gamePiece) {
                 return move;
             } else {
                 int moveScore = scoreMove(move);
@@ -107,5 +109,4 @@ public class MinimaxPlayer extends GamePlayer {
         }
         return bestMove;
     }
-
 }

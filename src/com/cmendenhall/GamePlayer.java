@@ -9,7 +9,7 @@ public class GamePlayer implements Player {
 
     GamePlayer(int playerNumber) {
         gamePiece = playerNumber;
-        symbol = (gamePiece == X)? 'X' : 'O';
+        symbol = (gamePiece == X) ? 'X' : 'O';
     }
 
     public boolean isHuman() {

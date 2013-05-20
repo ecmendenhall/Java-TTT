@@ -88,7 +88,7 @@ public class Row {
         // Insert a Unicode vertical box-drawing character
         // after every square but the last.
 
-        for (int i=0; i < nSquares - 1; i++) {
+        for (int i = 0; i < nSquares - 1; i++) {
             String symbol = intToSymbol(squares[i]);
             rowString += " " + symbol + " \u2502";
         }
@@ -98,7 +98,7 @@ public class Row {
     }
 
     public Boolean equals(Row otherRow) {
-        for (int i=0; i < squares.length; i++) {
+        for (int i = 0; i < squares.length; i++) {
             if (squares[i] != otherRow.getSquare(i)) return false;
         }
         return true;

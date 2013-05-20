@@ -3,6 +3,7 @@ package com.cmendenhall;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -73,5 +74,52 @@ public class GameTreeTest extends TicTacToeTest {
     @Test
     public void boardWithEmptySpacesAndNoWinIsNotTerminal() {
         assertFalse(new GameTree(playerONext).isTerminal());
+    }
+
+    @Test
+    public void gameTreeReturnsNextStates () throws InvalidMoveException {
+
+        List<Board> nextBoards = new ArrayList<Board>();
+
+        nextBoards.add(new GameBoard(new Row(O, _, _),
+                new Row(_, X, _),
+                new Row(_, _, _)));
+
+        nextBoards.add(new GameBoard(new Row(_, O, _),
+                new Row(_, X, _),
+                new Row(_, _, _)));
+
+        nextBoards.add(new GameBoard(new Row(_, _, O),
+                new Row(_, X, _),
+                new Row(_, _, _)));
+
+        nextBoards.add(new GameBoard(new Row(_, _, _),
+                new Row(O, X, _),
+                new Row(_, _, _)));
+
+        nextBoards.add(new GameBoard(new Row(_, _, _),
+                new Row(_, X, O),
+                new Row(_, _, _)));
+
+        nextBoards.add(new GameBoard(new Row(_, _, _),
+                new Row(_, X, _),
+                new Row(O, _, _)));
+
+
+        nextBoards.add(new GameBoard(new Row(_, _, _),
+                new Row(_, X, _),
+                new Row(_, O, _)));
+
+        nextBoards.add(new GameBoard(new Row(_, _, _),
+                new Row(_, X, _),
+                new Row(_, _, O)));
+
+        List<Board> nextStates = BoardAnalyzer.getNextStates(xInCenter);
+
+        for (int i=0; i < nextStates.size(); i++) {
+            Board expected = nextBoards.get(i);
+            Board actual = nextStates.get(i);
+            assertSameBoard(expected, actual);
+        }
     }
 }

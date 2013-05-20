@@ -61,11 +61,6 @@ public class GameBoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void noWinsOnNewBoard() {
-        assertFalse(emptyBoard.hasWin());
-    }
-
-    @Test
     public void boardHasRows() {
         assertNotNull(emptyBoard.getRows());
     }
@@ -137,25 +132,6 @@ public class GameBoardTest extends TicTacToeTest {
     }
 
 
-    @Test
-    public void boardHasHorizontalWin() {
-        assertTrue(playerOWins.hasWin());
-    }
-
-    @Test
-    public void boardHasVerticalWin() {
-        assertTrue(playerXWins.hasWin());
-    }
-
-    @Test
-    public void drawBoardDoesNotHaveWin() {
-        assertFalse(noWins.hasWin());
-    }
-
-    @Test
-    public void boardHasDiagonalWin() {
-        assertTrue(diagonal.hasWin());
-    }
 
     @Test
     public void getTopLeftByCoordinate() {
@@ -168,66 +144,6 @@ public class GameBoardTest extends TicTacToeTest {
         assertEquals(X, board.getRows().get(0).getSquare(0));
     }
 
-    @Test
-    public void emptyBoardIsNotFull() {
-        assertFalse(emptyBoard.isFull());
-    }
-
-    @Test
-    public void partiallyFullBoardIsNotFull() {
-        assertFalse(playerONext.isFull());
-        assertFalse(playerXShouldBlock.isFull());
-    }
-
-    @Test
-    public void noWinsIsFull() {
-        assertTrue(noWins.isFull());
-    }
-
-    @Test
-    public void noWinsHasNoWinner() {
-        assertEquals(_, noWins.winnerIs());
-    }
-
-    @Test
-    public void playerXWinsWinnerIsX() {
-        assertEquals(X, playerXWins.winnerIs());
-    }
-
-    @Test
-    public void playerOWinsWinnerIsO() {
-        assertEquals(O, playerOWins.winnerIs());
-    }
-
-    @Test
-    public void playerXMovesFirst() {
-        assertEquals(X, emptyBoard.nextTurn());
-    }
-
-    @Test
-    public void playerOMovesNext() {
-        assertEquals(O, playerONext.nextTurn());
-    }
-
-    @Test
-    public void fullBoardHasNoNextTurn() {
-        assertEquals(_, noWins.nextTurn());
-    }
-
-    @Test
-    public void emptyBoardSumIsZero() {
-        assertEquals(0, emptyBoard.sum());
-    }
-
-    @Test
-    public void noWinsBoardSumIsThirteen() {
-        assertEquals(13, noWins.sum());
-    }
-
-    @Test
-    public void playerXWinsBoardSumIsSeven() {
-        assertEquals(7, playerXWins.sum());
-    }
 
     @Test
     public void boardsAreCorrectlyCompared() {
@@ -310,52 +226,6 @@ public class GameBoardTest extends TicTacToeTest {
 
     }
 
-    @Test
-    public void boardReturnsNextStates () throws InvalidMoveException {
-
-        List<Board> nextBoards = new ArrayList<Board>();
-
-        nextBoards.add(new GameBoard(new Row(O, _, _),
-                                     new Row(_, X, _),
-                                     new Row(_, _, _)));
-
-        nextBoards.add(new GameBoard(new Row(_, O, _),
-                                     new Row(_, X, _),
-                                     new Row(_, _, _)));
-
-        nextBoards.add(new GameBoard(new Row(_, _, O),
-                                     new Row(_, X, _),
-                                     new Row(_, _, _)));
-
-        nextBoards.add(new GameBoard(new Row(_, _, _),
-                                     new Row(O, X, _),
-                                     new Row(_, _, _)));
-
-        nextBoards.add(new GameBoard(new Row(_, _, _),
-                                     new Row(_, X, O),
-                                     new Row(_, _, _)));
-
-        nextBoards.add(new GameBoard(new Row(_, _, _),
-                                     new Row(_, X, _),
-                                     new Row(O, _, _)));
-
-
-        nextBoards.add(new GameBoard(new Row(_, _, _),
-                                     new Row(_, X, _),
-                                     new Row(_, O, _)));
-
-        nextBoards.add(new GameBoard(new Row(_, _, _),
-                                     new Row(_, X, _),
-                                     new Row(_, _, O)));
-
-        List<Board> nextStates = xInCenter.getNextStates();
-
-        for (int i=0; i < nextStates.size(); i++) {
-            Board expected = nextBoards.get(i);
-            Board actual = nextStates.get(i);
-            assertSameBoard(expected, actual);
-        }
-    }
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

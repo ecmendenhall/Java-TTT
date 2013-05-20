@@ -4,10 +4,10 @@ public interface View {
 
     public void displayBoard(Board board);
 
-    public void displayMessage (String message);
+    public void displayMessage(String message);
 
-    public String getInput ();
+    public String getInput();
 
-    public void endGame () throws GameOverException;
+    public void endGame() throws GameOverException;
 
 }
