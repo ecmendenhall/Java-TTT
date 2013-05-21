@@ -5,13 +5,14 @@ public class Main {
     public static void main(String[] args) {
         try {
 
-            View view = new TerminalView();
+            View view = new SwingView();
             GameController controller = new GameController(view);
 
-            controller.newGame();
-            controller.setUp();
-            controller.startGame();
-        } catch (GameOverException e) {
+            view.displayMessage("Hello world");
+            view.displayBoard(new GameBoard());
+            while (true) {}
+
+        } catch (Exception e) {
             System.exit(0);
         }
     }

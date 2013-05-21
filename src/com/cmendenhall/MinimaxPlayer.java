@@ -1,8 +1,6 @@
 package com.cmendenhall;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;
@@ -10,6 +8,7 @@ import static com.cmendenhall.TicTacToeSymbols._;
 
 public class MinimaxPlayer extends GamePlayer {
     private GameTree tree;
+    private HashMap<Board, Integer> scoreCache = new HashMap<Board, Integer>();
 
     MinimaxPlayer(int playerNumber) {
         super(playerNumber);
@@ -32,9 +31,13 @@ public class MinimaxPlayer extends GamePlayer {
     private int scoreMove(Board board) {
         if (BoardAnalyzer.hasWin(board) || BoardAnalyzer.isFull(board)) {
             return scoreBoard(board);
+        } else if (scoreCache.containsKey(board)){
+            System.out.println("Cache hit!");
+            return scoreCache.get(board);
         } else {
-            tree = new GameTree(board);
-            return scoreMoveWithPruning(tree);
+            int score = scoreMoveWithPruning(board);
+            scoreCache.put(board, score);
+            return score;
         }
     }
 
@@ -60,25 +63,37 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    private int scoreMoveWithPruning(GameTree node) {
-        return alphaBetaSearch(node, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    private int calculateDepth(Board board) {
+        int size = board.getSize();
+        return Math.max(2, 16 - 4 * (size - 2));
     }
 
-    private int alphaBetaSearch(GameTree node, Integer alpha, Integer beta) {
-        if (node.isTerminal()) {
-            return scoreBoard(node.gameState);
+    private boolean isTerminal(Board board) {
+        return BoardAnalyzer.isFull(board) || BoardAnalyzer.hasWin(board);
+    }
+
+    private int scoreMoveWithPruning(Board board) {
+        int depth = calculateDepth(board);
+        return alphaBetaSearch(board, depth, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private int alphaBetaSearch(Board board, Integer depth, Integer alpha, Integer beta) {
+        if (isTerminal(board) || depth == 0) {
+            return scoreBoard(board);
         } else {
 
             int gamePiece = getGamePiece();
-            if (BoardAnalyzer.nextTurn(node.gameState) == gamePiece) {
-                for (GameTree child : node.children) {
-                    alpha = Math.max(alpha, alphaBetaSearch(child, alpha, beta));
+            List<Board> children = BoardAnalyzer.getNextStates(board);
+
+            if (BoardAnalyzer.nextTurn(board) == gamePiece) {
+                for (Board child : children) {
+                    alpha = Math.max(alpha, alphaBetaSearch(child, depth - 1, alpha, beta));
                     if (beta <= alpha) break;
                 }
                 return alpha;
             } else {
-                for (GameTree child : node.children) {
-                    beta = Math.min(beta, alphaBetaSearch(child, alpha, beta));
+                for (Board child : children) {
+                    beta = Math.min(beta, alphaBetaSearch(child, depth - 1, alpha, beta));
                     if (beta <= alpha) break;
                 }
                 return beta;
@@ -86,7 +101,31 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
+    private Board firstMove(Board board) {
+        int size = board.getSize();
+        Random generator = new Random();
+
+        int row = generator.nextInt(size);
+        int column = generator.nextInt(size);
+
+        BoardCoordinate move = new UniversalBoardCoordinate(row, column);
+
+        try {
+            return board.fillSquare(move, getGamePiece());
+        } catch (InvalidMoveException e) {
+            return firstMove(board);
+        }
+    }
+
+    private int randomMoveLimit(Board board) {
+        return 2 * board.getSize() - (getGamePiece() + 2);
+    }
+
     public Board bestMove(Board board) {
+
+        if (BoardAnalyzer.turnsPlayed(board) <= randomMoveLimit(board) && board.getSize() > 3) {
+            return firstMove(board);
+        }
 
         List<Board> nextMoves = BoardAnalyzer.getNextStates(board);
 

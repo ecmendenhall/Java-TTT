@@ -98,6 +98,10 @@ public class GameBoard implements Board {
         }
     }
 
+    public int getSize() {
+        return rows.size();
+    }
+
     public List<Row> getRows() {
         return rows;
     }

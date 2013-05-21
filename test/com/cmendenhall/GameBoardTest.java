@@ -67,8 +67,7 @@ public class GameBoardTest extends TicTacToeTest {
 
     @Test
     public void boardHasThreeRows() {
-        List<Row> rows = emptyBoard.getRows();
-        assertEquals(3, rows.size());
+        assertEquals(3, emptyBoard.getSize());
     }
 
     @Test public void rowsHaveThreeSquares() {
@@ -85,8 +84,7 @@ public class GameBoardTest extends TicTacToeTest {
 
     @Test
     public void boardHasThreeColumns() {
-        List<Row> columns = emptyBoard.getColumns();
-        assertEquals(3, columns.size());
+        assertEquals(3, emptyBoard.getColumns().size());
     }
 
     @Test

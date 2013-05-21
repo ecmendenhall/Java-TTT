@@ -19,6 +19,7 @@
     <orderEntry type="library" name="junit-4.10" level="project" />
     <orderEntry type="library" name="system-rules-1.3.0" level="project" />
     <orderEntry type="library" name="lanterna-2.1.5" level="project" />
+    <orderEntry type="library" name="forms_rt" level="project" />
   </component>
 </module>
 

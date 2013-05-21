@@ -105,4 +105,33 @@ public class BoardAnalyzerTest extends TicTacToeTest {
     public void playerXWinsBoardSumIsSeven() {
         assertEquals(7, BoardAnalyzer.sum(playerXWins));
     }
+
+    @Test
+    public void emptyBoardIsEmpty() {
+        assertTrue(BoardAnalyzer.isEmpty(emptyBoard));
+    }
+
+    @Test
+    public void turnsPlayedOnEmptyBoardEqualsZero() {
+        int played = BoardAnalyzer.turnsPlayed(emptyBoard);
+        assertEquals(0, played);
+    }
+
+    @Test
+    public void turnsPlayedOnBoardWithOneMoveEqualsOne() {
+        int played = BoardAnalyzer.turnsPlayed(xInCenter);
+        assertEquals(1, played);
+    }
+
+    @Test
+    public void turnsPlayedOnBoardWithThreeMovesEqualsThree() {
+       int played = BoardAnalyzer.turnsPlayed(playerONext);
+       assertEquals(3, played);
+    }
+
+    @Test
+    public void turnsPlayedOnFullBoardEqualsNine() {
+       int played = BoardAnalyzer.turnsPlayed(noWins);
+       assertEquals(9, played);
+    }
 }

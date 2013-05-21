@@ -11,4 +11,7 @@ public interface Board {
     List<Row> getColumns();
 
     List<Row> getDiagonals();
+
+    int getSize();
+
 }

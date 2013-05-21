@@ -12,6 +12,10 @@ public class BoardAnalyzer {
         return (getWinningRow(board).getSquare(0) != -1) ? true : false;
     }
 
+    public static int turnsPlayed(Board board) {
+        return (int) Math.ceil(sum(board) / 1.5);
+    }
+
     private static Row getWinningRow(Board board) {
         List<Row> rows = board.getRows();
         List<Row> cols = board.getColumns();
@@ -66,6 +70,9 @@ public class BoardAnalyzer {
         return sum;
     }
 
+    public static boolean isEmpty(Board board) {
+        return sum(board) == 0;
+    }
 
     private static Board nextState(Board board, int row, int column) {
         BoardCoordinate moveCoordinate = new UniversalBoardCoordinate(row, column);
