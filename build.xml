@@ -57,7 +57,7 @@
         <delete dir="${build.dir}"/>
     </target>
 
-    <target name="compile" depends="resolve" description="Compiles project.">
+    <target name="compile" depends="" description="Compiles project.">
         <echo message="Compiling project." />
         <mkdir dir="${classes.dir}"/>
         <javac includeantruntime="false" debug="true" srcdir="${src.dir}" destdir="${classes.dir}" >
@@ -65,7 +65,7 @@
         </javac>
     </target>
 
-    <target name="compile-tests" depends="resolve" description="Compiles JUnit tests." >
+    <target name="compile-tests" depends="" description="Compiles JUnit tests." >
         <echo message="Compiling JUnit tests." />
         <javac includeantruntime="false" debug="true" srcdir="${test.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath" />
