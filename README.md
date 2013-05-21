@@ -2,6 +2,8 @@
 
 A TDD rewrite of [ClojureScript Tic-Tac-Toe](https://github.com/ecmendenhall/clojurescript-tic-tac-toe/) in Java.
 
+[![Build Status](https://travis-ci.org/ecmendenhall/Java-TTT.png)](https://travis-ci.org/ecmendenhall/Java-TTT)
+
 ## Build instructions
 This project includes an [ant](https://ant.apache.org/) buildfile and
 manages dependencies with [ivy](https://ant.apache.org/ivy/). To build
