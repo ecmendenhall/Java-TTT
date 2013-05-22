@@ -1,13 +1,13 @@
 package com.cmendenhall;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
-import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;
-import static com.cmendenhall.TicTacToeSymbols._;
+import static com.cmendenhall.TicTacToeSymbols.X;
 
 public class MinimaxPlayer extends GamePlayer {
-    private GameTree tree;
     private HashMap<Board, Integer> scoreCache = new HashMap<Board, Integer>();
 
     MinimaxPlayer(int playerNumber) {
@@ -31,8 +31,7 @@ public class MinimaxPlayer extends GamePlayer {
     private int scoreMove(Board board) {
         if (BoardAnalyzer.hasWin(board) || BoardAnalyzer.isFull(board)) {
             return scoreBoard(board);
-        } else if (scoreCache.containsKey(board)){
-            System.out.println("Cache hit!");
+        } else if (scoreCache.containsKey(board)) {
             return scoreCache.get(board);
         } else {
             int score = scoreMoveWithPruning(board);
@@ -41,34 +40,13 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    private int miniMaxScoreMove(GameTree node) {
-        if (node.isTerminal()) {
-            return scoreBoard(node.gameState);
-        } else {
-
-            List<Integer> moveScores = new ArrayList<Integer>();
-
-            int gamePiece = getGamePiece();
-            if (BoardAnalyzer.nextTurn(node.gameState) == gamePiece) {
-                for (GameTree child : node.children) {
-                    moveScores.add(miniMaxScoreMove(child));
-                }
-                return Collections.max(moveScores);
-            } else {
-                for (GameTree child : node.children) {
-                    moveScores.add(miniMaxScoreMove(child));
-                }
-                return Collections.min(moveScores);
-            }
-        }
-    }
-
-    private int calculateDepth(Board board) {
+    protected int calculateDepth(Board board) {
         int size = board.getSize();
-        return Math.max(2, 16 - 4 * (size - 2));
+        int lookAheadDepth = 12 - 4 * (size - 2);
+        return Math.max(2, lookAheadDepth);
     }
 
-    private boolean isTerminal(Board board) {
+    protected boolean isTerminal(Board board) {
         return BoardAnalyzer.isFull(board) || BoardAnalyzer.hasWin(board);
     }
 
@@ -101,7 +79,7 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    private Board firstMove(Board board) {
+    private Board randomMove(Board board) {
         int size = board.getSize();
         Random generator = new Random();
 
@@ -113,18 +91,19 @@ public class MinimaxPlayer extends GamePlayer {
         try {
             return board.fillSquare(move, getGamePiece());
         } catch (InvalidMoveException e) {
-            return firstMove(board);
+            return randomMove(board);
         }
     }
 
-    private int randomMoveLimit(Board board) {
-        return 2 * board.getSize() - (getGamePiece() + 2);
+    protected int randomMoveLimit(Board board) {
+        return board.getSize() + (2 - getGamePiece());
     }
 
     public Board bestMove(Board board) {
 
-        if (BoardAnalyzer.turnsPlayed(board) <= randomMoveLimit(board) && board.getSize() > 3) {
-            return firstMove(board);
+        if (BoardAnalyzer.turnsPlayed(board) < randomMoveLimit(board) &&
+                board.getSize() > 3) {
+            return randomMove(board);
         }
 
         List<Board> nextMoves = BoardAnalyzer.getNextStates(board);
