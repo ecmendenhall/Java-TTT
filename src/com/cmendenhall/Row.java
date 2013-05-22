@@ -1,8 +1,6 @@
 package com.cmendenhall;
 
-import static com.cmendenhall.TicTacToeSymbols.X;
-import static com.cmendenhall.TicTacToeSymbols.O;
-import static com.cmendenhall.TicTacToeSymbols._;
+import static com.cmendenhall.TicTacToeSymbols.*;
 
 public class Row {
 

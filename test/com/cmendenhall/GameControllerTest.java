@@ -230,18 +230,20 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldLoadPlayers() {
-        view.enqueueInput("2");
+        view.enqueueInput("3");
         view.enqueueInput("c");
         view.enqueueInput("h");
 
-        controller.setUp();
+        try {
+            controller.setUp();
+        } catch (NoSuchElementException e) {
 
-        Player playerOne = controller.getPlayerOne();
-        Player playerTwo = controller.getPlayerTwo();
+            Player playerOne = controller.getPlayerOne();
+            Player playerTwo = controller.getPlayerTwo();
 
-        assertEquals("MinimaxPlayer", playerOne.getClass().getSimpleName());
-        assertEquals("HumanPlayer", playerTwo.getClass().getSimpleName());
-
+            assertEquals("MinimaxPlayer", playerOne.getClass().getSimpleName());
+            assertEquals("HumanPlayer", playerTwo.getClass().getSimpleName());
+        }
     }
 
     @Test(expected = GameOverException.class)

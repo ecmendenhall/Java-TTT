@@ -6,6 +6,10 @@ public interface Controller {
 
     public void loadGame(Board boardState);
 
+    public void setUp();
+
+    public void startGame() throws GameOverException;
+
     public void restartGame() throws GameOverException;
 
     public void checkForGameOver() throws GameOverException;

@@ -2,9 +2,8 @@ package com.cmendenhall;
 
 import java.util.ArrayList;
 import java.util.List;
-import static com.cmendenhall.TicTacToeSymbols._;
-import static com.cmendenhall.TicTacToeSymbols.X;
-import static com.cmendenhall.TicTacToeSymbols.O;
+
+import static com.cmendenhall.TicTacToeSymbols.*;
 
 public class BoardAnalyzer {
 
