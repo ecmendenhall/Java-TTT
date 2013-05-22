@@ -1,10 +1,11 @@
 package com.cmendenhall;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Properties;
 
-import static com.cmendenhall.TicTacToeSymbols.X;
 import static com.cmendenhall.TicTacToeSymbols.O;
+import static com.cmendenhall.TicTacToeSymbols.X;
 
 public class GameController implements Controller {
     private Board board;
@@ -90,7 +91,10 @@ public class GameController implements Controller {
             } else {
                 return getBoardSize();
             }
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
+            if (e.getClass() == InvalidBoardException.class) {
+                view.displayMessage(e.getMessage());
+            }
             return getBoardSize();
         }
     }
@@ -177,7 +181,7 @@ public class GameController implements Controller {
         Player currentPlayer = getCurrentPlayer();
         char currentSymbol = currentPlayer.getSymbol();
         String moveMessage = (board.getRows().size() == 3) ? yourMoveThreeSquares : yourMove;
-        return moveMessage + " " + currentSymbol + ".";
+        return MessageFormat.format(moveMessage, board.getSize() - 1) + " " + currentSymbol + ".";
     }
 
     private Board getNextMove() {

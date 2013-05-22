@@ -21,7 +21,13 @@ public class GameBoard implements Board {
         divider = makeDivider();
     }
 
-    public GameBoard(int n) {
+    public GameBoard(int n) throws InvalidBoardException {
+
+        if (n < 3 || n > 10) {
+            String message = "Please choose a board size between 3 and 10.";
+            throw new InvalidBoardException(message);
+        }
+
         rows = new ArrayList<Row>();
         for (int i = 0; i < n; i++) {
             int[] newRowSquares = new int[n];

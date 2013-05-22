@@ -243,17 +243,31 @@ public class GameBoardTest extends TicTacToeTest {
     }
 
     @Test
-    public void boardCanBeConstructedWithArbitraryDimensions() {
+    public void boardCanBeConstructedWithArbitraryDimensions() throws InvalidBoardException {
         Board fourByFour = new GameBoard(4);
     }
 
     @Test
-    public void fourByFourBoardHasFourRowsAndFourColumns() {
+    public void fourByFourBoardHasFourRowsAndFourColumns() throws InvalidBoardException {
         GameBoard fourByFour = new GameBoard(4);
         List<Row> rows = fourByFour.getRows();
         List<Row> columns = fourByFour.getColumns();
         assertEquals(4, rows.size());
         assertEquals(4, columns.size());
+    }
+
+    @Test
+    public void tooSmallBoardThrowsError() throws InvalidBoardException {
+        thrown.expect(InvalidBoardException.class);
+        thrown.expectMessage("Please choose a board size between 3 and 10.");
+        Board invalid = new GameBoard(2);
+    }
+
+    @Test
+    public void tooBigBoardThrowsError() throws InvalidBoardException {
+        thrown.expect(InvalidBoardException.class);
+        thrown.expectMessage("Please choose a board size between 3 and 10.");
+        Board invalid = new GameBoard(11);
     }
 
     @After

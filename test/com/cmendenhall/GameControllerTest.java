@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
@@ -141,9 +142,9 @@ public class GameControllerTest extends TicTacToeTest {
 
         try {
             controller.startGame();
-        } catch (GameOverException e) {
+        } catch (Exception e) {
             String expectedFirst = emptyBoard.toString();
-            String expectedSecond = yourMoveThreeSquares + " X.";
+            String expectedSecond = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
             String expectedThird = xInCenter.toString();
 
             String outputFirst = outputRecorder.popFirstOutput();
@@ -365,7 +366,8 @@ public class GameControllerTest extends TicTacToeTest {
             controller.startGame();
         } catch (NoSuchElementException e) {
             String output = outputRecorder.popLastOutput();
-            assertEquals(yourMoveThreeSquares + " X.", output);
+            String expected = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
+            assertEquals(expected, output);
         }
 
         view.clearInput();
@@ -383,7 +385,8 @@ public class GameControllerTest extends TicTacToeTest {
             controller.startGame();
         } catch (NoSuchElementException e) {
             String output = outputRecorder.popLastOutput();
-             assertEquals(yourMove + " X.", output);
+            String expected = MessageFormat.format(yourMove, 3) + " X.";
+             assertEquals(expected, output);
         }
 
         view.clearInput();
