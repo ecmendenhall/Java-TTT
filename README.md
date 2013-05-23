@@ -22,7 +22,7 @@ If ant isn't found, check out the installation instructions [here](https://ant.a
 
 Then, to run the bundled JUnit tests:
 
-    $ ant run-tests
+    $ ant test
 
 To run the Tic Tac Toe game, navigate to build/jar, then run:
 
