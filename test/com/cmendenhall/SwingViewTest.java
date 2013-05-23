@@ -235,8 +235,4 @@ public class SwingViewTest extends TicTacToeTest{
         assertEquals(3, boardConfigPanel.boardSize());
     }
 
-    @After
-    public void cleanUp() {
-        swingView.dispose();
-    }
 }
