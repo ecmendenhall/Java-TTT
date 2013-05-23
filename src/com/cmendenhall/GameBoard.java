@@ -50,7 +50,7 @@ public class GameBoard implements Board {
         int dividerLength = (int) Math.ceil(3.75 * rows.get(0).numberOfSquares());
 
         for (int i = 0; i < dividerLength; i++) {
-            divider += "\u2500";
+            divider += "-";
         }
 
         divider += "\n";

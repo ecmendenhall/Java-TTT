@@ -42,9 +42,9 @@ public class GameBoardTest extends TicTacToeTest {
     public void boardReturnsCorrectString() {
         String divider = makeDivider(noWins);
 
-        assertEquals(" O \u2502 O \u2502 X\n" + divider +
-                     " X \u2502 X \u2502 O\n" + divider +
-                     " O \u2502 X \u2502 X\n\n",
+        assertEquals(" O | O | X\n" + divider +
+                     " X | X | O\n" + divider +
+                     " O | X | X\n\n",
                      noWins.toString());
     }
     @Test

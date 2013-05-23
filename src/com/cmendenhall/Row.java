@@ -88,7 +88,7 @@ public class Row {
 
         for (int i = 0; i < nSquares - 1; i++) {
             String symbol = intToSymbol(squares[i]);
-            rowString += " " + symbol + " \u2502";
+            rowString += " " + symbol + " |";
         }
 
         String lastSquare = intToSymbol(squares[nSquares - 1]);

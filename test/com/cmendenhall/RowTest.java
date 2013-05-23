@@ -112,9 +112,9 @@ public class RowTest extends TicTacToeTest {
 
     @Test
     public void rowsReturnCorrectStrings() {
-        assertEquals(" X \u2502 X \u2502 O\n", xxo.toString());
-        assertEquals(" O \u2502 O \u2502 O\n", ooo.toString());
-        assertEquals(" O \u2502   \u2502  \n", new Row(new int[] { O, _, _ }).toString());
+        assertEquals(" X | X | O\n", xxo.toString());
+        assertEquals(" O | O | O\n", ooo.toString());
+        assertEquals(" O |   |  \n", new Row(new int[] { O, _, _ }).toString());
     }
 
     @Test
