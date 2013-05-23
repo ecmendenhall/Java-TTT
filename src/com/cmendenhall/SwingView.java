@@ -26,8 +26,6 @@ public class SwingView extends JFrame {
         add(new BoardPanel());
         add(new MessagePanel());
         add(new ConfigPanel());
-
-        setVisible(true);
     }
 
     public class MessagePanel extends JPanel {
