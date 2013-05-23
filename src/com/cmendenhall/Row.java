@@ -67,7 +67,7 @@ public class Row {
         return rowSum;
     }
 
-    protected String intToSymbol(int square) {
+    public String intToSymbol(int square) {
         switch (square) {
             case _:
                 return " ";
