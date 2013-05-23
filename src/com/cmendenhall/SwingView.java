@@ -1,11 +1,23 @@
 package com.cmendenhall;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ecm
- * Date: 5/23/13
- * Time: 9:46 AM
- * To change this template use File | Settings | File Templates.
- */
-public class SwingView {
+import javax.swing.*;
+import java.awt.*;
+
+public class SwingView extends JFrame {
+
+    public SwingView() {
+        /*JTextArea myAwesomeTextArea = new JTextArea("Check out this rad text area!");
+        myAwesomeTextArea.setEditable(false);
+        myAwesomeTextArea.setMargin(new Insets(25, 25, 25, 25));
+
+        JButton whoaCheckOutThisCoolButtonGuys = new JButton("Whoa check out this cool button");
+        JButton heyLookAtThisOtherButtonToo = new JButton("Hey wow look at this other button too");
+
+        setTitle("Hello World");
+        add(myAwesomeTextArea);
+        add(whoaCheckOutThisCoolButtonGuys);
+        add(heyLookAtThisOtherButtonToo);
+        pack();
+        setVisible(true);*/
+    }
 }
