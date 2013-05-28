@@ -37,4 +37,8 @@ public class TerminalView implements View {
         String input = io.readLine();
         return input;
     }
+
+    public void reload() {
+
+    }
 }

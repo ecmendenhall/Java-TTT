@@ -84,6 +84,9 @@ public class GameController implements Controller {
     private Board getBoardSize() {
         view.displayMessage(boardSize);
         String boardDimensions = view.getInput();
+        while (boardDimensions == "") {
+            boardDimensions = view.getInput();
+        }
         try {
             Integer size = Integer.parseInt(boardDimensions);
             if (size > 0) {
@@ -103,6 +106,9 @@ public class GameController implements Controller {
         String playerMessage = (number == X) ? choosePlayerOne : choosePlayerTwo;
         view.displayMessage(playerMessage);
         String playerType = view.getInput();
+        while (playerType == "") {
+            playerType = view.getInput();
+        }
         if (playerType.equals("h")) {
             return new HumanPlayer(number);
         } else if (playerType.equals("c")) {
@@ -115,6 +121,7 @@ public class GameController implements Controller {
     public void newGame() {
         view.displayMessage(welcome);
         view.displayMessage(divider);
+        view.reload();
         loadGame(new GameBoard());
     }
 
@@ -150,6 +157,7 @@ public class GameController implements Controller {
     }
 
     public void restartGame() throws GameOverException {
+        view.reload();
         view.displayMessage(playAgain);
         String restart = view.getInput();
         if (restart.equals("n")) {
@@ -189,6 +197,9 @@ public class GameController implements Controller {
         if (currentPlayer.isHuman()) {
             view.displayMessage(nextTurnMessage());
             String input = view.getInput();
+            while (input == "") {
+                input = view.getInput();
+            }
             try {
                 BoardCoordinate move;
                 if (board.getRows().size() == 3) {

@@ -10,4 +10,6 @@ public interface View {
 
     public void endGame() throws GameOverException;
 
+    public void reload();
+
 }
