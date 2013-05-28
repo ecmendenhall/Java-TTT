@@ -7,14 +7,21 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.cmendenhall.TicTacToeSymbols.*;
 
-public class SwingView extends JFrame {
+public class SwingView extends JFrame implements View {
     static final int WIDTH = 350;
     static final int HEIGHT = 700;
+    public BoardPanel boardPanel = new BoardPanel();
+    private MessagePanel messagePanel = new MessagePanel();
+    private ConfigPanel configPanel = new ConfigPanel();
 
     public SwingView() {
         setSize(WIDTH, HEIGHT);
@@ -23,20 +30,42 @@ public class SwingView extends JFrame {
         JPanel contentPane = (JPanel)getContentPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
-        add(new BoardPanel());
-        add(new MessagePanel());
-        add(new ConfigPanel());
+        add(boardPanel);
+        add(messagePanel);
+        add(configPanel);
+    }
+
+    public void displayBoard(Board board) {
+        boardPanel.loadBoard(board);
+    }
+
+    public void displayMessage(String message) {
+        JLabel messageLabel = messagePanel.getLabel();
+        messageLabel.setText(message);
+    }
+
+    public String getInput() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void endGame() throws GameOverException {
+        throw new GameOverException("Game over.");
     }
 
     public class MessagePanel extends JPanel {
+        private JLabel label;
 
         public MessagePanel() {
             setName("messagePanel");
 
-            JLabel label = new JLabel("Welcome to Tic-Tac-Toe");
+            label = new JLabel("Welcome to Tic-Tac-Toe");
             label.setName("messagePanelLabel");
 
             add(label);
+        }
+
+        public JLabel getLabel() {
+            return label;
         }
 
     }
@@ -70,9 +99,6 @@ public class SwingView extends JFrame {
 
             boardTable.setRowHeight(50);
 
-            JLabel boardLabel = new JLabel("Welcome to ttt");
-            boardLabel.setLabelFor(this);
-
             add(boardTable);
         }
 
@@ -93,9 +119,16 @@ public class SwingView extends JFrame {
 
         }
 
+        public void addBoardClickListener(MouseListener listener) {
+            boardTable.addMouseListener(listener);
+        }
+
     }
 
     public class ConfigPanel extends JPanel {
+        private BoardConfigPanel boardConfigPanel;
+        private PlayerConfigPanel playerOneConfigPanel;
+        private PlayerConfigPanel playerTwoConfigPanel;
 
         public ConfigPanel() {
             setName("configPanel");
@@ -104,20 +137,43 @@ public class SwingView extends JFrame {
             defaultSize.width = 200;
             setPreferredSize(defaultSize);
 
+            boardConfigPanel = new BoardConfigPanel();
+            playerOneConfigPanel = new PlayerConfigPanel("Player One", "playerOneConfigPanel");
+            playerTwoConfigPanel = new PlayerConfigPanel("Player Two", "playerTwoConfigPanel");
+
             add(new GameActionPanel());
-            add(new BoardConfigPanel());
-            add(new PlayerConfigPanel("Player One", "playerOneConfigPanel"));
-            add(new PlayerConfigPanel("Player Two", "playerTwoConfigPanel"));
+            add(boardConfigPanel);
+            add(playerOneConfigPanel);
+            add(playerTwoConfigPanel);
+        }
+
+        public HashMap getConfig() {
+            HashMap<String, Integer> configMap = new HashMap<String, Integer>();
+
+            Integer boardSize = boardConfigPanel.boardSize();
+            Integer playerOneHuman = (playerOneConfigPanel.humanSelected()) ? 1 : 0;
+            Integer playerTwoHuman = (playerTwoConfigPanel.humanSelected()) ? 1 : 0;
+
+            configMap.put("boardSize", boardSize);
+            configMap.put("playerOneHuman", playerOneHuman);
+            configMap.put("playerTwoHuman", playerTwoHuman);
+
+            return configMap;
         }
 
         public class GameActionPanel extends JPanel {
+            private JButton newGameButton;
 
             public GameActionPanel() {
                 setName("gameActionPanel");
 
-                JButton newGameButton = new JButton("New game");
+                newGameButton = new JButton("New game");
                 newGameButton.setName("newGameButton");
                 add(newGameButton);
+            }
+
+            public void addNewGameListener(ActionListener newGameListener) {
+                newGameButton.addActionListener(newGameListener);
             }
 
         }

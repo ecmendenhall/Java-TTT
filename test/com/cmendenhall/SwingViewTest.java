@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import javax.swing.*;
+import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 
 import static junit.framework.Assert.assertTrue;
@@ -18,6 +20,8 @@ import static org.junit.Assert.assertEquals;
 public class SwingViewTest extends TicTacToeTest{
 
     SwingView swingView;
+    private boolean newGameWasClicked;
+    private boolean boardWasClicked;
 
     @Before
     public void setUp() {
@@ -234,5 +238,93 @@ public class SwingViewTest extends TicTacToeTest{
 
         assertEquals(3, boardConfigPanel.boardSize());
     }
+
+    @Test
+    public void messagePanelShouldDisplayMessage() {
+        swingView.displayMessage("Shall we play a game?");
+
+        SwingView.MessagePanel messagePanel = (SwingView.MessagePanel)getComponent(swingView.getContentPane(), "messagePanel");
+        JLabel message = (JLabel)getComponent(messagePanel, "messagePanelLabel");
+        assertEquals("Shall we play a game?", message.getText());
+    }
+
+    @Test
+    public void messagePanelShouldDisplayBoard() {
+        swingView.displayBoard(noWins);
+
+        SwingView.BoardPanel boardPanel = (SwingView.BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
+        JTable board = (JTable)getComponent(boardPanel, "boardTable");
+
+        TableModel boardData = board.getModel();
+        String topLeft      = (String)boardData.getValueAt(0, 0);
+        String topMiddle    = (String)boardData.getValueAt(0, 1);
+        String topRight     = (String)boardData.getValueAt(0, 2);
+        String middleLeft   = (String)boardData.getValueAt(1, 0);
+        String middleCenter = (String)boardData.getValueAt(1, 1);
+        String middleRight  = (String)boardData.getValueAt(1, 2);
+        String lowerLeft    = (String)boardData.getValueAt(2, 0);
+        String lowerCenter  = (String)boardData.getValueAt(2, 1);
+        String lowerRight   = (String)boardData.getValueAt(2, 2);
+
+        assertEquals("O", topLeft);
+        assertEquals("O", topMiddle);
+        assertEquals("X", topRight);
+        assertEquals("X", middleLeft);
+        assertEquals("X", middleCenter);
+        assertEquals("O", middleRight);
+        assertEquals("O", lowerLeft);
+        assertEquals("X", lowerCenter);
+        assertEquals("X", lowerRight);
+    }
+
+    @Test(expected = GameOverException.class)
+    public void swingViewShouldEndGames() throws GameOverException {
+        swingView.endGame();
+    }
+
+    @Test
+    public void swingViewShouldListenForButtonClicks() {
+        SwingView.ConfigPanel configPanel = (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        SwingView.ConfigPanel.GameActionPanel actionPanel = (SwingView.ConfigPanel.GameActionPanel)getComponent(configPanel, "gameActionPanel");
+        JButton button = (JButton)getComponent(actionPanel, "newGameButton");
+
+        newGameWasClicked = false;
+        actionPanel.addNewGameListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                newGameWasClicked = true;
+            }
+        });
+
+        button.doClick();
+        assertTrue(newGameWasClicked);
+    }
+
+    /* @Test
+    public void swingViewShouldListenForBoardClicks() throws AWTException, InterruptedException {
+        SwingView.BoardPanel boardPanel = (SwingView.BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
+        final JTable boardTable = (JTable)getComponent(boardPanel, "boardTable");
+
+        boardPanel.addBoardClickListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int row = boardTable.rowAtPoint(e.getPoint());
+                    int column = boardTable.columnAtPoint(e.getPoint());
+                    if (row >= 0 && column >= 0) {
+                        assertEquals(1, row);
+                        assertEquals(1, column);
+                    }
+                }
+        });
+
+        swingView.setVisible(true);
+        Robot robot = new Robot();
+        robot.delay(500);
+        robot.mouseMove(160, 100);
+        robot.waitForIdle();
+        robot.mousePress(InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+
+    } */
+
 
 }
