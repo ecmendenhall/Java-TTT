@@ -1,4 +1,6 @@
-package com.cmendenhall;
+package com.cmendenhall.board;
+
+import com.cmendenhall.exceptions.InvalidMoveException;
 
 import java.util.List;
 

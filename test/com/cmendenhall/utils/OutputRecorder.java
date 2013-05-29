@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.utils;
 
 import java.io.OutputStream;
 import java.io.PrintStream;

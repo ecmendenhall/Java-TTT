@@ -1,4 +1,8 @@
-package com.cmendenhall;
+package com.cmendenhall.players;
+
+import com.cmendenhall.exceptions.InvalidMoveException;
+import com.cmendenhall.board.Board;
+import com.cmendenhall.board.BoardCoordinate;
 
 import static com.cmendenhall.TicTacToeSymbols.X;
 

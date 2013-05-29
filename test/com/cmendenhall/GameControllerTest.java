@@ -1,5 +1,12 @@
 package com.cmendenhall;
 
+import com.cmendenhall.controllers.GameController;
+import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.players.HumanPlayer;
+import com.cmendenhall.players.MinimaxPlayer;
+import com.cmendenhall.players.Player;
+import com.cmendenhall.mocks.MockTerminalView;
+import com.cmendenhall.utils.OutputRecorder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

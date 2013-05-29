@@ -1,4 +1,10 @@
-package com.cmendenhall;
+package com.cmendenhall.players;
+
+import com.cmendenhall.exceptions.InvalidMoveException;
+import com.cmendenhall.board.Board;
+import com.cmendenhall.board.BoardAnalyzer;
+import com.cmendenhall.board.BoardCoordinate;
+import com.cmendenhall.board.UniversalBoardCoordinate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +16,7 @@ import static com.cmendenhall.TicTacToeSymbols.X;
 public class MinimaxPlayer extends GamePlayer {
     private HashMap<Board, Integer> scoreCache = new HashMap<Board, Integer>();
 
-    MinimaxPlayer(int playerNumber) {
+    public MinimaxPlayer(int playerNumber) {
         super(playerNumber);
     }
 
@@ -40,13 +46,13 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    protected int calculateDepth(Board board) {
+    public int calculateDepth(Board board) {
         int size = board.getSize();
         int lookAheadDepth = 12 - 4 * (size - 2);
         return Math.max(2, lookAheadDepth);
     }
 
-    protected boolean isTerminal(Board board) {
+    public boolean isTerminal(Board board) {
         return BoardAnalyzer.isFull(board) || BoardAnalyzer.hasWin(board);
     }
 
@@ -95,7 +101,7 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    protected int randomMoveLimit(Board board) {
+    public int randomMoveLimit(Board board) {
         return board.getSize() + (2 - getGamePiece());
     }
 

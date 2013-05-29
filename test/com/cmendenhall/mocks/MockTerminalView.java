@@ -1,4 +1,6 @@
-package com.cmendenhall;
+package com.cmendenhall.mocks;
+
+import com.cmendenhall.views.TerminalView;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;

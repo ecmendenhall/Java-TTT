@@ -1,4 +1,6 @@
-package com.cmendenhall;
+package com.cmendenhall.mocks;
+
+import com.cmendenhall.views.io.CharStreamConsole;
 
 public class TestConsole extends CharStreamConsole {
 

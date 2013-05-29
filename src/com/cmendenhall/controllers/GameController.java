@@ -1,4 +1,14 @@
-package com.cmendenhall;
+package com.cmendenhall.controllers;
+
+import com.cmendenhall.board.*;
+import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.exceptions.InvalidBoardException;
+import com.cmendenhall.exceptions.InvalidCoordinateException;
+import com.cmendenhall.exceptions.InvalidMoveException;
+import com.cmendenhall.players.HumanPlayer;
+import com.cmendenhall.players.MinimaxPlayer;
+import com.cmendenhall.players.Player;
+import com.cmendenhall.views.View;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -84,8 +94,13 @@ public class GameController implements Controller {
     private Board getBoardSize() {
         view.displayMessage(boardSize);
         String boardDimensions = view.getInput();
-        while (boardDimensions == "") {
+        while (boardDimensions == "" || boardDimensions == null) {
             boardDimensions = view.getInput();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         try {
             Integer size = Integer.parseInt(boardDimensions);
@@ -106,8 +121,13 @@ public class GameController implements Controller {
         String playerMessage = (number == X) ? choosePlayerOne : choosePlayerTwo;
         view.displayMessage(playerMessage);
         String playerType = view.getInput();
-        while (playerType == "") {
+        while (playerType == "" || playerType == null) {
             playerType = view.getInput();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (playerType.equals("h")) {
             return new HumanPlayer(number);
@@ -197,8 +217,13 @@ public class GameController implements Controller {
         if (currentPlayer.isHuman()) {
             view.displayMessage(nextTurnMessage());
             String input = view.getInput();
-            while (input == "") {
+            while (input == "" || input == null) {
                 input = view.getInput();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             try {
                 BoardCoordinate move;
@@ -217,6 +242,11 @@ public class GameController implements Controller {
                 return getNextMove();
             }
         } else {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             MinimaxPlayer ai = (MinimaxPlayer) currentPlayer;
             return ai.bestMove(board);
         }

@@ -1,4 +1,10 @@
-package com.cmendenhall;
+package com.cmendenhall.views;
+
+import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.board.Board;
+import com.cmendenhall.views.io.CharStreamConsole;
+import com.cmendenhall.views.io.IOHandler;
+import com.cmendenhall.views.io.SystemConsole;
 
 public class TerminalView implements View {
     private IOHandler io;

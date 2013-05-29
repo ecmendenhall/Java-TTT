@@ -1,4 +1,16 @@
 package com.cmendenhall;
+import com.cmendenhall.board.Board;
+import com.cmendenhall.board.GameBoard;
+import com.cmendenhall.board.Row;
+import com.cmendenhall.board.ThreeByThreeBoardCoordinate;
+import com.cmendenhall.controllers.Controller;
+import com.cmendenhall.controllers.GameController;
+import com.cmendenhall.exceptions.InvalidBoardException;
+import com.cmendenhall.exceptions.InvalidCoordinateException;
+import com.cmendenhall.exceptions.InvalidMoveException;
+import com.cmendenhall.players.MinimaxPlayer;
+import com.cmendenhall.mocks.MockTerminalView;
+import com.cmendenhall.utils.OutputRecorder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

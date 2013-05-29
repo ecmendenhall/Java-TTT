@@ -1,5 +1,7 @@
 package com.cmendenhall;
 
+import com.cmendenhall.board.ThreeByThreeBoardCoordinate;
+import com.cmendenhall.exceptions.InvalidCoordinateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

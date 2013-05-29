@@ -1,4 +1,7 @@
-package com.cmendenhall;
+package com.cmendenhall.board;
+
+import com.cmendenhall.board.BoardCoordinate;
+import com.cmendenhall.exceptions.InvalidCoordinateException;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,7 +73,7 @@ public class ThreeByThreeBoardCoordinate implements BoardCoordinate {
         column = Integer.parseInt(coordinates[1].trim());
     }
 
-    ThreeByThreeBoardCoordinate(String locationPhrase) throws InvalidCoordinateException {
+    public ThreeByThreeBoardCoordinate(String locationPhrase) throws InvalidCoordinateException {
         if (locationPhrase.matches(coordRegEx)) {
             makeOrderedPairCoordinate(locationPhrase);
         } else {

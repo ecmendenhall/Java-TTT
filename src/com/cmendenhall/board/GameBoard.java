@@ -1,4 +1,7 @@
-package com.cmendenhall;
+package com.cmendenhall.board;
+
+import com.cmendenhall.exceptions.InvalidBoardException;
+import com.cmendenhall.exceptions.InvalidMoveException;
 
 import java.util.ArrayList;
 import java.util.Arrays;

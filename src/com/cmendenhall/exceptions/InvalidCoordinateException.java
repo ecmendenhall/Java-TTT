@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.exceptions;
 
 public class InvalidCoordinateException extends Exception {
 

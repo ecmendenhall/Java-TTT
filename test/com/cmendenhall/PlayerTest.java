@@ -1,4 +1,11 @@
 package com.cmendenhall;
+import com.cmendenhall.board.Board;
+import com.cmendenhall.board.GameBoard;
+import com.cmendenhall.board.UniversalBoardCoordinate;
+import com.cmendenhall.exceptions.InvalidCoordinateException;
+import com.cmendenhall.exceptions.InvalidMoveException;
+import com.cmendenhall.players.HumanPlayer;
+import com.cmendenhall.players.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

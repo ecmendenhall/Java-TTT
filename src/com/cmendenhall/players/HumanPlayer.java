@@ -1,8 +1,8 @@
-package com.cmendenhall;
+package com.cmendenhall.players;
 
 public class HumanPlayer extends GamePlayer {
 
-    HumanPlayer(int playerNumber) {
+    public HumanPlayer(int playerNumber) {
         super(playerNumber);
     }
 

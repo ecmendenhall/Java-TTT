@@ -1,4 +1,6 @@
-package com.cmendenhall;
+package com.cmendenhall.board;
+
+import com.cmendenhall.exceptions.InvalidCoordinateException;
 
 public class UniversalBoardCoordinate implements BoardCoordinate {
     private final Integer row;

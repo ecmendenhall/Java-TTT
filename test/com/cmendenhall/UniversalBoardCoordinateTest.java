@@ -1,5 +1,8 @@
 package com.cmendenhall;
 
+import com.cmendenhall.board.BoardCoordinate;
+import com.cmendenhall.board.UniversalBoardCoordinate;
+import com.cmendenhall.exceptions.InvalidCoordinateException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

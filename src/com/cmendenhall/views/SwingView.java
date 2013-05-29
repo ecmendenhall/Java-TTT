@@ -1,4 +1,9 @@
-package com.cmendenhall;
+package com.cmendenhall.views;
+
+import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.board.Board;
+import com.cmendenhall.board.GameBoard;
+import com.cmendenhall.board.Row;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -74,7 +79,7 @@ public class SwingView extends JFrame implements View {
     }
 
     public void displayMessage(String message) {
-        if (message.indexOf("move") != -1) {
+        if (message.contains("move")) {
             int endStart = message.indexOf("player") + 6;
             String ending = message.substring(endStart);
             message = "Your move, player" + ending;
@@ -287,6 +292,7 @@ public class SwingView extends JFrame implements View {
             public void addNewGameListener() {
                 ActionListener newGameListener = new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
+                        displayMessage(" ");
                         enqueueConfig();
                         int boardSize = Integer.parseInt(boardConfigPanel.boardSize());
                         int newWidth = Math.max((boardSize + 1) * 50, 350);

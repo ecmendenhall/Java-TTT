@@ -1,4 +1,7 @@
-package com.cmendenhall;
+package com.cmendenhall.views;
+
+import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.board.Board;
 
 public interface View {
 

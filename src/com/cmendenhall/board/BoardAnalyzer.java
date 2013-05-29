@@ -1,8 +1,9 @@
-package com.cmendenhall;
+package com.cmendenhall.board;
+
+import com.cmendenhall.exceptions.InvalidMoveException;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.cmendenhall.TicTacToeSymbols.*;
 
 public class BoardAnalyzer {
@@ -61,7 +62,7 @@ public class BoardAnalyzer {
         }
     }
 
-    protected static int sum(Board board) {
+    public static int sum(Board board) {
         int sum = 0;
         for (Row row : board.getRows()) {
             sum += row.sum();

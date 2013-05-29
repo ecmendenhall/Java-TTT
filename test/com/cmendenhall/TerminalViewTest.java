@@ -1,5 +1,8 @@
 package com.cmendenhall;
 
+import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.views.TerminalView;
+import com.cmendenhall.mocks.TestConsole;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

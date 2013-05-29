@@ -1,5 +1,9 @@
 package com.cmendenhall;
 
+import com.cmendenhall.board.*;
+import com.cmendenhall.players.HumanPlayer;
+import com.cmendenhall.players.MinimaxPlayer;
+import com.cmendenhall.players.Player;
 import org.junit.Before;
 
 import java.io.ByteArrayOutputStream;
