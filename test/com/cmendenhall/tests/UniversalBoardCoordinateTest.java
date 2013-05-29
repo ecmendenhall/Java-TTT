@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 import com.cmendenhall.board.BoardCoordinate;
 import com.cmendenhall.board.UniversalBoardCoordinate;

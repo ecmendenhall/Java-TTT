@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 
 import org.junit.Test;

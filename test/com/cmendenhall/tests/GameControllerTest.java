@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 import com.cmendenhall.controllers.GameController;
 import com.cmendenhall.exceptions.GameOverException;
@@ -20,9 +20,10 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
+import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
-public class GameControllerTest extends TicTacToeTest {
+public class GameControllerTest {
 
     private MockTerminalView view = new MockTerminalView();
     private GameController controller = new GameController(view);
@@ -94,7 +95,7 @@ public class GameControllerTest extends TicTacToeTest {
     public void controllerShouldLoadGames() throws GameOverException {
         view.enqueueInput("n");
 
-        controller.loadGame(noWins);
+        controller.loadGame(TicTacToeTest.noWins);
         controller.playRound();
     }
 
@@ -153,9 +154,9 @@ public class GameControllerTest extends TicTacToeTest {
         try {
             controller.startGame();
         } catch (Exception e) {
-            String expectedFirst = emptyBoard.toString();
+            String expectedFirst = TicTacToeTest.emptyBoard.toString();
             String expectedSecond = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
-            String expectedThird = xInCenter.toString();
+            String expectedThird = TicTacToeTest.xInCenter.toString();
 
             String outputFirst = outputRecorder.popFirstOutput();
             String outputSecond = outputRecorder.popFirstOutput();
@@ -219,7 +220,7 @@ public class GameControllerTest extends TicTacToeTest {
     @Test
     public void controllerShouldPrintWinnerMessageAfterWin() throws GameOverException {
         view.enqueueInput("n");
-        controller.loadGame(playerXWins);
+        controller.loadGame(TicTacToeTest.playerXWins);
 
         System.setOut(outputRecorder);
 

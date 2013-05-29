@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.views.TerminalView;
@@ -14,7 +14,7 @@ import java.io.PrintStream;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class TerminalViewTest extends TicTacToeTest {
+public class TerminalViewTest {
 
     private TerminalView view = new TerminalView();
     private TestConsole console = new TestConsole();
@@ -33,8 +33,8 @@ public class TerminalViewTest extends TicTacToeTest {
     public void viewShouldDisplayBoard() {
         System.setOut(outputStream);
 
-        view.displayBoard(noWins);
-        String expected = noWins.toString() + "\n";
+        view.displayBoard(TicTacToeTest.noWins);
+        String expected = TicTacToeTest.noWins.toString() + "\n";
         assertEquals(expected, output.toString());
 
         System.setOut(stdout);

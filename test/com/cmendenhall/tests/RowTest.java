@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 import com.cmendenhall.board.Row;
 import org.junit.After;
@@ -11,9 +11,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.*;
+import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
-public class RowTest extends TicTacToeTest {
+public class RowTest {
 
     public Row empty = new Row(_, _, _);
     public Row xxo = new Row(X, X, O);
@@ -126,6 +127,6 @@ public class RowTest extends TicTacToeTest {
 
     @After
     public void cleanUp() {
-        System.setOut(stdout);
+        System.setOut(TicTacToeTest.stdout);
     }
 }

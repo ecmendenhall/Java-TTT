@@ -2,8 +2,7 @@ package com.cmendenhall;
 
 import com.cmendenhall.controllers.Controller;
 import com.cmendenhall.controllers.GameController;
-import com.cmendenhall.views.SwingView;
-import com.cmendenhall.views.TerminalView;
+import com.cmendenhall.views.swing.SwingView;
 
 public class Main {
 

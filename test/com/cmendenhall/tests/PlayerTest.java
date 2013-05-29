@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 import com.cmendenhall.board.Board;
 import com.cmendenhall.board.GameBoard;
 import com.cmendenhall.board.UniversalBoardCoordinate;
@@ -6,15 +6,17 @@ import com.cmendenhall.exceptions.InvalidCoordinateException;
 import com.cmendenhall.exceptions.InvalidMoveException;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.Player;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.assertEquals;
+import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
-public class PlayerTest extends TicTacToeTest {
+public class PlayerTest {
 
     private Player playerX;
     private Board board;
@@ -37,7 +39,7 @@ public class PlayerTest extends TicTacToeTest {
 
     @Test
     public void playerOHasSymbol() {
-        assertEquals('O', playerO.getSymbol());
+        Assert.assertEquals('O', TicTacToeTest.playerO.getSymbol());
     }
 
     @Test
@@ -49,16 +51,16 @@ public class PlayerTest extends TicTacToeTest {
 
     @Test
     public void playerCorrectlyScoresWinningBoard() {
-        assertEquals(-1, playerO.scoreBoard(playerXWins));
+        Assert.assertEquals(-1, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.playerXWins));
     }
 
     @Test
     public void playerCorrectlyScoresBoardWithoutWin() {
-        assertEquals(0, playerO.scoreBoard(noWins));
+        Assert.assertEquals(0, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.noWins));
     }
 
     @Test
     public void playerCorrectlyScoresLosingBoard() {
-        assertEquals(1, playerO.scoreBoard(playerOWins));
+        Assert.assertEquals(1, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.playerOWins));
     }
 }

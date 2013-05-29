@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 import com.cmendenhall.board.Board;
 import com.cmendenhall.board.GameBoard;
 import com.cmendenhall.board.Row;
@@ -11,6 +11,7 @@ import com.cmendenhall.exceptions.InvalidMoveException;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.mocks.MockTerminalView;
 import com.cmendenhall.utils.OutputRecorder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,16 +24,17 @@ import java.io.UnsupportedEncodingException;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
-public class MinimaxPlayerTest extends TicTacToeTest {
+public class MinimaxPlayerTest {
 
     private MinimaxPlayer playerX;
 
     @Before
     public void setUp() throws InvalidCoordinateException, InvalidMoveException {
         playerX = new MinimaxPlayer(X);
-        board = playerX.move(new ThreeByThreeBoardCoordinate("middle center"), new GameBoard());
+        TicTacToeTest.board = playerX.move(new ThreeByThreeBoardCoordinate("middle center"), new GameBoard());
     }
 
     @Test
@@ -42,17 +44,17 @@ public class MinimaxPlayerTest extends TicTacToeTest {
 
     @Test
     public void winningBoardScoreIsOne() {
-        assertEquals(1, playerO.scoreBoard(playerOWins));
+        Assert.assertEquals(1, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.playerOWins));
     }
 
     @Test
     public void drawBoardScoreIsZero() {
-        assertEquals(0, playerO.scoreBoard(noWins));
+        Assert.assertEquals(0, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.noWins));
     }
 
     @Test
     public void losingBoardScoreIsNegativeOne() {
-        assertEquals(-1, playerO.scoreBoard(playerXWins));
+        Assert.assertEquals(-1, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.playerXWins));
     }
 
     @Test
@@ -61,8 +63,8 @@ public class MinimaxPlayerTest extends TicTacToeTest {
                                         new Row(X, O, _),
                                         new Row(X, _, O) );
 
-        Board actual = playerX.bestMove(playerXCanWin);
-        assertSameBoard(expected, actual);
+        Board actual = playerX.bestMove(TicTacToeTest.playerXCanWin);
+        TicTacToeTest.assertSameBoard(expected, actual);
     }
 
     @Test
@@ -71,8 +73,8 @@ public class MinimaxPlayerTest extends TicTacToeTest {
                                         new Row(O, O, O),
                                         new Row(X, X, _));
 
-        Board actual = playerO.bestMove(playerOCanWin);
-        assertSameBoard(expected, actual);
+        Board actual = TicTacToeTest.playerO.bestMove(TicTacToeTest.playerOCanWin);
+        TicTacToeTest.assertSameBoard(expected, actual);
     }
 
     @Test
@@ -81,14 +83,14 @@ public class MinimaxPlayerTest extends TicTacToeTest {
                                         new Row(_, X, _),
                                         new Row(X, O, O) );
 
-        Board actual = playerX.bestMove(playerXShouldBlock);
-        assertSameBoard(expected, actual);
+        Board actual = playerX.bestMove(TicTacToeTest.playerXShouldBlock);
+        TicTacToeTest.assertSameBoard(expected, actual);
 
     }
 
     @Test
     public void threeByThreeLookAheadDepthIsEight() {
-        assertEquals(8, playerX.calculateDepth(xInCenter));
+        assertEquals(8, playerX.calculateDepth(TicTacToeTest.xInCenter));
     }
 
     @Test
@@ -104,18 +106,18 @@ public class MinimaxPlayerTest extends TicTacToeTest {
 
     @Test
     public void fullBoardIsTerminalNode() {
-        assertTrue(playerX.isTerminal(noWins));
+        assertTrue(playerX.isTerminal(TicTacToeTest.noWins));
 
     }
 
     @Test
     public void winningBoardIsTerminalNode() {
-        assertTrue(playerX.isTerminal(playerXWins));
+        assertTrue(playerX.isTerminal(TicTacToeTest.playerXWins));
     }
 
     @Test
     public void boardWithEmptySpacesAndNoWinIsNotTerminal() {
-        assertFalse(playerX.isTerminal(playerONext));
+        assertFalse(playerX.isTerminal(TicTacToeTest.playerONext));
     }
 
     @Test
@@ -132,13 +134,13 @@ public class MinimaxPlayerTest extends TicTacToeTest {
 
     @Test
     public void playerOCanWaitThreeTurnsOnThreeByThreeBoard() {
-        int randomMoves = playerO.randomMoveLimit(new GameBoard());
+        int randomMoves = TicTacToeTest.playerO.randomMoveLimit(new GameBoard());
         assertEquals(3, randomMoves);
     }
 
     @Test
     public void playerOCanWaitFourTurnsOnFourByFourBoard() throws InvalidBoardException {
-        int randomMoves = playerO.randomMoveLimit(new GameBoard(4));
+        int randomMoves = TicTacToeTest.playerO.randomMoveLimit(new GameBoard(4));
         assertEquals(4, randomMoves);
     }
 

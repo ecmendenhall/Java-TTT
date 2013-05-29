@@ -1,7 +1,7 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 import com.cmendenhall.exceptions.GameOverException;
-import com.cmendenhall.views.SwingView;
+import com.cmendenhall.views.swing.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +15,9 @@ import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
-public class SwingViewTest extends TicTacToeTest{
+public class SwingViewTest {
 
-    SwingView swingView;
-    private boolean newGameWasClicked;
-    private boolean boardWasClicked;
+    private SwingView swingView;
 
     @Before
     public void setUp() {
@@ -43,8 +41,8 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void swingViewHasMessagePanel() {
-        SwingView.MessagePanel messagePanel =
-                (SwingView.MessagePanel)getComponent(swingView.getContentPane(), "messagePanel");
+        MessagePanel messagePanel =
+                (MessagePanel)getComponent(swingView.getContentPane(), "messagePanel");
         JLabel label =
                 (JLabel)getComponent(messagePanel, "messagePanelLabel");
         assertTrue(label.isVisible());
@@ -53,15 +51,15 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void swingViewHasBoardPanel() {
-        SwingView.BoardPanel boardPanel =
-                (SwingView.BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
+        BoardPanel boardPanel =
+                (BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
         assertTrue(boardPanel.isVisible());
     }
 
     @Test
     public void boardPanelContainsJTable() {
-        SwingView.BoardPanel boardPanel =
-                (SwingView.BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
+        BoardPanel boardPanel =
+                (BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
         JTable boardTable =
                 (JTable)getComponent(boardPanel, "boardTable");
         assertTrue(boardTable.isVisible());
@@ -69,34 +67,34 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void boardPanelCorrectlyDisplaysBoard() {
-        SwingView.BoardPanel boardPanel =
-                (SwingView.BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
-        boardPanel.loadBoard(noWins);
+        BoardPanel boardPanel =
+                (BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
+        boardPanel.loadBoard(TicTacToeTest.noWins);
     }
 
     @Test
     public void swingViewHasConfigPanel() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
         assertTrue(configPanel.isVisible());
     }
 
     @Test
     public void configPanelHasGameActionPanel() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
 
-        SwingView.ConfigPanel.GameActionPanel gameActionPanel =
-                (SwingView.ConfigPanel.GameActionPanel)getComponent(configPanel, "gameActionPanel");
+        GameActionPanel gameActionPanel =
+                (GameActionPanel)getComponent(configPanel, "gameActionPanel");
     }
 
     @Test
     public void gameActionPanelHasNewGameButton() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
 
-        SwingView.ConfigPanel.GameActionPanel gameActionPanel =
-                (SwingView.ConfigPanel.GameActionPanel)getComponent(configPanel, "gameActionPanel");
+        GameActionPanel gameActionPanel =
+                (GameActionPanel)getComponent(configPanel, "gameActionPanel");
 
         JButton newGameButton =
                 (JButton)getComponent(gameActionPanel, "newGameButton");
@@ -108,11 +106,11 @@ public class SwingViewTest extends TicTacToeTest{
     @Test
     public void newGameButtonHasCorrectLabel() {
 
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
 
-        SwingView.ConfigPanel.GameActionPanel gameActionPanel =
-                (SwingView.ConfigPanel.GameActionPanel)getComponent(configPanel, "gameActionPanel");
+        GameActionPanel gameActionPanel =
+                (GameActionPanel)getComponent(configPanel, "gameActionPanel");
 
         JButton newGameButton =
                 (JButton)getComponent(gameActionPanel, "newGameButton");
@@ -122,29 +120,29 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void configPanelHasPlayerOneConfigPanel() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.PlayerConfigPanel playerOneConfigPanel =
-                (SwingView.ConfigPanel.PlayerConfigPanel)getComponent(configPanel, "playerOneConfigPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        PlayerConfigPanel playerOneConfigPanel =
+                (PlayerConfigPanel)getComponent(configPanel, "playerOneConfigPanel");
         assertTrue(playerOneConfigPanel.isVisible());
     }
 
 
     @Test
     public void configPanelHasPlayerTwoConfigPanel() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.PlayerConfigPanel playerTwoConfigPanel =
-                (SwingView.ConfigPanel.PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        PlayerConfigPanel playerTwoConfigPanel =
+                (PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
         assertTrue(playerTwoConfigPanel.isVisible());
     }
 
     @Test
     public void playerConfigPanelHasTwoRadioButtons() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.PlayerConfigPanel playerTwoConfigPanel =
-                (SwingView.ConfigPanel.PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        PlayerConfigPanel playerTwoConfigPanel =
+                (PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
         JRadioButton humanButton =
                 (JRadioButton)getComponent(playerTwoConfigPanel, "humanButton");
         JRadioButton computerButton =
@@ -155,10 +153,10 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void playerConfigPanelHasCorrectLabel() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.PlayerConfigPanel playerTwoConfigPanel =
-                (SwingView.ConfigPanel.PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        PlayerConfigPanel playerTwoConfigPanel =
+                (PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
         JLabel playerTwo =
                 (JLabel)getComponent(playerTwoConfigPanel, "playerLabel");
         assertEquals("Player O", playerTwo.getText());
@@ -166,19 +164,19 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void playerConfigPanelStoresPlayerConfigState() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.PlayerConfigPanel playerTwoConfigPanel =
-                (SwingView.ConfigPanel.PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        PlayerConfigPanel playerTwoConfigPanel =
+                (PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
         assertTrue(playerTwoConfigPanel.humanSelected());
     }
 
     @Test
     public void radioButtonsHaveCorrectLabels() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.PlayerConfigPanel playerTwoConfigPanel =
-                (SwingView.ConfigPanel.PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        PlayerConfigPanel playerTwoConfigPanel =
+                (PlayerConfigPanel)getComponent(configPanel, "playerTwoConfigPanel");
         JRadioButton humanButton =
                 (JRadioButton)getComponent(playerTwoConfigPanel, "humanButton");
         JRadioButton computerButton =
@@ -189,21 +187,21 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void configPanelHasBoardConfigPanel() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
 
-        SwingView.ConfigPanel.BoardConfigPanel boardConfigPanel =
-                (SwingView.ConfigPanel.BoardConfigPanel)getComponent(configPanel, "boardConfigPanel");
+        BoardConfigPanel boardConfigPanel =
+                (BoardConfigPanel)getComponent(configPanel, "boardConfigPanel");
         assertTrue(boardConfigPanel.isVisible());
     }
 
     @Test
     public void boardConfigPanelHasBoardSizeSpinner() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
 
-        SwingView.ConfigPanel.BoardConfigPanel boardConfigPanel =
-                (SwingView.ConfigPanel.BoardConfigPanel)getComponent(configPanel, "boardConfigPanel");
+        BoardConfigPanel boardConfigPanel =
+                (BoardConfigPanel)getComponent(configPanel, "boardConfigPanel");
 
         JSpinner boardSizeSpinner =
                 (JSpinner)getComponent(boardConfigPanel, "boardSizeSpinner");
@@ -213,11 +211,11 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void boardConfigPanelSpinnerStoresSpinnerState() {
-        SwingView.ConfigPanel configPanel =
-                (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        ConfigPanel configPanel =
+                (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
 
-        SwingView.ConfigPanel.BoardConfigPanel boardConfigPanel =
-                (SwingView.ConfigPanel.BoardConfigPanel)getComponent(configPanel, "boardConfigPanel");
+        BoardConfigPanel boardConfigPanel =
+                (BoardConfigPanel)getComponent(configPanel, "boardConfigPanel");
 
         assertEquals("3", boardConfigPanel.boardSize());
     }
@@ -226,16 +224,16 @@ public class SwingViewTest extends TicTacToeTest{
     public void messagePanelShouldDisplayMessage() {
         swingView.displayMessage("Shall we play a game?");
 
-        SwingView.MessagePanel messagePanel = (SwingView.MessagePanel)getComponent(swingView.getContentPane(), "messagePanel");
+        MessagePanel messagePanel = (MessagePanel)getComponent(swingView.getContentPane(), "messagePanel");
         JLabel message = (JLabel)getComponent(messagePanel, "messagePanelLabel");
         assertEquals("Shall we play a game?", message.getText());
     }
 
     @Test
     public void messagePanelShouldDisplayBoard() {
-        swingView.displayBoard(noWins);
+        swingView.displayBoard(TicTacToeTest.noWins);
 
-        SwingView.BoardPanel boardPanel = (SwingView.BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
+        BoardPanel boardPanel = (BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
         JTable board = (JTable)getComponent(boardPanel, "boardTable");
 
         TableModel boardData = board.getModel();
@@ -267,8 +265,8 @@ public class SwingViewTest extends TicTacToeTest{
 
     @Test
     public void swingViewShouldListenForButtonClicks() {
-        SwingView.ConfigPanel configPanel = (SwingView.ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
-        SwingView.ConfigPanel.GameActionPanel actionPanel = (SwingView.ConfigPanel.GameActionPanel)getComponent(configPanel, "gameActionPanel");
+        ConfigPanel configPanel = (ConfigPanel)getComponent(swingView.getContentPane(), "configPanel");
+        GameActionPanel actionPanel = (GameActionPanel)getComponent(configPanel, "gameActionPanel");
         JButton button = (JButton)getComponent(actionPanel, "newGameButton");
 
         button.doClick();

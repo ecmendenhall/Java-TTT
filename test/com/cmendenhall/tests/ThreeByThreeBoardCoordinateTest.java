@@ -1,4 +1,4 @@
-package com.cmendenhall;
+package com.cmendenhall.tests;
 
 import com.cmendenhall.board.ThreeByThreeBoardCoordinate;
 import com.cmendenhall.exceptions.InvalidCoordinateException;
