@@ -1,10 +1,13 @@
 package com.cmendenhall;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 import java.util.Properties;

@@ -3,7 +3,8 @@ package com.cmendenhall;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class OutputRecorder extends PrintStream {
     private Deque<String> outputStack;

@@ -1,4 +1,5 @@
 package com.cmendenhall;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,10 +9,7 @@ import org.junit.runners.JUnit4;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class RowTest extends TicTacToeTest {

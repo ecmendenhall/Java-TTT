@@ -1,38 +1,32 @@
 package com.cmendenhall;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicBorders;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import static com.cmendenhall.TicTacToeSymbols.*;
 
 public class SwingView extends JFrame implements View {
     static final int WIDTH = 350;
-    static final int HEIGHT = 700;
+    static final int HEIGHT = 400;
+
     public BoardPanel boardPanel = new BoardPanel();
     private MessagePanel messagePanel = new MessagePanel();
     private ConfigPanel configPanel = new ConfigPanel();
     private Queue<String> inputQ = new LinkedBlockingQueue<String>();
 
-    private String welcome;
     private String divider;
-    private String yourMove;
-    private String yourMoveThreeSquares;
     private String playAgain;
-    private String gameOverDraw;
-    private String gameOverWin;
-    private String xWins;
-    private String oWins;
     private String choosePlayerOne;
     private String choosePlayerTwo;
     private String boardSize;
@@ -41,12 +35,14 @@ public class SwingView extends JFrame implements View {
 
     public SwingView() {
         loadViewStrings();
+        setTitle("Tic Tac Toe");
         setSize(WIDTH, HEIGHT);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel contentPane = (JPanel)getContentPane();
-        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
+        add(Box.createRigidArea(new Dimension(100, 25)));
         add(boardPanel);
         add(messagePanel);
         add(configPanel);
@@ -60,15 +56,8 @@ public class SwingView extends JFrame implements View {
             System.out.println(e);
         }
 
-        welcome = viewStrings.getProperty("welcome");
         divider = viewStrings.getProperty("divider");
-        yourMove = viewStrings.getProperty("yourmove");
-        yourMoveThreeSquares = viewStrings.getProperty("yourmovethreesquares");
         playAgain = viewStrings.getProperty("playagain");
-        gameOverDraw = viewStrings.getProperty("gameoverdraw");
-        gameOverWin = viewStrings.getProperty("gameoverwin");
-        xWins = viewStrings.getProperty("xwins");
-        oWins = viewStrings.getProperty("owins");
         choosePlayerOne = viewStrings.getProperty("chooseplayerone");
         choosePlayerTwo = viewStrings.getProperty("chooseplayertwo");
         boardSize = viewStrings.getProperty("boardsize");
@@ -121,6 +110,10 @@ public class SwingView extends JFrame implements View {
         configPanel.enableNewGameButton();
     }
 
+    public void resizeWindow(int width, int height) {
+        setSize(width, height);
+    }
+
     public class MessagePanel extends JPanel {
         private JLabel label;
 
@@ -129,6 +122,12 @@ public class SwingView extends JFrame implements View {
 
             label = new JLabel("Welcome to Tic-Tac-Toe");
             label.setName("messagePanelLabel");
+
+            Dimension defaultSize = getSize();
+            defaultSize.height = 100;
+            defaultSize.width = 350;
+            setPreferredSize(defaultSize);
+            setMaximumSize(defaultSize);
 
             add(label);
         }
@@ -141,17 +140,20 @@ public class SwingView extends JFrame implements View {
 
     public class BoardPanel extends JPanel {
         private JTable boardTable;
+        private DefaultTableModel boardData;
+        private DefaultTableCellRenderer centeredRenderer;
 
         public BoardPanel() {
             setName("boardPanel");
 
-            Dimension defaultSize = getSize();
-            defaultSize.height = 150;
-            setPreferredSize(defaultSize);
+            Dimension maxSize = new Dimension(600, 600);
+            setMaximumSize(maxSize);
+
+            centeredRenderer = new DefaultTableCellRenderer();
+            centeredRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 
             boardTable = new JTable();
 
-            loadBoard(new GameBoard());
             boardTable.setName("boardTable");
             boardTable.setShowVerticalLines(true);
             boardTable.setShowHorizontalLines(true);
@@ -159,7 +161,18 @@ public class SwingView extends JFrame implements View {
             boardTable.setColumnSelectionAllowed(false);
             boardTable.setRowSelectionAllowed(false);
             boardTable.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 28));
+            boardTable.setAutoCreateColumnsFromModel(true);
 
+            boardData = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            boardTable.setModel(boardData);
+
+            loadBoard(new GameBoard());
             formatBoard();
 
             add(boardTable);
@@ -167,12 +180,11 @@ public class SwingView extends JFrame implements View {
         }
 
         private void formatBoard() {
-            DefaultTableCellRenderer centeredRenderer = new DefaultTableCellRenderer();
-            centeredRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
 
-
-            int numberOfColumns = boardTable.getColumnModel().getColumnCount();
             TableColumnModel columnModel = boardTable.getColumnModel();
+            int numberOfColumns = columnModel.getColumnCount();
+
+            boardTable.setRowHeight(50);
 
             for (int column=0; column < numberOfColumns; column++) {
                 TableColumn currentColumn = columnModel.getColumn(column);
@@ -180,28 +192,27 @@ public class SwingView extends JFrame implements View {
                 currentColumn.setCellRenderer(centeredRenderer);
             }
 
-            boardTable.setRowHeight(50);
         }
 
         public void loadBoard(Board board) {
+            setVisible(false);
             List<Row> rows = board.getRows();
-            DefaultTableModel tableData = new DefaultTableModel(rows.size(), rows.size()) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
-                }
-            };
+            int boardSize = rows.size();
+
+            boardData.setColumnCount(boardSize);
+            boardData.setRowCount(boardSize);
+
             for (int row=0; row < rows.size(); row++) {
                 Row boardRow = rows.get(row);
                 int[] squares = boardRow.getSquares();
                 for (int col=0; col < squares.length; col++) {
                     String square = boardRow.intToSymbol(squares[col]);
-                    tableData.setValueAt(square, row, col);
+                    boardData.setValueAt(square, row, col);
                 }
             }
 
-            boardTable.setModel(tableData);
             formatBoard();
+            setVisible(true);
 
         }
 
@@ -231,8 +242,10 @@ public class SwingView extends JFrame implements View {
             setName("configPanel");
 
             Dimension defaultSize = getSize();
-            defaultSize.width = 200;
+            defaultSize.width = 350;
+            defaultSize.height = 200;
             setPreferredSize(defaultSize);
+            setMaximumSize(defaultSize);
 
             gameActionPanel = new GameActionPanel();
             boardConfigPanel = new BoardConfigPanel();
@@ -275,6 +288,10 @@ public class SwingView extends JFrame implements View {
                 ActionListener newGameListener = new ActionListener() {
                     public void actionPerformed(ActionEvent event) {
                         enqueueConfig();
+                        int boardSize = Integer.parseInt(boardConfigPanel.boardSize());
+                        int newWidth = Math.max((boardSize + 1) * 50, 350);
+                        int newHeight = Math.max((boardSize + 1) * 50 + 200, 400);
+                        resizeWindow(newWidth, newHeight);
                         newGameButton.setEnabled(false);
                     }
                 };
@@ -346,8 +363,6 @@ public class SwingView extends JFrame implements View {
 
 
         }
-
-
 
     }
 }

@@ -1,8 +1,6 @@
 package com.cmendenhall;
 
-import junit.framework.*;
-import org.junit.*;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -10,8 +8,6 @@ import org.junit.runners.JUnit4;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -31,7 +27,7 @@ public class SwingViewTest extends TicTacToeTest{
     @Test
     public void swingViewHasCorrectSize() {
         assertEquals(350, swingView.getWidth());
-        assertEquals(700, swingView.getHeight());
+        assertEquals(400, swingView.getHeight());
     }
 
     private Component getComponent(Container container, String name) {
