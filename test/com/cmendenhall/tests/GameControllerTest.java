@@ -76,18 +76,18 @@ public class GameControllerTest extends TicTacToeTest {
     public void controllerShouldStartNewGameOnRestartIfInputIsYes() throws GameOverException {
         startRecorder();
 
-        view.enqueueInput("y");
-        view.enqueueInput("3");
-        view.enqueueInput("h");
-        view.enqueueInput("h");
+        view.enqueueInput("y",
+                          "3",
+                          "h",
+                          "h",
 
-        view.enqueueInput("top left");
-        view.enqueueInput("bottom left");
-        view.enqueueInput("top middle");
-        view.enqueueInput("bottom middle");
-        view.enqueueInput("top right");
+                          "top left",
+                          "bottom left",
+                          "top middle",
+                          "bottom middle",
+                          "top right",
 
-        view.enqueueInput("n");
+                          "n");
 
         try {
             controller.restartGame();
@@ -99,10 +99,10 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldHandleNextRound() throws GameOverException {
-        view.enqueueInput("middle center");
-        view.enqueueInput("top right");
-        view.enqueueInput("middle right");
-        view.enqueueInput("n");
+        view.enqueueInput("middle center",
+                          "top right",
+                          "middle right",
+                          "n");
 
         controller.newGame();
 
@@ -149,8 +149,7 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldPassErrorMessageToViewOnInvalidMove() throws GameOverException {
-        view.enqueueInput("middle center");
-        view.enqueueInput("middle center");
+        view.enqueueInput("middle center", "middle center");
 
         controller.newGame();
 
@@ -188,9 +187,7 @@ public class GameControllerTest extends TicTacToeTest {
 
     @Test
     public void controllerShouldLoadPlayers() {
-        view.enqueueInput("3");
-        view.enqueueInput("c");
-        view.enqueueInput("h");
+        view.enqueueInput("3", "c", "h");
 
         try {
             controller.setUp();
@@ -209,20 +206,18 @@ public class GameControllerTest extends TicTacToeTest {
 
         controller.newGame();
 
-        view.enqueueInput("3");
-        view.enqueueInput("h");
-        view.enqueueInput("h");
+        view.enqueueInput("3", "h", "h");
 
         controller.setUp();
 
-        view.enqueueInput("middle center");
-        view.enqueueInput("top left");
-        view.enqueueInput("top right");
-        view.enqueueInput("middle left");
-        view.enqueueInput("lower right");
-        view.enqueueInput("lower left");
+        view.enqueueInput("middle center",
+                          "top left",
+                          "top right",
+                          "middle left",
+                          "lower right",
+                          "lower left",
 
-        view.enqueueInput("n");
+                          "n");
 
         controller.startGame();
     }
@@ -245,9 +240,7 @@ public class GameControllerTest extends TicTacToeTest {
     public void setUpShouldSetPlayers() {
         controller = new GameController(view);
 
-        view.enqueueInput("3");
-        view.enqueueInput("h");
-        view.enqueueInput("c");
+        view.enqueueInput("3", "h", "c");
 
         controller.setUp();
 
@@ -263,10 +256,7 @@ public class GameControllerTest extends TicTacToeTest {
     public void setUpRepromptsForInputIfPlayerTypeIsInvalid() {
         controller = new GameController(view);
 
-        view.enqueueInput("3");
-        view.enqueueInput("z");
-        view.enqueueInput("x");
-        view.enqueueInput("f");
+        view.enqueueInput("3", "z", "x", "f");
 
         startRecorder();
 
@@ -314,9 +304,7 @@ public class GameControllerTest extends TicTacToeTest {
     public void movePromptShouldHaveDifferentMessageBasedOnBoardSize() throws GameOverException {
         controller = new GameController(view);
 
-        view.enqueueInput("3");
-        view.enqueueInput("h");
-        view.enqueueInput("h");
+        view.enqueueInput("3", "h", "h");
 
         startRecorder();
 
@@ -333,9 +321,7 @@ public class GameControllerTest extends TicTacToeTest {
 
         controller = new GameController(view);
 
-        view.enqueueInput("4");
-        view.enqueueInput("h");
-        view.enqueueInput("h");
+        view.enqueueInput("4", "h", "h");
 
         startRecorder();
 

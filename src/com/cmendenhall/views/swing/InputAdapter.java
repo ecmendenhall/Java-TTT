@@ -11,8 +11,10 @@ public class InputAdapter {
         inputQ = new LinkedBlockingQueue<String>();
     }
 
-    private void enqueueInput(String input) {
-        inputQ.add(input);
+    private void enqueueInput(String... inputs) {
+        for (String input : inputs) {
+            inputQ.add(input);
+        }
     }
 
     public void clearInput() {

@@ -149,9 +149,7 @@ public class MinimaxPlayerTest extends TicTacToeTest {
         MockTerminalView view = new MockTerminalView();
         Controller controller = new GameController(view);
 
-        view.enqueueInput(boardSize.toString());
-        view.enqueueInput("c");
-        view.enqueueInput("c");
+        view.enqueueInput(boardSize.toString(), "c", "c");
 
         startRecorder();
 
