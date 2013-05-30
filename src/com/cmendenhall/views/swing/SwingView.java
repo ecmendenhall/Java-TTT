@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class SwingView extends JFrame implements View {
     static final int WIDTH = 350;
@@ -21,12 +19,7 @@ public class SwingView extends JFrame implements View {
     private MessagePanel messagePanel = new MessagePanel();
     private ConfigPanel configPanel = new ConfigPanel(this, inputAdapter);
 
-    private String divider;
-    private String playAgain;
-    private String choosePlayerOne;
-    private String choosePlayerTwo;
-    private String boardSize;
-
+    private StringLoader stringLoader = new StringLoader();
     private Set<String> ignoreThese = new HashSet<String>();
 
     public SwingView() {
@@ -45,24 +38,7 @@ public class SwingView extends JFrame implements View {
     }
 
     private void loadViewStrings() {
-        Properties viewStrings = new Properties();
-        try {
-            viewStrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        divider = viewStrings.getProperty("divider");
-        playAgain = viewStrings.getProperty("playagain");
-        choosePlayerOne = viewStrings.getProperty("chooseplayerone");
-        choosePlayerTwo = viewStrings.getProperty("chooseplayertwo");
-        boardSize = viewStrings.getProperty("boardsize");
-
-        ignoreThese.add(divider);
-        ignoreThese.add(playAgain);
-        ignoreThese.add(choosePlayerOne);
-        ignoreThese.add(choosePlayerTwo);
-        ignoreThese.add(boardSize);
+        stringLoader.loadViewStrings();
     }
 
     public void displayBoard(Board board) {

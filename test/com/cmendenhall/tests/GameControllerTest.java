@@ -1,61 +1,32 @@
 package com.cmendenhall.tests;
 
 import com.cmendenhall.controllers.GameController;
+import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
 import com.cmendenhall.mocks.MockTerminalView;
-import com.cmendenhall.utils.OutputRecorder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
-import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
 public class GameControllerTest extends TicTacToeTest {
+    private StringLoader stringLoader = new StringLoader();
 
     private MockTerminalView view = new MockTerminalView();
     private GameController controller = new GameController(view);
 
-    private String welcome;
-    private String divider;
-    private String yourMove;
-    private String yourMoveThreeSquares;
-    private String playAgain;
-    private String gameOverWin;
-    private String xWins;
-    private String choosePlayerOne;
-    private String boardSize;
-
     private void loadViewStrings() {
-        Properties viewstrings = new Properties();
-        try {
-            viewstrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        welcome = viewstrings.getProperty("welcome");
-        divider = viewstrings.getProperty("divider");
-        yourMove = viewstrings.getProperty("yourmove");
-        yourMoveThreeSquares = viewstrings.getProperty("yourmovethreesquares");
-        playAgain = viewstrings.getProperty("playagain");
-        gameOverWin = viewstrings.getProperty("gameoverwin");
-        xWins = viewstrings.getProperty("xwins");
-        choosePlayerOne = viewstrings.getProperty("chooseplayerone");
-        boardSize = viewstrings.getProperty("boardsize");
+        stringLoader.loadViewStrings();
     }
 
     @Before

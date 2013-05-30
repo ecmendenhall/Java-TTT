@@ -8,61 +8,29 @@ import com.cmendenhall.exceptions.InvalidMoveException;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
+import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.views.View;
 
-import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.Properties;
 
 import static com.cmendenhall.TicTacToeSymbols.O;
 import static com.cmendenhall.TicTacToeSymbols.X;
 
 public class GameController implements Controller {
+    private final StringLoader stringLoader = new StringLoader();
     private Board board;
     private View view;
     private Player playerOne;
     private Player playerTwo;
 
-    private String welcome;
-    private String divider;
-    private String yourMove;
-    private String yourMoveThreeSquares;
-    private String playAgain;
-    private String gameOverDraw;
-    private String gameOverWin;
-    private String xWins;
-    private String oWins;
-    private String choosePlayerOne;
-    private String choosePlayerTwo;
-    private String boardSize;
-
     public GameController(View gameView) {
-        loadViewStrings();
+        stringLoader.loadViewStrings();
         view = gameView;
         board = new GameBoard();
     }
 
     private void loadViewStrings() {
-        Properties viewStrings = new Properties();
-        try {
-            viewStrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        welcome = viewStrings.getProperty("welcome");
-        divider = viewStrings.getProperty("divider");
-        yourMove = viewStrings.getProperty("yourmove");
-        yourMoveThreeSquares = viewStrings.getProperty("yourmovethreesquares");
-        playAgain = viewStrings.getProperty("playagain");
-        gameOverDraw = viewStrings.getProperty("gameoverdraw");
-        gameOverWin = viewStrings.getProperty("gameoverwin");
-        xWins = viewStrings.getProperty("xwins");
-        oWins = viewStrings.getProperty("owins");
-        choosePlayerOne = viewStrings.getProperty("chooseplayerone");
-        choosePlayerTwo = viewStrings.getProperty("chooseplayertwo");
-        boardSize = viewStrings.getProperty("boardsize");
-
+        stringLoader.loadViewStrings();
     }
 
     public void setPlayerOne(Player player) {
@@ -92,7 +60,7 @@ public class GameController implements Controller {
     }
 
     private Board getBoardSize() {
-        view.displayMessage(boardSize);
+        view.displayMessage(stringLoader.boardSize);
         String boardDimensions = view.getInput();
         while (boardDimensions == "" || boardDimensions == null) {
             boardDimensions = view.getInput();
@@ -118,7 +86,7 @@ public class GameController implements Controller {
     }
 
     private Player loadPlayer(int number) {
-        String playerMessage = (number == X) ? choosePlayerOne : choosePlayerTwo;
+        String playerMessage = (number == X) ? stringLoader.choosePlayerOne : stringLoader.choosePlayerTwo;
         view.displayMessage(playerMessage);
         String playerType = view.getInput();
         while (playerType == "" || playerType == null) {
@@ -139,8 +107,8 @@ public class GameController implements Controller {
     }
 
     public void newGame() {
-        view.displayMessage(welcome);
-        view.displayMessage(divider);
+        view.displayMessage(stringLoader.welcome);
+        view.displayMessage(stringLoader.divider);
         view.reload();
         loadGame(new GameBoard());
     }
@@ -156,14 +124,14 @@ public class GameController implements Controller {
     }
 
     private String getWinnerMessage(int winner) {
-        return (winner == X) ? xWins : oWins;
+        return (winner == X) ? stringLoader.xWins : stringLoader.oWins;
     }
 
     private void checkForWins() throws GameOverException {
         if (BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
             String winnerMessage = getWinnerMessage(BoardAnalyzer.winnerIs(board));
-            view.displayMessage(gameOverWin + winnerMessage);
+            view.displayMessage(stringLoader.gameOverWin + winnerMessage);
             restartGame();
         }
     }
@@ -171,14 +139,14 @@ public class GameController implements Controller {
     private void checkForDraw() throws GameOverException {
         if (BoardAnalyzer.isFull(board) && !BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
-            view.displayMessage(gameOverDraw);
+            view.displayMessage(stringLoader.gameOverDraw);
             restartGame();
         }
     }
 
     public void restartGame() throws GameOverException {
         view.reload();
-        view.displayMessage(playAgain);
+        view.displayMessage(stringLoader.playAgain);
         String restart = view.getInput();
         if (restart.equals("n")) {
             view.endGame();
@@ -208,7 +176,7 @@ public class GameController implements Controller {
     private String nextTurnMessage() {
         Player currentPlayer = getCurrentPlayer();
         char currentSymbol = currentPlayer.getSymbol();
-        String moveMessage = (board.getRows().size() == 3) ? yourMoveThreeSquares : yourMove;
+        String moveMessage = (board.getRows().size() == 3) ? stringLoader.yourMoveThreeSquares : stringLoader.yourMove;
         return MessageFormat.format(moveMessage, board.getSize() - 1) + " " + currentSymbol + ".";
     }
 
