@@ -1,21 +1,11 @@
 package com.cmendenhall.utils;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 public class StringLoader {
-    String welcome;
-    String divider;
-    String yourMove;
-    String yourMoveThreeSquares;
-    String playAgain;
-    String gameOverDraw;
-    String gameOverWin;
-    String xWins;
-    String oWins;
-    String choosePlayerOne;
-    String choosePlayerTwo;
-    String boardSize;
+    private HashMap<String, String> viewStrings = new HashMap<String, String>();
 
     public StringLoader() {
     }
@@ -23,7 +13,7 @@ public class StringLoader {
     void loadViewStrings() {
         Properties viewStrings = new Properties();
         try {
-            viewStrings.load(null.getClass().getResourceAsStream("/viewstrings.properties"));
+            viewStrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
         } catch (IOException e) {
             System.out.println(e);
         }
