@@ -8,18 +8,18 @@ public class StringLoader {
     private HashMap<String, String> viewStrings = new HashMap<String, String>();
     private Properties viewStringProperties = new Properties();
 
-    public StringLoader() {
-        loadViewStrings();
+    public StringLoader(String filepath) {
+        loadViewStrings(filepath);
     }
 
     private void load(String propertyName) {
         String propertyString = viewStringProperties.getProperty(propertyName);
-        viewStrings.put(propertyName, propertyString)
+        viewStrings.put(propertyName, propertyString);
     }
 
-    private void loadViewStrings() {
+    private void loadViewStrings(String filepath) {
         try {
-            viewStringProperties.load(getClass().getResourceAsStream("/viewstrings.properties"));
+            viewStringProperties.load(getClass().getResourceAsStream(filepath));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
