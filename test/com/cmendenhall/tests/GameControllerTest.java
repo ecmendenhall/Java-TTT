@@ -24,14 +24,10 @@ import static org.junit.Assert.assertEquals;
 import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
-public class GameControllerTest {
+public class GameControllerTest extends TicTacToeTest {
 
     private MockTerminalView view = new MockTerminalView();
     private GameController controller = new GameController(view);
-
-    private PrintStream stdout;
-    private OutputRecorder recorder;
-
 
     private String welcome;
     private String divider;
@@ -42,16 +38,6 @@ public class GameControllerTest {
     private String xWins;
     private String choosePlayerOne;
     private String boardSize;
-
-    private void setUpRecorder() throws UnsupportedEncodingException {
-        stdout = System.out;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        recorder = new OutputRecorder(output, true, "UTF-8");
-    }
-
-    private void startRecorder() {
-        System.setOut(recorder);
-    }
 
     private void loadViewStrings() {
         Properties viewstrings = new Properties();
@@ -75,8 +61,6 @@ public class GameControllerTest {
     @Before
     public void setUp() throws Exception {
         loadViewStrings();
-
-        setUpRecorder();
 
         Player playerOne = new HumanPlayer(X);
         Player playerTwo = new MinimaxPlayer(O);
@@ -118,8 +102,6 @@ public class GameControllerTest {
 
         String output = recorder.popLastOutput();
         assertEquals(playAgain, output);
-
-        System.setOut(stdout);
     }
 
     @Test
@@ -221,7 +203,7 @@ public class GameControllerTest {
         view.enqueueInput("n");
         controller.loadGame(TicTacToeTestHelper.playerXWins);
 
-        System.setOut(recorder);
+        startRecorder();
 
         try {
             controller.checkForGameOver();

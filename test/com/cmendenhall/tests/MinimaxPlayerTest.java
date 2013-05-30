@@ -27,10 +27,9 @@ import static org.junit.Assert.assertEquals;
 import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
-public class MinimaxPlayerTest {
+public class MinimaxPlayerTest extends TicTacToeTest {
 
     private MinimaxPlayer playerX;
-    private OutputRecorder recorder;
 
     @Before
     public void setUp() throws InvalidCoordinateException, InvalidMoveException {
@@ -145,18 +144,8 @@ public class MinimaxPlayerTest {
         assertEquals(4, randomMoves);
     }
 
-    private void setUpRecorder() throws UnsupportedEncodingException {
-        PrintStream stdout = System.out;
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        recorder = new OutputRecorder(output, true, "UTF-8");
-    }
-
-    private void startRecorder() {
-        System.setOut(recorder);
-    }
 
     private void playGame(Integer boardSize) throws UnsupportedEncodingException {
-        setUpRecorder();
         MockTerminalView view = new MockTerminalView();
         Controller controller = new GameController(view);
 

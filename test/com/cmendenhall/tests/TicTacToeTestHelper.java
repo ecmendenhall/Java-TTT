@@ -27,8 +27,6 @@ public final class TicTacToeTestHelper {
 
     }
 
-    public static PrintStream stdout = System.out;
-
     public static String makeDivider(Board board) {
         String divider = "";
         int dividerLength = (int) Math.ceil(3.75 * board.getRows().get(0).numberOfSquares());
@@ -40,8 +38,6 @@ public final class TicTacToeTestHelper {
         divider += "\n";
         return divider;
     }
-
-    public static final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
     public static Board emptyBoard = new GameBoard();
     public static Board board = new GameBoard();
