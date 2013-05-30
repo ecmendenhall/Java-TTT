@@ -94,11 +94,11 @@ public class GameBoard implements Board {
 
         InvalidMoveException fullSquare = new InvalidMoveException("Square is already full.");
 
-        Row fillRow = rows.get(row);
-        if (fillRow.squareIsFull(column)) {
+        Row rowToFill = rows.get(row);
+        if (rowToFill.squareIsFull(column)) {
             throw fullSquare;
         } else {
-            Row newRow = fillRow.fillSquare(column, player);
+            Row newRow = rowToFill.fillSquare(column, player);
             List<Row> newRows = new ArrayList<Row>(rows);
             newRows.set(row, newRow);
             return new GameBoard(newRows);

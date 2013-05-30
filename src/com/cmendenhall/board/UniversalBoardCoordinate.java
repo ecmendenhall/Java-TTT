@@ -11,6 +11,11 @@ public class UniversalBoardCoordinate implements BoardCoordinate {
         column = c;
     }
 
+    private String[] parseString(String locationPhrase) {
+        String noParens = locationPhrase.replace('(', ' ').replace(')', ' ');
+        return noParens.split(",");
+    }
+
     public UniversalBoardCoordinate(String locationPhrase) throws InvalidCoordinateException {
 
         String noParens = locationPhrase.replace('(', ' ').replace(')', ' ');

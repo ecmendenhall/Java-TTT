@@ -83,9 +83,6 @@ public class Row {
         String rowString = "";
         int nSquares = squares.length;
 
-        // Insert a Unicode vertical box-drawing character
-        // after every square but the last.
-
         for (int i = 0; i < nSquares - 1; i++) {
             String symbol = intToSymbol(squares[i]);
             rowString += " " + symbol + " |";
