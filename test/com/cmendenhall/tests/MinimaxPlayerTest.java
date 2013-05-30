@@ -151,6 +151,10 @@ public class MinimaxPlayerTest {
         recorder = new OutputRecorder(output, true, "UTF-8");
     }
 
+    private void startRecorder() {
+        System.setOut(recorder);
+    }
+
     private void playGame(Integer boardSize) throws UnsupportedEncodingException {
         setUpRecorder();
         MockTerminalView view = new MockTerminalView();
@@ -160,7 +164,7 @@ public class MinimaxPlayerTest {
         view.enqueueInput("c");
         view.enqueueInput("c");
 
-        System.setOut(recorder);
+        startRecorder();
 
         try {
             controller.setUp();
