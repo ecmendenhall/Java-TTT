@@ -15,6 +15,7 @@ import org.junit.runners.JUnit4;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -28,9 +29,7 @@ public class GameControllerTest {
     private MockTerminalView view = new MockTerminalView();
     private GameController controller = new GameController(view);
 
-    private final PrintStream stdout = System.out;
-    private final ByteArrayOutputStream output = new ByteArrayOutputStream();
-    private PrintStream outputStream;
+    private PrintStream stdout;
     private OutputRecorder outputRecorder;
 
 
@@ -43,6 +42,16 @@ public class GameControllerTest {
     private String xWins;
     private String choosePlayerOne;
     private String boardSize;
+
+    private void setUpRecorder() throws UnsupportedEncodingException {
+        stdout = System.out;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        outputRecorder = new OutputRecorder(output, true, "UTF-8");
+    }
+
+    private void startRecorder() {
+        System.setOut(outputRecorder);
+    }
 
     private void loadViewStrings() {
         Properties viewstrings = new Properties();
@@ -66,8 +75,9 @@ public class GameControllerTest {
     @Before
     public void setUp() throws Exception {
         loadViewStrings();
-        outputStream = new PrintStream(output, true, "UTF-8");
-        outputRecorder = new OutputRecorder(output, true, "UTF-8");
+
+        setUpRecorder();
+
         Player playerOne = new HumanPlayer(X);
         Player playerTwo = new MinimaxPlayer(O);
         controller.setPlayerOne(playerOne);
@@ -76,14 +86,13 @@ public class GameControllerTest {
 
     @Test
     public void controllerShouldStartNewGame() {
-        System.setOut(outputRecorder);
+        startRecorder();
 
         controller.newGame();
 
         assertEquals(welcome, outputRecorder.popFirstOutput());
         assertEquals(divider, outputRecorder.popFirstOutput());
 
-        System.setOut(stdout);
     }
 
     @Test
@@ -101,19 +110,21 @@ public class GameControllerTest {
 
     @Test(expected = GameOverException.class)
     public void controllerShouldEndGameOnRestartIfInputIsNo() throws GameOverException {
-        System.setOut(outputStream);
+        startRecorder();
 
         view.enqueueInput("n");
 
         controller.restartGame();
-        assertEquals(playAgain, output.toString());
+
+        String output = outputRecorder.popLastOutput();
+        assertEquals(playAgain, output);
 
         System.setOut(stdout);
     }
 
     @Test
     public void controllerShouldStartNewGameOnRestartIfInputIsYes() throws GameOverException {
-        System.setOut(outputRecorder);
+        startRecorder();
 
         view.enqueueInput("y");
         view.enqueueInput("3");
@@ -133,8 +144,6 @@ public class GameControllerTest {
         } catch (GameOverException e) {
             assertEquals(playAgain, outputRecorder.popFirstOutput());
         }
-
-        System.setOut(stdout);
     }
 
     @Test
@@ -146,7 +155,7 @@ public class GameControllerTest {
 
         controller.newGame();
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.startGame();
@@ -163,10 +172,6 @@ public class GameControllerTest {
             assertEquals(expectedSecond, outputSecond);
             assertEquals(expectedThird, outputThird);
         }
-
-        System.setOut(stdout);
-        view.clearInput();
-
     }
 
     @Test
@@ -175,7 +180,7 @@ public class GameControllerTest {
 
         controller.newGame();
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.playRound();
@@ -188,8 +193,7 @@ public class GameControllerTest {
 
         }
 
-        System.setOut(stdout);
-        view.clearInput();
+
     }
 
     @Test
@@ -199,7 +203,7 @@ public class GameControllerTest {
 
         controller.newGame();
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.playRound();
@@ -210,8 +214,6 @@ public class GameControllerTest {
 
               assertEquals("Square is already full.", output);
         }
-        System.setOut(stdout);
-        view.clearInput();
     }
 
     @Test
@@ -231,9 +233,6 @@ public class GameControllerTest {
 
             assertEquals(expected, output);
         }
-
-        System.setOut(stdout);
-        view.clearInput();
     }
 
     @Test
@@ -307,7 +306,6 @@ public class GameControllerTest {
         assertEquals("HumanPlayer", playerOne.getClass().getSimpleName());
         assertEquals("MinimaxPlayer", playerTwo.getClass().getSimpleName());
 
-        view.clearInput();
     }
 
     @Test
@@ -319,7 +317,7 @@ public class GameControllerTest {
         view.enqueueInput("x");
         view.enqueueInput("f");
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.setUp();
@@ -335,7 +333,7 @@ public class GameControllerTest {
 
         view.enqueueInput("4");
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.setUp();
@@ -351,7 +349,7 @@ public class GameControllerTest {
 
         view.enqueueInput("Kindly create a board with five squares and five columns.");
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.setUp();
@@ -369,7 +367,7 @@ public class GameControllerTest {
         view.enqueueInput("h");
         view.enqueueInput("h");
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.setUp();
@@ -388,7 +386,7 @@ public class GameControllerTest {
         view.enqueueInput("h");
         view.enqueueInput("h");
 
-        System.setOut(outputRecorder);
+        startRecorder();
 
         try {
             controller.setUp();
@@ -399,8 +397,6 @@ public class GameControllerTest {
              assertEquals(expected, output);
         }
 
-        view.clearInput();
-        System.setOut(stdout);
     }
 
 }
