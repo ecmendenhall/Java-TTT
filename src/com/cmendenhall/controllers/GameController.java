@@ -12,25 +12,21 @@ import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.views.View;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 
 import static com.cmendenhall.TicTacToeSymbols.O;
 import static com.cmendenhall.TicTacToeSymbols.X;
 
 public class GameController implements Controller {
-    private final StringLoader stringLoader = new StringLoader();
+    private HashMap<String, String> viewStrings =  new StringLoader().getViewStrings("/viewstrings.properties");
     private Board board;
     private View view;
     private Player playerOne;
     private Player playerTwo;
 
     public GameController(View gameView) {
-        stringLoader.loadViewStrings();
         view = gameView;
         board = new GameBoard();
-    }
-
-    private void loadViewStrings() {
-        stringLoader.loadViewStrings();
     }
 
     public void setPlayerOne(Player player) {
@@ -60,7 +56,7 @@ public class GameController implements Controller {
     }
 
     private Board getBoardSize() {
-        view.displayMessage(stringLoader.boardSize);
+        view.displayMessage(viewStrings.get("boardsize"));
         String boardDimensions = view.getInput();
         while (boardDimensions == "" || boardDimensions == null) {
             boardDimensions = view.getInput();
@@ -86,7 +82,7 @@ public class GameController implements Controller {
     }
 
     private Player loadPlayer(int number) {
-        String playerMessage = (number == X) ? stringLoader.choosePlayerOne : stringLoader.choosePlayerTwo;
+        String playerMessage = (number == X) ? viewStrings.get("chooseplayerone") : viewStrings.get("chooseplayertwo");
         view.displayMessage(playerMessage);
         String playerType = view.getInput();
         while (playerType == "" || playerType == null) {
@@ -107,8 +103,8 @@ public class GameController implements Controller {
     }
 
     public void newGame() {
-        view.displayMessage(stringLoader.welcome);
-        view.displayMessage(stringLoader.divider);
+        view.displayMessage(viewStrings.get("welcome"));
+        view.displayMessage(viewStrings.get("divider"));
         view.reload();
         loadGame(new GameBoard());
     }
@@ -124,14 +120,14 @@ public class GameController implements Controller {
     }
 
     private String getWinnerMessage(int winner) {
-        return (winner == X) ? stringLoader.xWins : stringLoader.oWins;
+        return (winner == X) ? viewStrings.get("xwins") : viewStrings.get("owins");
     }
 
     private void checkForWins() throws GameOverException {
         if (BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
             String winnerMessage = getWinnerMessage(BoardAnalyzer.winnerIs(board));
-            view.displayMessage(stringLoader.gameOverWin + winnerMessage);
+            view.displayMessage(viewStrings.get("gameoverwin") + winnerMessage);
             restartGame();
         }
     }
@@ -139,14 +135,14 @@ public class GameController implements Controller {
     private void checkForDraw() throws GameOverException {
         if (BoardAnalyzer.isFull(board) && !BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
-            view.displayMessage(stringLoader.gameOverDraw);
+            view.displayMessage(viewStrings.get("gameoverdraw"));
             restartGame();
         }
     }
 
     public void restartGame() throws GameOverException {
         view.reload();
-        view.displayMessage(stringLoader.playAgain);
+        view.displayMessage(viewStrings.get("playagain"));
         String restart = view.getInput();
         if (restart.equals("n")) {
             view.endGame();
@@ -176,7 +172,7 @@ public class GameController implements Controller {
     private String nextTurnMessage() {
         Player currentPlayer = getCurrentPlayer();
         char currentSymbol = currentPlayer.getSymbol();
-        String moveMessage = (board.getRows().size() == 3) ? stringLoader.yourMoveThreeSquares : stringLoader.yourMove;
+        String moveMessage = (board.getRows().size() == 3) ? viewStrings.get("yourmovethreesquares") : viewStrings.get("yourmove");
         return MessageFormat.format(moveMessage, board.getSize() - 1) + " " + currentSymbol + ".";
     }
 

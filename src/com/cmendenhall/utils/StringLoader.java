@@ -8,10 +8,6 @@ public class StringLoader {
     private HashMap<String, String> viewStrings = new HashMap<String, String>();
     private Properties viewStringProperties = new Properties();
 
-    public StringLoader(String filepath) {
-        loadViewStrings(filepath);
-    }
-
     private void load(String propertyName) {
         String propertyString = viewStringProperties.getProperty(propertyName);
         viewStrings.put(propertyName, propertyString);
@@ -19,7 +15,7 @@ public class StringLoader {
 
     private void loadViewStrings(String filepath) {
         try {
-            viewStringProperties.load(getClass().getResourceAsStream(filepath));
+            viewStringProperties.load(this.getClass().getResourceAsStream(filepath));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -41,5 +37,10 @@ public class StringLoader {
             load(property);
         }
 
+    }
+
+    public HashMap<String, String> getViewStrings(String filepath) {
+        loadViewStrings(filepath);
+        return viewStrings;
     }
 }

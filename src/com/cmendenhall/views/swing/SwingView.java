@@ -2,6 +2,7 @@ package com.cmendenhall.views.swing;
 
 import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.board.Board;
+import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.views.View;
 
 import javax.swing.*;
@@ -20,10 +21,9 @@ public class SwingView extends JFrame implements View {
     private ConfigPanel configPanel = new ConfigPanel(this, inputAdapter);
 
     private StringLoader stringLoader = new StringLoader();
-    private Set<String> ignoreThese = new HashSet<String>();
+    private HashMap<String, String> viewStrings = new StringLoader().getViewStrings("/swingviewstrings.properties");
 
     public SwingView() {
-        loadViewStrings();
         setTitle("Tic Tac Toe");
         setSize(WIDTH, HEIGHT);
         setResizable(false);
@@ -37,22 +37,11 @@ public class SwingView extends JFrame implements View {
         add(configPanel);
     }
 
-    private void loadViewStrings() {
-        stringLoader.loadViewStrings();
-    }
-
     public void displayBoard(Board board) {
         boardPanel.loadBoard(board);
     }
 
     public void displayMessage(String message) {
-        if (message.contains("move")) {
-            int endStart = message.indexOf("player") + 6;
-            String ending = message.substring(endStart);
-            message = "Your move, player" + ending;
-        } else if (ignoreThese.contains(message)) {
-            return;
-        }
         JLabel messageLabel = messagePanel.getLabel();
         messageLabel.setText(message);
     }

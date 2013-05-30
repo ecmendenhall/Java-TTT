@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
@@ -20,19 +21,13 @@ import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
 public class GameControllerTest extends TicTacToeTest {
-    private StringLoader stringLoader = new StringLoader();
+    private HashMap<String, String> viewStrings = new StringLoader().getViewStrings("/viewstrings.properties");
 
     private MockTerminalView view = new MockTerminalView();
     private GameController controller = new GameController(view);
 
-    private void loadViewStrings() {
-        stringLoader.loadViewStrings();
-    }
-
     @Before
     public void setUp() throws Exception {
-        loadViewStrings();
-
         Player playerOne = new HumanPlayer(X);
         Player playerTwo = new MinimaxPlayer(O);
         controller.setPlayerOne(playerOne);
@@ -45,9 +40,11 @@ public class GameControllerTest extends TicTacToeTest {
 
         controller.newGame();
 
-        assertEquals(welcome, recorder.popFirstOutput());
-        assertEquals(divider, recorder.popFirstOutput());
+        assertEquals(viewStrings.get("welcome"),
+                     recorder.popFirstOutput());
 
+        assertEquals(viewStrings.get("divider"),
+                     recorder.popFirstOutput());
     }
 
     @Test
@@ -72,7 +69,7 @@ public class GameControllerTest extends TicTacToeTest {
         controller.restartGame();
 
         String output = recorder.popLastOutput();
-        assertEquals(playAgain, output);
+        assertEquals(viewStrings.get("playagain"), output);
     }
 
     @Test
@@ -95,7 +92,8 @@ public class GameControllerTest extends TicTacToeTest {
         try {
             controller.restartGame();
         } catch (GameOverException e) {
-            assertEquals(playAgain, recorder.popFirstOutput());
+            assertEquals(viewStrings.get("playagain"),
+                         recorder.popFirstOutput());
         }
     }
 
@@ -114,7 +112,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.startGame();
         } catch (Exception e) {
             String expectedFirst = TicTacToeTestHelper.emptyBoard.toString();
-            String expectedSecond = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
+            String expectedSecond = MessageFormat.format(viewStrings.get("yourmovethreesquares"), 2) + " X.";
             String expectedThird = TicTacToeTestHelper.xInCenter.toString();
 
             String outputFirst = recorder.popFirstOutput();
@@ -179,7 +177,7 @@ public class GameControllerTest extends TicTacToeTest {
         try {
             controller.checkForGameOver();
         } catch (GameOverException e) {
-            String expected = gameOverWin + xWins;
+            String expected = viewStrings.get("gameoverwin") + viewStrings.get("xwins");
 
             recorder.discardFirstNStrings(1);
             String output = recorder.popFirstOutput();
@@ -276,7 +274,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.setUp();
         } catch (NoSuchElementException e) {
             String output = recorder.popLastOutput();
-            assertEquals(choosePlayerOne, output);
+            assertEquals(viewStrings.get("chooseplayerone"), output);
         }
     }
 
@@ -292,7 +290,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.setUp();
         } catch (NoSuchElementException e) {
             String output = recorder.popFirstOutput();
-            assertEquals(boardSize, output);
+            assertEquals(viewStrings.get("boardsize"), output);
         }
     }
 
@@ -308,7 +306,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.setUp();
         } catch (NoSuchElementException e) {
             String output = recorder.popLastOutput();
-            assertEquals(boardSize, output);
+            assertEquals(viewStrings.get("boardsize"), output);
         }
     }
 
@@ -327,7 +325,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.startGame();
         } catch (NoSuchElementException e) {
             String output = recorder.popLastOutput();
-            String expected = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
+            String expected = MessageFormat.format(viewStrings.get("yourmovethreesquares"), 2) + " X.";
             assertEquals(expected, output);
         }
 
@@ -346,7 +344,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.startGame();
         } catch (NoSuchElementException e) {
             String output = recorder.popLastOutput();
-            String expected = MessageFormat.format(yourMove, 3) + " X.";
+            String expected = MessageFormat.format(viewStrings.get("yourmove"), 3) + " X.";
              assertEquals(expected, output);
         }
 
