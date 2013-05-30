@@ -30,7 +30,7 @@ public class GameControllerTest {
     private GameController controller = new GameController(view);
 
     private PrintStream stdout;
-    private OutputRecorder outputRecorder;
+    private OutputRecorder recorder;
 
 
     private String welcome;
@@ -46,11 +46,11 @@ public class GameControllerTest {
     private void setUpRecorder() throws UnsupportedEncodingException {
         stdout = System.out;
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        outputRecorder = new OutputRecorder(output, true, "UTF-8");
+        recorder = new OutputRecorder(output, true, "UTF-8");
     }
 
     private void startRecorder() {
-        System.setOut(outputRecorder);
+        System.setOut(recorder);
     }
 
     private void loadViewStrings() {
@@ -90,8 +90,8 @@ public class GameControllerTest {
 
         controller.newGame();
 
-        assertEquals(welcome, outputRecorder.popFirstOutput());
-        assertEquals(divider, outputRecorder.popFirstOutput());
+        assertEquals(welcome, recorder.popFirstOutput());
+        assertEquals(divider, recorder.popFirstOutput());
 
     }
 
@@ -116,7 +116,7 @@ public class GameControllerTest {
 
         controller.restartGame();
 
-        String output = outputRecorder.popLastOutput();
+        String output = recorder.popLastOutput();
         assertEquals(playAgain, output);
 
         System.setOut(stdout);
@@ -142,7 +142,7 @@ public class GameControllerTest {
         try {
             controller.restartGame();
         } catch (GameOverException e) {
-            assertEquals(playAgain, outputRecorder.popFirstOutput());
+            assertEquals(playAgain, recorder.popFirstOutput());
         }
     }
 
@@ -164,9 +164,9 @@ public class GameControllerTest {
             String expectedSecond = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
             String expectedThird = TicTacToeTestHelper.xInCenter.toString();
 
-            String outputFirst = outputRecorder.popFirstOutput();
-            String outputSecond = outputRecorder.popFirstOutput();
-            String outputThird = outputRecorder.popFirstOutput();
+            String outputFirst = recorder.popFirstOutput();
+            String outputSecond = recorder.popFirstOutput();
+            String outputThird = recorder.popFirstOutput();
 
             assertEquals(expectedFirst, outputFirst);
             assertEquals(expectedSecond, outputSecond);
@@ -186,8 +186,8 @@ public class GameControllerTest {
             controller.playRound();
         } catch (NoSuchElementException e) {
 
-            outputRecorder.discardFirstNStrings(1);
-            String output = outputRecorder.popFirstOutput();
+            recorder.discardFirstNStrings(1);
+            String output = recorder.popFirstOutput();
 
             assertEquals("That's not a valid board location.", output);
 
@@ -209,8 +209,8 @@ public class GameControllerTest {
             controller.playRound();
         } catch (NoSuchElementException e) {
 
-              outputRecorder.discardFirstNStrings(4);
-              String output = outputRecorder.popFirstOutput();
+              recorder.discardFirstNStrings(4);
+              String output = recorder.popFirstOutput();
 
               assertEquals("Square is already full.", output);
         }
@@ -221,15 +221,15 @@ public class GameControllerTest {
         view.enqueueInput("n");
         controller.loadGame(TicTacToeTestHelper.playerXWins);
 
-        System.setOut(outputRecorder);
+        System.setOut(recorder);
 
         try {
             controller.checkForGameOver();
         } catch (GameOverException e) {
             String expected = gameOverWin + xWins;
 
-            outputRecorder.discardFirstNStrings(1);
-            String output = outputRecorder.popFirstOutput();
+            recorder.discardFirstNStrings(1);
+            String output = recorder.popFirstOutput();
 
             assertEquals(expected, output);
         }
@@ -322,7 +322,7 @@ public class GameControllerTest {
         try {
             controller.setUp();
         } catch (NoSuchElementException e) {
-            String output = outputRecorder.popLastOutput();
+            String output = recorder.popLastOutput();
             assertEquals(choosePlayerOne, output);
         }
     }
@@ -338,7 +338,7 @@ public class GameControllerTest {
         try {
             controller.setUp();
         } catch (NoSuchElementException e) {
-            String output = outputRecorder.popFirstOutput();
+            String output = recorder.popFirstOutput();
             assertEquals(boardSize, output);
         }
     }
@@ -354,7 +354,7 @@ public class GameControllerTest {
         try {
             controller.setUp();
         } catch (NoSuchElementException e) {
-            String output = outputRecorder.popLastOutput();
+            String output = recorder.popLastOutput();
             assertEquals(boardSize, output);
         }
     }
@@ -373,7 +373,7 @@ public class GameControllerTest {
             controller.setUp();
             controller.startGame();
         } catch (NoSuchElementException e) {
-            String output = outputRecorder.popLastOutput();
+            String output = recorder.popLastOutput();
             String expected = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
             assertEquals(expected, output);
         }
@@ -392,7 +392,7 @@ public class GameControllerTest {
             controller.setUp();
             controller.startGame();
         } catch (NoSuchElementException e) {
-            String output = outputRecorder.popLastOutput();
+            String output = recorder.popLastOutput();
             String expected = MessageFormat.format(yourMove, 3) + " X.";
              assertEquals(expected, output);
         }
