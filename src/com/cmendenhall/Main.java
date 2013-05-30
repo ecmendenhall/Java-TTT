@@ -4,6 +4,8 @@ import com.cmendenhall.controllers.Controller;
 import com.cmendenhall.controllers.GameController;
 import com.cmendenhall.views.swing.SwingView;
 
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args) {

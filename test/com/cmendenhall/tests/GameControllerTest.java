@@ -95,7 +95,7 @@ public class GameControllerTest {
     public void controllerShouldLoadGames() throws GameOverException {
         view.enqueueInput("n");
 
-        controller.loadGame(TicTacToeTest.noWins);
+        controller.loadGame(TicTacToeTestHelper.noWins);
         controller.playRound();
     }
 
@@ -109,8 +109,6 @@ public class GameControllerTest {
         assertEquals(playAgain, output.toString());
 
         System.setOut(stdout);
-        view.clearInput();
-
     }
 
     @Test
@@ -137,7 +135,6 @@ public class GameControllerTest {
         }
 
         System.setOut(stdout);
-        view.clearInput();
     }
 
     @Test
@@ -154,9 +151,9 @@ public class GameControllerTest {
         try {
             controller.startGame();
         } catch (Exception e) {
-            String expectedFirst = TicTacToeTest.emptyBoard.toString();
+            String expectedFirst = TicTacToeTestHelper.emptyBoard.toString();
             String expectedSecond = MessageFormat.format(yourMoveThreeSquares, 2) + " X.";
-            String expectedThird = TicTacToeTest.xInCenter.toString();
+            String expectedThird = TicTacToeTestHelper.xInCenter.toString();
 
             String outputFirst = outputRecorder.popFirstOutput();
             String outputSecond = outputRecorder.popFirstOutput();
@@ -220,7 +217,7 @@ public class GameControllerTest {
     @Test
     public void controllerShouldPrintWinnerMessageAfterWin() throws GameOverException {
         view.enqueueInput("n");
-        controller.loadGame(TicTacToeTest.playerXWins);
+        controller.loadGame(TicTacToeTestHelper.playerXWins);
 
         System.setOut(outputRecorder);
 

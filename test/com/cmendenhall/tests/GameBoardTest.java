@@ -42,7 +42,7 @@ public class GameBoardTest {
 
     @Test
     public void boardReturnsCorrectString() {
-        String divider = TicTacToeTest.makeDivider(noWins);
+        String divider = TicTacToeTestHelper.makeDivider(noWins);
 
         assertEquals(" O | O | X\n" + divider +
                      " X | X | O\n" + divider +
@@ -140,8 +140,8 @@ public class GameBoardTest {
 
     @Test
     public void addXToTopLeft() throws InvalidMoveException, InvalidCoordinateException {
-        TicTacToeTest.board = TicTacToeTest.board.fillSquare(new UniversalBoardCoordinate(0, 0), X);
-        Assert.assertEquals(X, TicTacToeTest.board.getRows().get(0).getSquare(0));
+        TicTacToeTestHelper.board = TicTacToeTestHelper.board.fillSquare(new UniversalBoardCoordinate(0, 0), X);
+        Assert.assertEquals(X, TicTacToeTestHelper.board.getRows().get(0).getSquare(0));
     }
 
 
@@ -158,7 +158,7 @@ public class GameBoardTest {
                                         new Row(_, _, _),
                                         new Row(_, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
         newBoard = emptyBoard.fillSquare(new ThreeByThreeBoardCoordinate("bottom middle"), O);
 
@@ -166,63 +166,63 @@ public class GameBoardTest {
                                   new Row(_, _, _),
                                   new Row(_, O, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
         newBoard = emptyBoard.fillSquare(new UniversalBoardCoordinate(2, 0), O);
         expected = new GameBoard( new Row(_, _, _),
                                   new Row(_, _, _),
                                   new Row(O, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("top right"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("top right"), O);
         expected = new GameBoard( new Row(O, _, O),
                                   new Row(_, X, _),
                                   new Row(X, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle right"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle right"), O);
         expected = new GameBoard( new Row(O, _, _),
                                   new Row(_, X, O),
                                   new Row(X, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("bottom right"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("bottom right"), O);
         expected = new GameBoard( new Row(O, _, _),
                                   new Row(_, X, _),
                                   new Row(X, _, O) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("top middle"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("top middle"), O);
         expected = new GameBoard( new Row(O, O, _),
                                   new Row(_, X, _),
                                   new Row(X, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle left"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle left"), O);
         expected = new GameBoard( new Row(O, _, _),
                                   new Row(O, X, _),
                                   new Row(X, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle right"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle right"), O);
         expected = new GameBoard( new Row(O, _, _),
                                   new Row(_, X, O),
                                   new Row(X, _, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
-        newBoard = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("bottom center"), O);
+        newBoard = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("bottom center"), O);
         expected = new GameBoard( new Row(O, _, _),
                                   new Row(_, X, _),
                                   new Row(X, O, _) );
 
-        TicTacToeTest.assertSameBoard(expected, newBoard);
+        TicTacToeTestHelper.assertSameBoard(expected, newBoard);
 
     }
 
@@ -234,14 +234,14 @@ public class GameBoardTest {
     public void occupiedSquareMoveThrowsError() throws InvalidMoveException, InvalidCoordinateException {
         thrown.expect(InvalidMoveException.class);
         thrown.expectMessage("Square is already full.");
-        Board invalid = TicTacToeTest.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle center"), O);
+        Board invalid = TicTacToeTestHelper.playerONext.fillSquare(new ThreeByThreeBoardCoordinate("middle center"), O);
     }
 
     @Test
     public void invalidMoveThrowsError() throws InvalidMoveException {
         thrown.expect(InvalidMoveException.class);
         thrown.expectMessage("Invalid move coordinate.");
-        Board invalid = TicTacToeTest.playerONext.fillSquare(new UniversalBoardCoordinate(5, 7), O);
+        Board invalid = TicTacToeTestHelper.playerONext.fillSquare(new UniversalBoardCoordinate(5, 7), O);
     }
 
     @Test
@@ -274,6 +274,6 @@ public class GameBoardTest {
 
     @After
     public void cleanUp() {
-        System.setOut(TicTacToeTest.stdout);
+        System.setOut(TicTacToeTestHelper.stdout);
     }
 }

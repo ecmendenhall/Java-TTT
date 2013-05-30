@@ -127,6 +127,6 @@ public class RowTest {
 
     @After
     public void cleanUp() {
-        System.setOut(TicTacToeTest.stdout);
+        System.setOut(TicTacToeTestHelper.stdout);
     }
 }

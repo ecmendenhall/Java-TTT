@@ -39,7 +39,7 @@ public class PlayerTest {
 
     @Test
     public void playerOHasSymbol() {
-        Assert.assertEquals('O', TicTacToeTest.playerO.getSymbol());
+        Assert.assertEquals('O', TicTacToeTestHelper.playerO.getSymbol());
     }
 
     @Test
@@ -51,16 +51,16 @@ public class PlayerTest {
 
     @Test
     public void playerCorrectlyScoresWinningBoard() {
-        Assert.assertEquals(-1, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.playerXWins));
+        Assert.assertEquals(-1, TicTacToeTestHelper.playerO.scoreBoard(TicTacToeTestHelper.playerXWins));
     }
 
     @Test
     public void playerCorrectlyScoresBoardWithoutWin() {
-        Assert.assertEquals(0, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.noWins));
+        Assert.assertEquals(0, TicTacToeTestHelper.playerO.scoreBoard(TicTacToeTestHelper.noWins));
     }
 
     @Test
     public void playerCorrectlyScoresLosingBoard() {
-        Assert.assertEquals(1, TicTacToeTest.playerO.scoreBoard(TicTacToeTest.playerOWins));
+        Assert.assertEquals(1, TicTacToeTestHelper.playerO.scoreBoard(TicTacToeTestHelper.playerOWins));
     }
 }

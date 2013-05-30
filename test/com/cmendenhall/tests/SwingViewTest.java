@@ -69,7 +69,7 @@ public class SwingViewTest {
     public void boardPanelCorrectlyDisplaysBoard() {
         BoardPanel boardPanel =
                 (BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
-        boardPanel.loadBoard(TicTacToeTest.noWins);
+        boardPanel.loadBoard(TicTacToeTestHelper.noWins);
     }
 
     @Test
@@ -231,7 +231,7 @@ public class SwingViewTest {
 
     @Test
     public void messagePanelShouldDisplayBoard() {
-        swingView.displayBoard(TicTacToeTest.noWins);
+        swingView.displayBoard(TicTacToeTestHelper.noWins);
 
         BoardPanel boardPanel = (BoardPanel)getComponent(swingView.getContentPane(), "boardPanel");
         JTable board = (JTable)getComponent(boardPanel, "boardTable");

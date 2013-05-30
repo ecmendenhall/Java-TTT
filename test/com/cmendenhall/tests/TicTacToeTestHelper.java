@@ -4,6 +4,7 @@ import com.cmendenhall.board.*;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
+import org.junit.Before;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -12,7 +13,7 @@ import static com.cmendenhall.TicTacToeSymbols.*;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public final class TicTacToeTest {
+public final class TicTacToeTestHelper {
 
     public static void assertSameBoard(Board firstBoard, Board secondBoard) {
         List<Row> firstBoardRows = firstBoard.getRows();

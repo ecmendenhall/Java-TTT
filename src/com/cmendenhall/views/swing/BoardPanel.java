@@ -76,6 +76,7 @@ public class BoardPanel extends JPanel {
         boardData.setColumnCount(boardSize);
         boardData.setRowCount(boardSize);
 
+        // read data from board into boardData
         for (int row=0; row < rows.size(); row++) {
             Row boardRow = rows.get(row);
             int[] squares = boardRow.getSquares();

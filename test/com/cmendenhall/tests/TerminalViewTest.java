@@ -33,8 +33,8 @@ public class TerminalViewTest {
     public void viewShouldDisplayBoard() {
         System.setOut(outputStream);
 
-        view.displayBoard(TicTacToeTest.noWins);
-        String expected = TicTacToeTest.noWins.toString() + "\n";
+        view.displayBoard(TicTacToeTestHelper.noWins);
+        String expected = TicTacToeTestHelper.noWins.toString() + "\n";
         assertEquals(expected, output.toString());
 
         System.setOut(stdout);

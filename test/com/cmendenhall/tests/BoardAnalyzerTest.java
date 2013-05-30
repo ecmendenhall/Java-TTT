@@ -14,117 +14,117 @@ public class BoardAnalyzerTest {
 
     @Test
     public void boardHasHorizontalWin() {
-        assertTrue(BoardAnalyzer.hasWin(TicTacToeTest.playerOWins));
+        assertTrue(BoardAnalyzer.hasWin(TicTacToeTestHelper.playerOWins));
     }
 
     @Test
     public void boardHasVerticalWin() {
-        assertTrue(BoardAnalyzer.hasWin(TicTacToeTest.playerXWins));
+        assertTrue(BoardAnalyzer.hasWin(TicTacToeTestHelper.playerXWins));
     }
 
     @Test
     public void drawBoardDoesNotHaveWin() {
-        assertFalse(BoardAnalyzer.hasWin(TicTacToeTest.noWins));
+        assertFalse(BoardAnalyzer.hasWin(TicTacToeTestHelper.noWins));
     }
 
     @Test
     public void boardHasDiagonalWin() {
-        assertTrue(BoardAnalyzer.hasWin(TicTacToeTest.diagonal));
+        assertTrue(BoardAnalyzer.hasWin(TicTacToeTestHelper.diagonal));
     }
 
     @Test
     public void noWinsOnNewBoard() {
-        assertFalse(BoardAnalyzer.hasWin(TicTacToeTest.emptyBoard));
+        assertFalse(BoardAnalyzer.hasWin(TicTacToeTestHelper.emptyBoard));
     }
 
 
     @Test
     public void emptyBoardIsNotFull() {
-        assertFalse(BoardAnalyzer.isFull(TicTacToeTest.emptyBoard));
+        assertFalse(BoardAnalyzer.isFull(TicTacToeTestHelper.emptyBoard));
     }
 
     @Test
     public void partiallyFullBoardIsNotFull() {
-        assertFalse(BoardAnalyzer.isFull(TicTacToeTest.playerONext));
-        assertFalse(BoardAnalyzer.isFull(TicTacToeTest.playerXShouldBlock));
+        assertFalse(BoardAnalyzer.isFull(TicTacToeTestHelper.playerONext));
+        assertFalse(BoardAnalyzer.isFull(TicTacToeTestHelper.playerXShouldBlock));
     }
 
     @Test
     public void noWinsIsFull() {
-        assertTrue(BoardAnalyzer.isFull(TicTacToeTest.noWins));
+        assertTrue(BoardAnalyzer.isFull(TicTacToeTestHelper.noWins));
     }
 
     @Test
     public void noWinsHasNoWinner() {
-        assertEquals(_, BoardAnalyzer.winnerIs(TicTacToeTest.noWins));
+        assertEquals(_, BoardAnalyzer.winnerIs(TicTacToeTestHelper.noWins));
     }
 
     @Test
     public void playerXWinsWinnerIsX() {
-        assertEquals(X, BoardAnalyzer.winnerIs(TicTacToeTest.playerXWins));
+        assertEquals(X, BoardAnalyzer.winnerIs(TicTacToeTestHelper.playerXWins));
     }
 
     @Test
     public void playerOWinsWinnerIsO() {
-        assertEquals(O, BoardAnalyzer.winnerIs(TicTacToeTest.playerOWins));
+        assertEquals(O, BoardAnalyzer.winnerIs(TicTacToeTestHelper.playerOWins));
     }
 
     @Test
     public void playerXMovesFirst() {
-        assertEquals(X, BoardAnalyzer.nextTurn(TicTacToeTest.emptyBoard));
+        assertEquals(X, BoardAnalyzer.nextTurn(TicTacToeTestHelper.emptyBoard));
     }
 
     @Test
     public void playerOMovesNext() {
-        assertEquals(O, BoardAnalyzer.nextTurn(TicTacToeTest.playerONext));
+        assertEquals(O, BoardAnalyzer.nextTurn(TicTacToeTestHelper.playerONext));
     }
 
     @Test
     public void fullBoardHasNoNextTurn() {
-        assertEquals(_, BoardAnalyzer.nextTurn(TicTacToeTest.noWins));
+        assertEquals(_, BoardAnalyzer.nextTurn(TicTacToeTestHelper.noWins));
     }
 
     @Test
     public void emptyBoardSumIsZero() {
-        assertEquals(0, BoardAnalyzer.sum(TicTacToeTest.emptyBoard));
+        assertEquals(0, BoardAnalyzer.sum(TicTacToeTestHelper.emptyBoard));
     }
 
     @Test
     public void noWinsBoardSumIsThirteen() {
-        assertEquals(13, BoardAnalyzer.sum(TicTacToeTest.noWins));
+        assertEquals(13, BoardAnalyzer.sum(TicTacToeTestHelper.noWins));
     }
 
     @Test
     public void playerXWinsBoardSumIsSeven() {
-        assertEquals(7, BoardAnalyzer.sum(TicTacToeTest.playerXWins));
+        assertEquals(7, BoardAnalyzer.sum(TicTacToeTestHelper.playerXWins));
     }
 
     @Test
     public void emptyBoardIsEmpty() {
-        assertTrue(BoardAnalyzer.isEmpty(TicTacToeTest.emptyBoard));
+        assertTrue(BoardAnalyzer.isEmpty(TicTacToeTestHelper.emptyBoard));
     }
 
     @Test
     public void turnsPlayedOnEmptyBoardEqualsZero() {
-        int played = BoardAnalyzer.turnsPlayed(TicTacToeTest.emptyBoard);
+        int played = BoardAnalyzer.turnsPlayed(TicTacToeTestHelper.emptyBoard);
         assertEquals(0, played);
     }
 
     @Test
     public void turnsPlayedOnBoardWithOneMoveEqualsOne() {
-        int played = BoardAnalyzer.turnsPlayed(TicTacToeTest.xInCenter);
+        int played = BoardAnalyzer.turnsPlayed(TicTacToeTestHelper.xInCenter);
         assertEquals(1, played);
     }
 
     @Test
     public void turnsPlayedOnBoardWithThreeMovesEqualsThree() {
-       int played = BoardAnalyzer.turnsPlayed(TicTacToeTest.playerONext);
+       int played = BoardAnalyzer.turnsPlayed(TicTacToeTestHelper.playerONext);
        assertEquals(3, played);
     }
 
     @Test
     public void turnsPlayedOnFullBoardEqualsNine() {
-       int played = BoardAnalyzer.turnsPlayed(TicTacToeTest.noWins);
+       int played = BoardAnalyzer.turnsPlayed(TicTacToeTestHelper.noWins);
        assertEquals(9, played);
     }
 }
