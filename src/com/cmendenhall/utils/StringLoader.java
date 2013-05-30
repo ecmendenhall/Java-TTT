@@ -6,30 +6,40 @@ import java.util.Properties;
 
 public class StringLoader {
     private HashMap<String, String> viewStrings = new HashMap<String, String>();
+    private Properties viewStringProperties = new Properties();
 
     public StringLoader() {
+        loadViewStrings();
     }
 
-    void loadViewStrings() {
-        Properties viewStrings = new Properties();
+    private void load(String propertyName) {
+        String propertyString = viewStringProperties.getProperty(propertyName);
+        viewStrings.put(propertyName, propertyString)
+    }
+
+    private void loadViewStrings() {
         try {
-            viewStrings.load(getClass().getResourceAsStream("/viewstrings.properties"));
-        } catch (IOException e) {
-            System.out.println(e);
+            viewStringProperties.load(getClass().getResourceAsStream("/viewstrings.properties"));
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
 
-        welcome = viewStrings.getProperty("welcome");
-        divider = viewStrings.getProperty("divider");
-        yourMove = viewStrings.getProperty("yourmove");
-        yourMoveThreeSquares = viewStrings.getProperty("yourmovethreesquares");
-        playAgain = viewStrings.getProperty("playagain");
-        gameOverDraw = viewStrings.getProperty("gameoverdraw");
-        gameOverWin = viewStrings.getProperty("gameoverwin");
-        xWins = viewStrings.getProperty("xwins");
-        oWins = viewStrings.getProperty("owins");
-        choosePlayerOne = viewStrings.getProperty("chooseplayerone");
-        choosePlayerTwo = viewStrings.getProperty("chooseplayertwo");
-        boardSize = viewStrings.getProperty("boardsize");
+        String[] properties = { "welcome",
+                                "divider",
+                                "yourmove",
+                                "yourmovethreesquares",
+                                "playagain",
+                                "gameoverdraw",
+                                "gameoverwin",
+                                "xwins",
+                                "owins",
+                                "chooseplayerone",
+                                "chooseplayertwo",
+                                "boardsize"};
+
+        for (String property : properties) {
+            load(property);
+        }
 
     }
 }
