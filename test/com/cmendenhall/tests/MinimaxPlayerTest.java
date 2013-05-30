@@ -30,6 +30,7 @@ import static com.cmendenhall.TicTacToeSymbols.*;
 public class MinimaxPlayerTest {
 
     private MinimaxPlayer playerX;
+    private OutputRecorder recorder;
 
     @Before
     public void setUp() throws InvalidCoordinateException, InvalidMoveException {
@@ -144,11 +145,14 @@ public class MinimaxPlayerTest {
         assertEquals(4, randomMoves);
     }
 
-    private void playGame(Integer boardSize) throws UnsupportedEncodingException {
+    private void setUpRecorder() throws UnsupportedEncodingException {
         PrintStream stdout = System.out;
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        OutputRecorder recorder = new OutputRecorder(output, true, "UTF-8");
+        recorder = new OutputRecorder(output, true, "UTF-8");
+    }
 
+    private void playGame(Integer boardSize) throws UnsupportedEncodingException {
+        setUpRecorder();
         MockTerminalView view = new MockTerminalView();
         Controller controller = new GameController(view);
 
@@ -167,8 +171,6 @@ public class MinimaxPlayerTest {
             String itsADraw = recorder.popLastOutput();
             assertEquals("Game over: It's a draw.", itsADraw);
         }
-
-        System.setOut(stdout);
     }
 
     @Test
