@@ -20,13 +20,6 @@ public class RowTest {
     public Row xxo = new Row(X, X, O);
     public Row ooo = new Row(O, O, O);
 
-    private ByteArrayOutputStream output = new ByteArrayOutputStream();
-
-    @Before
-    public void setUp() {
-        System.setOut(new PrintStream(output));
-    }
-
     @Test
     public void rowExists() {
         Row newRow = new Row(_);
@@ -123,10 +116,5 @@ public class RowTest {
         assertEquals(xxo.intToSymbol(2), "O");
         assertEquals(xxo.intToSymbol(0), " ");
         assertEquals(xxo.intToSymbol(5), "");
-    }
-
-    @After
-    public void cleanUp() {
-        System.setOut(TicTacToeTestHelper.stdout);
     }
 }
