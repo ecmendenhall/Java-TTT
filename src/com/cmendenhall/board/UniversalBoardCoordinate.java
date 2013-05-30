@@ -11,22 +11,30 @@ public class UniversalBoardCoordinate implements BoardCoordinate {
         column = c;
     }
 
-    private String[] parseString(String locationPhrase) {
+    private Integer[] parseString(String locationPhrase) throws InvalidCoordinateException {
         String noParens = locationPhrase.replace('(', ' ').replace(')', ' ');
-        return noParens.split(",");
+        String[] coordinates = noParens.split(",");
+        checkValidity(coordinates);
+        return parseCoordinates(coordinates);
+    }
+
+    private void checkValidity(String[] coordinates) throws InvalidCoordinateException {
+        if (coordinates.length != 2) {
+            throw new InvalidCoordinateException("That's not a valid board location.");
+        }
+    }
+
+    private Integer[] parseCoordinates(String[] coordinates) {
+        return new Integer[] { Integer.parseInt(coordinates[0].trim()),
+                               Integer.parseInt(coordinates[1].trim()) };
     }
 
     public UniversalBoardCoordinate(String locationPhrase) throws InvalidCoordinateException {
 
-        String noParens = locationPhrase.replace('(', ' ').replace(')', ' ');
-        String[] coordinates = noParens.split(",");
+        Integer[] orderedPair = parseString(locationPhrase);
 
-        if (coordinates.length != 2) {
-            throw new InvalidCoordinateException("That's not a valid board location.");
-        }
-
-        row = Integer.parseInt(coordinates[0].trim());
-        column = Integer.parseInt(coordinates[1].trim());
+        row = orderedPair[0];
+        column = orderedPair[1];
     }
 
     public Integer getRow() {
