@@ -10,10 +10,15 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            SwingView view = new SwingView();
-            view.setVisible(true);
+            final SwingView[] view = new SwingView[1];
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    view[0] = new SwingView();
+                    view[0].setVisible(true);
+                }
+            });
 
-            Controller controller = new GameController(view);
+            Controller controller = new GameController(view[0]);
 
             controller.newGame();
             controller.setUp();

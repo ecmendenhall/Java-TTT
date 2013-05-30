@@ -18,7 +18,7 @@ import static com.cmendenhall.TicTacToeSymbols.O;
 import static com.cmendenhall.TicTacToeSymbols.X;
 
 public class GameController implements Controller {
-    private HashMap<String, String> viewStrings =  new StringLoader().getViewStrings("/viewstrings.properties");
+    private HashMap<String, String> viewStrings;
     private Board board;
     private View view;
     private Player playerOne;
@@ -26,6 +26,7 @@ public class GameController implements Controller {
 
     public GameController(View gameView) {
         view = gameView;
+        viewStrings = view.getStrings();
         board = new GameBoard();
     }
 
@@ -55,17 +56,22 @@ public class GameController implements Controller {
         playerTwo = loadPlayer(O);
     }
 
-    private Board getBoardSize() {
-        view.displayMessage(viewStrings.get("boardsize"));
-        String boardDimensions = view.getInput();
-        while (boardDimensions == "" || boardDimensions == null) {
-            boardDimensions = view.getInput();
+    private String pollForInput() {
+        String input = view.getInput();
+        while (input == "" || input == null) {
+            input = view.getInput();
             try {
                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        return input;
+    }
+
+    private Board getBoardSize() {
+        view.displayMessage(viewStrings.get("boardsize"));
+        String boardDimensions = pollForInput();
         try {
             Integer size = Integer.parseInt(boardDimensions);
             if (size > 0) {
@@ -84,15 +90,8 @@ public class GameController implements Controller {
     private Player loadPlayer(int number) {
         String playerMessage = (number == X) ? viewStrings.get("chooseplayerone") : viewStrings.get("chooseplayertwo");
         view.displayMessage(playerMessage);
-        String playerType = view.getInput();
-        while (playerType == "" || playerType == null) {
-            playerType = view.getInput();
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        String playerType = pollForInput();
+
         if (playerType.equals("h")) {
             return new HumanPlayer(number);
         } else if (playerType.equals("c")) {
@@ -180,15 +179,7 @@ public class GameController implements Controller {
         Player currentPlayer = getCurrentPlayer();
         if (currentPlayer.isHuman()) {
             view.displayMessage(nextTurnMessage());
-            String input = view.getInput();
-            while (input == "" || input == null) {
-                input = view.getInput();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            String input = pollForInput();
             try {
                 BoardCoordinate move;
                 if (board.getRows().size() == 3) {

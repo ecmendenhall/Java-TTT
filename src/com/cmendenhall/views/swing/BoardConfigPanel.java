@@ -9,6 +9,16 @@ public class BoardConfigPanel extends JPanel {
     public BoardConfigPanel() {
         setName("boardConfigPanel");
 
+        JSpinner boardSizeSpinner = loadSpinner();
+
+        JLabel spinnerLabel = new JLabel("Board size:");
+        spinnerLabel.setLabelFor(boardSizeSpinner);
+
+        add(spinnerLabel);
+        add(boardSizeSpinner);
+    }
+
+    private JSpinner loadSpinner() {
         boardSizeSpinnerModel = new SpinnerNumberModel(3, 3, 10, 1);
 
         JSpinner boardSizeSpinner = new JSpinner(boardSizeSpinnerModel);
@@ -18,12 +28,7 @@ public class BoardConfigPanel extends JPanel {
         d.width = 50;
         boardSizeSpinner.setPreferredSize(d);
         boardSizeSpinner.setValue(3);
-
-        JLabel spinnerLabel = new JLabel("Board size:");
-        spinnerLabel.setLabelFor(boardSizeSpinner);
-
-        add(spinnerLabel);
-        add(boardSizeSpinner);
+        return boardSizeSpinner;
     }
 
     public String boardSize() {

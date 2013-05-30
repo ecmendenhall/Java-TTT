@@ -1,6 +1,7 @@
 package com.cmendenhall.views.swing;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class PlayerConfigPanel extends JPanel {
     private ButtonGroup playerButtons;
@@ -24,9 +25,16 @@ public class PlayerConfigPanel extends JPanel {
         playerButtons.add(humanButton);
         playerButtons.add(computerButton);
 
-        add(playerLabel);
-        add(humanButton);
-        add(computerButton);
+        add(playerLabel,
+            humanButton,
+            computerButton);
+    }
+
+    public Component add(Component... components) {
+        for (Component component : components) {
+            super.add(component);
+        }
+        return this;
     }
 
     public boolean humanSelected() {

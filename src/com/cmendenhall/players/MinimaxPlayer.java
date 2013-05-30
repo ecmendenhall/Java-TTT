@@ -85,12 +85,16 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    private Board randomMove(Board board) {
+    private int randomSquare(Board board) {
         int size = board.getSize();
         Random generator = new Random();
+        return generator.nextInt(size);
+    }
 
-        int row = generator.nextInt(size);
-        int column = generator.nextInt(size);
+    private Board randomMove(Board board) {
+
+        int row = randomSquare(board);
+        int column = randomSquare(board);
 
         BoardCoordinate move = new UniversalBoardCoordinate(row, column);
 
@@ -105,10 +109,14 @@ public class MinimaxPlayer extends GamePlayer {
         return board.getSize() + (2 - getGamePiece());
     }
 
+    private boolean randomMoveOkay(Board board) {
+        return (BoardAnalyzer.turnsPlayed(board) < randomMoveLimit(board) &&
+                board.getSize() > 3);
+    }
+
     public Board bestMove(Board board) {
 
-        if (BoardAnalyzer.turnsPlayed(board) < randomMoveLimit(board) &&
-                board.getSize() > 3) {
+        if ( randomMoveOkay(board) ) {
             return randomMove(board);
         }
 

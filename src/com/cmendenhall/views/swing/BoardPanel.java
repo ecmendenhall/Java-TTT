@@ -18,11 +18,9 @@ public class BoardPanel extends JPanel {
     private JTable boardTable;
     private DefaultTableModel boardData;
     private DefaultTableCellRenderer centeredRenderer;
-    private SwingView swingView;
     private InputAdapter inputAdapter;
 
     public BoardPanel(SwingView swingView, InputAdapter inputAdapter) {
-        this.swingView = swingView;
         this.inputAdapter = inputAdapter;
 
         setName("boardPanel");
@@ -88,7 +86,6 @@ public class BoardPanel extends JPanel {
 
         formatBoard();
         setVisible(true);
-
     }
 
     public void addBoardClickListener() {

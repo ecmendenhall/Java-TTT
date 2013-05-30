@@ -20,9 +20,6 @@ public class SwingView extends JFrame implements View {
     private MessagePanel messagePanel = new MessagePanel();
     private ConfigPanel configPanel = new ConfigPanel(this, inputAdapter);
 
-    private StringLoader stringLoader = new StringLoader();
-    private HashMap<String, String> viewStrings = new StringLoader().getViewStrings("/swingviewstrings.properties");
-
     public SwingView() {
         setTitle("Tic Tac Toe");
         setSize(WIDTH, HEIGHT);
@@ -31,10 +28,17 @@ public class SwingView extends JFrame implements View {
         JPanel contentPane = (JPanel)getContentPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
 
-        add(Box.createRigidArea(new Dimension(100, 25)));
-        add(boardPanel);
-        add(messagePanel);
-        add(configPanel);
+        add(Box.createRigidArea(new Dimension(100, 25)),
+            boardPanel,
+            messagePanel,
+            configPanel);
+    }
+
+    public Component add(Component... components) {
+        for (Component component : components) {
+            super.add(component);
+        }
+        return this;
     }
 
     public void displayBoard(Board board) {
@@ -61,6 +65,11 @@ public class SwingView extends JFrame implements View {
 
     public String getInput() {
         return inputAdapter.getInput();
+    }
+
+    public HashMap<String, String> getStrings() {
+        HashMap<String, String> viewStrings = new StringLoader().getViewStrings("/swingviewstrings.properties");
+        return viewStrings;
     }
 
 }

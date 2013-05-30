@@ -2,9 +2,12 @@ package com.cmendenhall.views;
 
 import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.board.Board;
+import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.views.io.CharStreamConsole;
 import com.cmendenhall.views.io.IOHandler;
 import com.cmendenhall.views.io.SystemConsole;
+
+import java.util.HashMap;
 
 public class TerminalView implements View {
     private IOHandler io;
@@ -46,5 +49,10 @@ public class TerminalView implements View {
 
     public void reload() {
 
+    }
+
+    public HashMap<String, String> getStrings() {
+        HashMap<String, String> viewStrings = new StringLoader().getViewStrings("/viewstrings.properties");
+        return viewStrings;
     }
 }

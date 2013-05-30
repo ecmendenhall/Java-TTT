@@ -27,10 +27,17 @@ public class ConfigPanel extends JPanel {
         playerOneConfigPanel = new PlayerConfigPanel("Player X", "playerOneConfigPanel");
         playerTwoConfigPanel = new PlayerConfigPanel("Player O", "playerTwoConfigPanel");
 
-        add(gameActionPanel);
-        add(boardConfigPanel);
-        add(playerOneConfigPanel);
-        add(playerTwoConfigPanel);
+        add(gameActionPanel,
+            boardConfigPanel,
+            playerOneConfigPanel,
+            playerTwoConfigPanel);
+    }
+
+    public Component add(Component... components) {
+        for (Component component : components) {
+            super.add(component);
+        }
+        return this;
     }
 
     public String boardSize() {
