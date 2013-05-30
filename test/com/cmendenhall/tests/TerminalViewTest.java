@@ -1,6 +1,7 @@
 package com.cmendenhall.tests;
 
 import com.cmendenhall.exceptions.GameOverException;
+import com.cmendenhall.utils.OutputRecorder;
 import com.cmendenhall.views.TerminalView;
 import com.cmendenhall.mocks.TestConsole;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.junit.runners.JUnit4;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,35 +21,43 @@ public class TerminalViewTest {
     private TerminalView view = new TerminalView();
     private TestConsole console = new TestConsole();
 
-    private final PrintStream stdout = System.out;
-    private final ByteArrayOutputStream output = new ByteArrayOutputStream();
-    private PrintStream outputStream;
+    private OutputRecorder recorder;
 
 
     @Before
     public void setUp() throws Exception {
-        outputStream = new PrintStream(output, true, "UTF-8");
+        setUpRecorder();
+    }
+
+    private void setUpRecorder() throws UnsupportedEncodingException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        recorder = new OutputRecorder(output, true, "UTF-8");
+    }
+
+    private void startRecorder() {
+        System.setOut(recorder);
     }
 
     @Test
     public void viewShouldDisplayBoard() {
-        System.setOut(outputStream);
+        startRecorder();
 
         view.displayBoard(TicTacToeTestHelper.noWins);
-        String expected = TicTacToeTestHelper.noWins.toString() + "\n";
-        assertEquals(expected, output.toString());
-
-        System.setOut(stdout);
+        String expected = TicTacToeTestHelper.noWins.toString();
+        String output = recorder.popLastOutput();
+        assertEquals(expected, output);
     }
 
     @Test
     public void viewShouldDisplayMessage() {
-        System.setOut(outputStream);
+        startRecorder();
 
         view.displayMessage("Welcome to Tic-Tac-Toe");
-        assertEquals("Welcome to Tic-Tac-Toe\n", output.toString());
 
-        System.setOut(stdout);
+        String expected = "Welcome to Tic-Tac-Toe";
+        String output = recorder.popLastOutput();
+        assertEquals(expected, output);
+
     }
 
     @Test(expected = GameOverException.class)
