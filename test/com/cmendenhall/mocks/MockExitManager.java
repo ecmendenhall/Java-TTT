@@ -1,11 +1,16 @@
 package com.cmendenhall.mocks;
 
-/**
- * Created with IntelliJ IDEA.
- * User: ecm
- * Date: 6/3/13
- * Time: 9:40 AM
- * To change this template use File | Settings | File Templates.
- */
-public class MockExitManager {
+import com.cmendenhall.utils.ExitManager;
+
+public class MockExitManager extends ExitManager {
+    private boolean exitWasCalled = false;
+
+    public void exit() {
+        exitWasCalled = true;
+    }
+
+    public boolean exitWasCalled() {
+        return exitWasCalled;
+    }
+
 }

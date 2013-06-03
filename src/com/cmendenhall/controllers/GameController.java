@@ -1,14 +1,13 @@
 package com.cmendenhall.controllers;
 
 import com.cmendenhall.board.*;
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.exceptions.InvalidBoardException;
 import com.cmendenhall.exceptions.InvalidCoordinateException;
 import com.cmendenhall.exceptions.InvalidMoveException;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
-import com.cmendenhall.utils.StringLoader;
+import com.cmendenhall.utils.ExitManager;
 import com.cmendenhall.views.View;
 
 import java.text.MessageFormat;
@@ -18,6 +17,7 @@ import static com.cmendenhall.TicTacToeSymbols.O;
 import static com.cmendenhall.TicTacToeSymbols.X;
 
 public class GameController implements Controller {
+    private ExitManager exitManager;
     private HashMap<String, String> viewStrings;
     private Board board;
     private View view;
@@ -25,6 +25,14 @@ public class GameController implements Controller {
     private Player playerTwo;
 
     public GameController(View gameView) {
+        exitManager = new ExitManager();
+        view = gameView;
+        viewStrings = view.getStrings();
+        board = new GameBoard();
+    }
+
+    public GameController(View gameView, ExitManager customExitManager) {
+        exitManager = customExitManager;
         view = gameView;
         viewStrings = view.getStrings();
         board = new GameBoard();
@@ -108,12 +116,12 @@ public class GameController implements Controller {
         loadGame(new GameBoard());
     }
 
-    public void startGame() throws GameOverException {
+    public void startGame()  {
         view.displayBoard(board);
         playRound();
     }
 
-    public void checkForGameOver() throws GameOverException {
+    public void checkForGameOver()  {
         checkForWins();
         checkForDraw();
     }
@@ -122,7 +130,7 @@ public class GameController implements Controller {
         return (winner == X) ? viewStrings.get("xwins") : viewStrings.get("owins");
     }
 
-    private void checkForWins() throws GameOverException {
+    private void checkForWins()  {
         if (BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
             String winnerMessage = getWinnerMessage(BoardAnalyzer.winnerIs(board));
@@ -131,7 +139,7 @@ public class GameController implements Controller {
         }
     }
 
-    private void checkForDraw() throws GameOverException {
+    private void checkForDraw()  {
         if (BoardAnalyzer.isFull(board) && !BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
             view.displayMessage(viewStrings.get("gameoverdraw"));
@@ -139,12 +147,16 @@ public class GameController implements Controller {
         }
     }
 
-    public void restartGame() throws GameOverException {
+    public void endGame() {
+        exitManager.exit();
+    }
+
+    public void restartGame()  {
         view.reload();
         view.displayMessage(viewStrings.get("playagain"));
         String restart = view.getInput();
         if (restart.equals("n")) {
-            view.endGame();
+            endGame();
         } else {
             loadGame(new GameBoard());
             setUp();
@@ -161,7 +173,7 @@ public class GameController implements Controller {
         }
     }
 
-    public void playRound() throws GameOverException {
+    public void playRound()  {
         checkForGameOver();
         board = getNextMove();
         view.displayBoard(board);

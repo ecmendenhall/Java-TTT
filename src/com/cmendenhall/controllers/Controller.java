@@ -1,6 +1,5 @@
 package com.cmendenhall.controllers;
 
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.board.Board;
 
 public interface Controller {
@@ -11,11 +10,11 @@ public interface Controller {
 
     public void setUp();
 
-    public void startGame() throws GameOverException;
+    public void startGame() ;
 
-    public void restartGame() throws GameOverException;
+    public void restartGame() ;
 
-    public void checkForGameOver() throws GameOverException;
+    public void checkForGameOver() ;
 
-    public void playRound() throws GameOverException;
+    public void playRound() ;
 }

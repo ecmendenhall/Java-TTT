@@ -1,6 +1,5 @@
 package com.cmendenhall.tests;
 
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.views.swing.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -256,11 +255,6 @@ public class SwingViewTest {
         assertEquals("O", lowerLeft);
         assertEquals("X", lowerCenter);
         assertEquals("X", lowerRight);
-    }
-
-    @Test(expected = GameOverException.class)
-    public void swingViewShouldEndGames() throws GameOverException {
-        swingView.endGame();
     }
 
     @Test

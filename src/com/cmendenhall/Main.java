@@ -25,7 +25,6 @@ public class Main {
             controller.startGame();
         } catch (Exception e) {
             System.out.println(e);
-            System.exit(0);
         }
     }
 }

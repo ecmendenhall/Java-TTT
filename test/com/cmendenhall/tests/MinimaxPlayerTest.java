@@ -146,12 +146,11 @@ public class MinimaxPlayerTest extends TicTacToeTest {
 
 
     private void playGame(Integer boardSize) throws UnsupportedEncodingException {
+        startRecorder();
         MockTerminalView view = new MockTerminalView();
         Controller controller = new GameController(view);
 
         view.enqueueInput(boardSize.toString(), "c", "c");
-
-        startRecorder();
 
         try {
             controller.setUp();

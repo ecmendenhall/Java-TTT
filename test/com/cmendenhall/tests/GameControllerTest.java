@@ -1,8 +1,8 @@
 package com.cmendenhall.tests;
 
 import com.cmendenhall.controllers.GameController;
+import com.cmendenhall.mocks.MockExitManager;
 import com.cmendenhall.utils.StringLoader;
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
@@ -18,20 +18,28 @@ import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
 import static com.cmendenhall.TicTacToeSymbols.*;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)
 public class GameControllerTest extends TicTacToeTest {
     private HashMap<String, String> viewStrings = new StringLoader().getViewStrings("/viewstrings.properties");
 
-    private MockTerminalView view = new MockTerminalView();
-    private GameController controller = new GameController(view);
+    private MockExitManager mockExitManager;
+    private MockTerminalView view;
+    private GameController controller;
 
     @Before
     public void setUp() throws Exception {
+        startRecorder();
+        mockExitManager = new MockExitManager();
+        view = new MockTerminalView();
+        controller = new GameController(view, mockExitManager);
         Player playerOne = new HumanPlayer(X);
         Player playerTwo = new MinimaxPlayer(O);
         controller.setPlayerOne(playerOne);
         controller.setPlayerTwo(playerTwo);
+
+        recorder.popFirstOutput();
     }
 
     @Test
@@ -48,20 +56,23 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldCheckForGameOverStates() throws GameOverException {
+    public void controllerShouldCheckForGameOverStates()  {
         controller.checkForGameOver();
     }
 
-    @Test(expected = GameOverException.class)
-    public void controllerShouldLoadGames() throws GameOverException {
+    @Test()
+    public void controllerShouldLoadGames()  {
         view.enqueueInput("n");
 
         controller.loadGame(TicTacToeTestHelper.noWins);
-        controller.playRound();
+        controller.checkForGameOver();
+
+        assertTrue(mockExitManager.exitWasCalled());
     }
 
-    @Test(expected = GameOverException.class)
-    public void controllerShouldEndGameOnRestartIfInputIsNo() throws GameOverException {
+
+    @Test()
+    public void controllerShouldEndGameOnRestartIfInputIsNo()  {
         startRecorder();
 
         view.enqueueInput("n");
@@ -73,7 +84,7 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldStartNewGameOnRestartIfInputIsYes() throws GameOverException {
+    public void controllerShouldStartNewGameOnRestartIfInputIsYes()  {
         startRecorder();
 
         view.enqueueInput("y",
@@ -91,14 +102,16 @@ public class GameControllerTest extends TicTacToeTest {
 
         try {
             controller.restartGame();
-        } catch (GameOverException e) {
+        } catch (NoSuchElementException e) {
             assertEquals(viewStrings.get("playagain"),
                          recorder.popFirstOutput());
         }
     }
 
     @Test
-    public void controllerShouldHandleNextRound() throws GameOverException {
+    public void controllerShouldHandleNextRound()  {
+        startRecorder();
+
         view.enqueueInput("middle center",
                           "top right",
                           "middle right",
@@ -106,14 +119,14 @@ public class GameControllerTest extends TicTacToeTest {
 
         controller.newGame();
 
-        startRecorder();
-
         try {
             controller.startGame();
         } catch (Exception e) {
             String expectedFirst = TicTacToeTestHelper.emptyBoard.toString();
             String expectedSecond = MessageFormat.format(viewStrings.get("yourmovethreesquares"), 2) + " X.";
             String expectedThird = TicTacToeTestHelper.xInCenter.toString();
+
+            recorder.discardFirstNStrings(2);
 
             String outputFirst = recorder.popFirstOutput();
             String outputSecond = recorder.popFirstOutput();
@@ -126,18 +139,17 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldPassErrorMessageToViewOnInvalidInput() throws GameOverException {
+    public void controllerShouldPassErrorMessageToViewOnInvalidInput()  {
         view.enqueueInput("invalid phrase");
+        startRecorder();
 
         controller.newGame();
-
-        startRecorder();
 
         try {
             controller.playRound();
         } catch (NoSuchElementException e) {
 
-            recorder.discardFirstNStrings(1);
+            recorder.discardFirstNStrings(3);
             String output = recorder.popFirstOutput();
 
             assertEquals("That's not a valid board location.", output);
@@ -148,7 +160,7 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldPassErrorMessageToViewOnInvalidMove() throws GameOverException {
+    public void controllerShouldPassErrorMessageToViewOnInvalidMove()  {
         view.enqueueInput("middle center", "middle center");
 
         controller.newGame();
@@ -159,7 +171,7 @@ public class GameControllerTest extends TicTacToeTest {
             controller.playRound();
         } catch (NoSuchElementException e) {
 
-              recorder.discardFirstNStrings(4);
+              recorder.discardFirstNStrings(6);
               String output = recorder.popFirstOutput();
 
               assertEquals("Square is already full.", output);
@@ -167,22 +179,19 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void controllerShouldPrintWinnerMessageAfterWin() throws GameOverException {
+    public void controllerShouldPrintWinnerMessageAfterWin()  {
         view.enqueueInput("n");
         controller.loadGame(TicTacToeTestHelper.playerXWins);
 
         startRecorder();
 
-        try {
-            controller.checkForGameOver();
-        } catch (GameOverException e) {
-            String expected = viewStrings.get("gameoverwin") + viewStrings.get("xwins");
+        controller.checkForGameOver();
+        String expected = viewStrings.get("gameoverwin") + viewStrings.get("xwins");
 
-            recorder.discardFirstNStrings(1);
-            String output = recorder.popFirstOutput();
+        recorder.discardFirstNStrings(1);
+        String output = recorder.popFirstOutput();
 
-            assertEquals(expected, output);
-        }
+        assertEquals(expected, output);
     }
 
     @Test
@@ -201,8 +210,8 @@ public class GameControllerTest extends TicTacToeTest {
         }
     }
 
-    @Test(expected = GameOverException.class)
-    public void gameShouldEndOnWin() throws GameOverException {
+    @Test()
+    public void gameShouldEndOnWin()  {
 
         controller.newGame();
 
@@ -219,7 +228,11 @@ public class GameControllerTest extends TicTacToeTest {
 
                           "n");
 
-        controller.startGame();
+        try {
+            controller.startGame();
+        } catch (NoSuchElementException e) {
+            assertTrue(mockExitManager.exitWasCalled());
+        }
     }
 
     @Test
@@ -301,7 +314,7 @@ public class GameControllerTest extends TicTacToeTest {
     }
 
     @Test
-    public void movePromptShouldHaveDifferentMessageBasedOnBoardSize() throws GameOverException {
+    public void movePromptShouldHaveDifferentMessageBasedOnBoardSize()  {
         controller = new GameController(view);
 
         view.enqueueInput("3", "h", "h");

@@ -1,6 +1,5 @@
 package com.cmendenhall.views;
 
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.board.Board;
 import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.views.io.CharStreamConsole;
@@ -36,10 +35,6 @@ public class TerminalView implements View {
 
     public void displayMessage(String message) {
         io.print(message);
-    }
-
-    public void endGame() throws GameOverException {
-        throw new GameOverException("Game over.");
     }
 
     public String getInput() {

@@ -20,6 +20,7 @@ public class TicTacToeTest {
 
     protected void startRecorder() {
         System.setOut(recorder);
+        System.setErr(recorder);
     }
 
     @Before

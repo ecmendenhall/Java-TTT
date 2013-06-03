@@ -1,13 +1,11 @@
 package com.cmendenhall.views.swing;
 
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.board.Board;
 import com.cmendenhall.utils.StringLoader;
 import com.cmendenhall.views.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 
 public class SwingView extends JFrame implements View {
@@ -48,10 +46,6 @@ public class SwingView extends JFrame implements View {
     public void displayMessage(String message) {
         JLabel messageLabel = messagePanel.getLabel();
         messageLabel.setText(message);
-    }
-
-    public void endGame() throws GameOverException {
-        throw new GameOverException("Game over.");
     }
 
     public void reload() {

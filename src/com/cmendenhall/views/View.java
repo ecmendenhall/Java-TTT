@@ -1,6 +1,5 @@
 package com.cmendenhall.views;
 
-import com.cmendenhall.exceptions.GameOverException;
 import com.cmendenhall.board.Board;
 
 import java.util.HashMap;
@@ -12,8 +11,6 @@ public interface View {
     public void displayMessage(String message);
 
     public String getInput();
-
-    public void endGame() throws GameOverException;
 
     public void reload();
 
