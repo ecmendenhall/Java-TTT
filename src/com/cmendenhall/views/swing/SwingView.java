@@ -49,8 +49,9 @@ public class SwingView extends JFrame implements View {
     }
 
     public void reload() {
+        boardPanel.disableBoard();
         inputAdapter.clearInput();
-        configPanel.enableNewGameButton();
+        configPanel.enableConfigButtons();
     }
 
     public void resizeWindow(int width, int height) {
@@ -66,4 +67,7 @@ public class SwingView extends JFrame implements View {
         return viewStrings;
     }
 
+    public void enableBoard() {
+        boardPanel.enableBoard();
+    }
 }

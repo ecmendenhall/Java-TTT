@@ -35,6 +35,7 @@ public class BoardPanel extends JPanel {
         boardTable = new JTable();
 
         BoardTableStyler.applyStyle(boardTable);
+        disableBoard();
 
         boardData = new DefaultTableModel() {
             @Override
@@ -49,6 +50,18 @@ public class BoardPanel extends JPanel {
 
         add(boardTable);
         addBoardClickListener();
+    }
+
+    public void enableBoard() {
+        boardTable.setEnabled(true);
+        boardTable.setGridColor(new Color(0, 0, 0));
+        boardTable.setBackground(new Color(255, 255, 255));
+    }
+
+    public void disableBoard() {
+        boardTable.setEnabled(false);
+        boardTable.setGridColor(new Color(255, 255, 255));
+        boardTable.setBackground(new Color(230, 230, 230));
     }
 
     private void formatBoard() {

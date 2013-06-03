@@ -3,6 +3,7 @@
     <info organisation="com.cmendenhall" module="TTT" />
     <dependencies>
         <dependency org="junit" name="junit" rev="4.10" />
-        <dependency org="com.intellij" name="forms_rt" rev="7.0.3" />
+        <dependency org="org.pitest" name="pitest" rev="0.30"/>
+        <dependency org="org.pitest" name="pitest-ant" rev="0.30"/>
     </dependencies>
 </ivy-module>

@@ -37,6 +37,16 @@ public class PlayerConfigPanel extends JPanel {
         return this;
     }
 
+    public void disablePlayerSelection() {
+        humanButton.setEnabled(false);
+        computerButton.setEnabled(false);
+    }
+
+    public void enablePlayerSelection() {
+        humanButton.setEnabled(true);
+        computerButton.setEnabled(true);
+    }
+
     public boolean humanSelected() {
         ButtonModel selectedModel = playerButtons.getSelection();
         ButtonModel humanModel = humanButton.getModel();

@@ -2,6 +2,8 @@ package com.cmendenhall.views.swing;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ConfigPanel extends JPanel {
     private GameActionPanel gameActionPanel;
@@ -31,6 +33,8 @@ public class ConfigPanel extends JPanel {
             boardConfigPanel,
             playerOneConfigPanel,
             playerTwoConfigPanel);
+
+        addNewGameListener();
     }
 
     public Component add(Component... components) {
@@ -54,8 +58,30 @@ public class ConfigPanel extends JPanel {
         inputAdapter.sendPlayerSelection(playerTwoConfigPanel.humanSelected());
     }
 
-    public void enableNewGameButton() {
+    public void enableConfigButtons() {
         gameActionPanel.enableNewGameButton();
+        playerOneConfigPanel.enablePlayerSelection();
+        playerTwoConfigPanel.enablePlayerSelection();
+        boardConfigPanel.enableSpinner();
+    }
+
+
+    public void addNewGameListener() {
+        ActionListener newGameListener = new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                sendConfigInput();
+                int boardSize = Integer.parseInt(boardSize());
+                int newWidth = Math.max((boardSize + 1) * 50, 350);
+                int newHeight = Math.max((boardSize + 1) * 50 + 200, 400);
+                getView().resizeWindow(newWidth, newHeight);
+                getView().enableBoard();
+                gameActionPanel.disableNewGameButton();
+                playerOneConfigPanel.disablePlayerSelection();
+                playerTwoConfigPanel.disablePlayerSelection();
+                boardConfigPanel.disableSpinner();
+            }
+        };
+        gameActionPanel.setUpNewGameListener(newGameListener);
     }
 
 }

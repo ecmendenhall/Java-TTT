@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class BoardConfigPanel extends JPanel {
     private SpinnerNumberModel boardSizeSpinnerModel;
+    private JSpinner boardSizeSpinner;
 
     public BoardConfigPanel() {
         setName("boardConfigPanel");
@@ -21,7 +22,7 @@ public class BoardConfigPanel extends JPanel {
     private JSpinner loadSpinner() {
         boardSizeSpinnerModel = new SpinnerNumberModel(3, 3, 10, 1);
 
-        JSpinner boardSizeSpinner = new JSpinner(boardSizeSpinnerModel);
+        boardSizeSpinner = new JSpinner(boardSizeSpinnerModel);
         boardSizeSpinner.setName("boardSizeSpinner");
 
         Dimension d = boardSizeSpinner.getPreferredSize();
@@ -35,5 +36,12 @@ public class BoardConfigPanel extends JPanel {
         return boardSizeSpinnerModel.getValue().toString();
     }
 
+    public void disableSpinner() {
+        boardSizeSpinner.setEnabled(false);
+    }
+
+    public void enableSpinner() {
+        boardSizeSpinner.setEnabled(true);
+    }
 
 }

@@ -6,9 +6,7 @@ import com.cmendenhall.board.BoardAnalyzer;
 import com.cmendenhall.board.BoardCoordinate;
 import com.cmendenhall.board.UniversalBoardCoordinate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static com.cmendenhall.TicTacToeSymbols.O;
 import static com.cmendenhall.TicTacToeSymbols.X;
@@ -121,9 +119,9 @@ public class MinimaxPlayer extends GamePlayer {
         }
 
         List<Board> nextMoves = BoardAnalyzer.getNextStates(board);
-
-        int bestScore = Integer.MIN_VALUE + 1;
-        Board bestMove = null;
+        HashMap<Board, Integer> unsortedMoveScores = new HashMap<Board, Integer>();
+        ScoreComparator scoreComparator = new ScoreComparator(unsortedMoveScores);
+        TreeMap<Board, Integer> moveScores = new TreeMap<Board, Integer>(scoreComparator);
 
         for (Board move : nextMoves) {
 
@@ -132,13 +130,27 @@ public class MinimaxPlayer extends GamePlayer {
                 return move;
             } else {
                 int moveScore = scoreMove(move);
-
-                if (moveScore >= bestScore) {
-                    bestMove = move;
-                    bestScore = moveScore;
-                }
+                unsortedMoveScores.put(move, moveScore);
             }
         }
+        moveScores.putAll(unsortedMoveScores);
+        Board bestMove = moveScores.firstKey();
         return bestMove;
+    }
+
+    class ScoreComparator implements Comparator<Board> {
+        private Map<Board, Integer> map;
+
+        public ScoreComparator(Map<Board, Integer> unsortedMap) {
+            map = unsortedMap;
+        }
+
+        public int compare(Board a, Board b) {
+            if (map.get(a) >= map.get(b)) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
     }
 }

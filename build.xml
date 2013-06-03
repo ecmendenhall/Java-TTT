@@ -24,9 +24,21 @@
         <fileset dir="${lib.dir}" includes="**/*.jar"/>
         <pathelement location="${classes.dir}" />
         <pathelement location="${resources.dir}" />
+        <pathelement location="src.dir" />
+    </path>
+
+    <path id="classpath.pit">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <pathelement location="${classes.dir}" />
+        <pathelement location="${classes.dir}/test" />
+        <pathelement location="${resources.dir}" />
+        <pathelement location="src.dir" />
     </path>
 
     <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
+
+    <taskdef name="pitest" classname="org.pitest.ant.PitestTask"
+             classpathref="classpath" />
 
     <!-- Automatically download Ivy -->
     <property name="ivy.install.version" value="2.1.0-rc2" />
@@ -76,10 +88,11 @@
         </javac>
     </target>
 
-    <target name="compile-tests" depends="resolve" description="Compiles JUnit tests." >
+    <target name="compile-tests" depends="resolve, compile" description="Compiles JUnit tests." >
         <echo message="Compiling JUnit tests." />
-        <javac includeantruntime="false" debug="true" srcdir="${test.dir}" destdir="${classes.dir}" >
-            <classpath refid="classpath" />
+        <mkdir dir="${classes.dir}/test" />
+        <javac includeantruntime="false" debug="true" srcdir="${test.dir}" destdir="${classes.dir}/test" >
+            <classpath refid="classpath.test" />
         </javac>
     </target>
 
@@ -119,6 +132,17 @@
                 </fileset>
             </batchtest>
         </junit>
+    </target>
+
+    <target name="mutation-test">
+        <mkdir dir="${build.dir}/coverage" />
+        <pitest
+                classPath="classpath.test"
+                targetClasses="com.cmendenhall.*"
+                targetTests="com.cmendenhall.tests.*"
+                reportDir="${build.dir}/coverage"
+                sourceDir="src.dir">
+        </pitest>
     </target>
 
     <target name="clean-build" depends="clean, jar" description="Cleans output directory and builds .jar.">

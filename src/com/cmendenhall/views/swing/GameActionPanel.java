@@ -16,25 +16,17 @@ public class GameActionPanel extends JPanel {
         newGameButton = new JButton("New game");
         newGameButton.setName("newGameButton");
         add(newGameButton);
-        addNewGameListener();
     }
 
     public void enableNewGameButton() {
         newGameButton.setEnabled(true);
     }
 
-    public void addNewGameListener() {
-        ActionListener newGameListener = new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                configPanel.getView().displayMessage(" ");
-                configPanel.sendConfigInput();
-                int boardSize = Integer.parseInt(configPanel.boardSize());
-                int newWidth = Math.max((boardSize + 1) * 50, 350);
-                int newHeight = Math.max((boardSize + 1) * 50 + 200, 400);
-                configPanel.getView().resizeWindow(newWidth, newHeight);
-                newGameButton.setEnabled(false);
-            }
-        };
+    public void disableNewGameButton() {
+        newGameButton.setEnabled(false);
+    }
+
+    public void setUpNewGameListener(ActionListener newGameListener) {
         newGameButton.addActionListener(newGameListener);
     }
 
