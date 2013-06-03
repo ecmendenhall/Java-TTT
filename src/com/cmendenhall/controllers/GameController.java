@@ -210,7 +210,7 @@ public class GameController implements Controller {
             }
         } else {
             try {
-                Thread.sleep(200);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

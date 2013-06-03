@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.util.List;
 
 public class BoardPanel extends JPanel {
     private JTable boardTable;
@@ -45,7 +46,6 @@ public class BoardPanel extends JPanel {
         boardTable.setModel(boardData);
 
         loadBoard(new GameBoard());
-        formatBoard();
 
         add(boardTable);
         addBoardClickListener();
@@ -56,25 +56,31 @@ public class BoardPanel extends JPanel {
         TableColumnModel columnModel = boardTable.getColumnModel();
         int numberOfColumns = columnModel.getColumnCount();
 
+        boardTable.setMaximumSize(new Dimension(numberOfColumns * 50, numberOfColumns * 50));
+        boardTable.setPreferredSize(new Dimension(numberOfColumns * 50, numberOfColumns * 50));
+        boardTable.setMinimumSize(new Dimension(numberOfColumns * 50, numberOfColumns * 50));
+
         boardTable.setRowHeight(50);
 
         for (int column=0; column < numberOfColumns; column++) {
             TableColumn currentColumn = columnModel.getColumn(column);
             currentColumn.setPreferredWidth(50);
+            currentColumn.setMinWidth(50);
+            currentColumn.setMaxWidth(50);
             currentColumn.setCellRenderer(centeredRenderer);
         }
 
     }
 
-    public void loadBoard(Board board) {
-        setVisible(false);
-        java.util.List<Row> rows = board.getRows();
+    private void readRowsIntoTable(List<Row> rows) {
+
         int boardSize = rows.size();
 
         boardData.setColumnCount(boardSize);
         boardData.setRowCount(boardSize);
 
-        // read data from board into boardData
+        formatBoard();
+
         for (int row=0; row < rows.size(); row++) {
             Row boardRow = rows.get(row);
             int[] squares = boardRow.getSquares();
@@ -83,14 +89,24 @@ public class BoardPanel extends JPanel {
                 boardData.setValueAt(square, row, col);
             }
         }
+    }
+
+    public void loadBoard(Board board) {
+        formatBoard();
+        final List<Row> rows = board.getRows();
+
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                readRowsIntoTable(rows);
+            }
+        });
 
         formatBoard();
-        setVisible(true);
     }
 
     public void addBoardClickListener() {
         MouseAdapter boardClickListener = new MouseAdapter() {
-            public void mouseClicked(MouseEvent event) {
+            public void mousePressed(MouseEvent event) {
                 Integer row = boardTable.rowAtPoint(event.getPoint());
                 Integer column = boardTable.columnAtPoint(event.getPoint());
                 if (row >= 0 && column >= 0) {

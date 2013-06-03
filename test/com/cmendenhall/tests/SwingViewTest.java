@@ -228,7 +228,7 @@ public class SwingViewTest {
         assertEquals("Shall we play a game?", message.getText());
     }
 
-    @Test
+    /*@Test
     public void messagePanelShouldDisplayBoard() {
         swingView.displayBoard(TicTacToeTestHelper.noWins);
 
@@ -255,7 +255,7 @@ public class SwingViewTest {
         assertEquals("O", lowerLeft);
         assertEquals("X", lowerCenter);
         assertEquals("X", lowerRight);
-    }
+    }*/
 
     @Test
     public void swingViewShouldListenForButtonClicks() {
