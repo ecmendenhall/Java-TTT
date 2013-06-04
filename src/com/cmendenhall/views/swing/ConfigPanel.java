@@ -26,8 +26,8 @@ public class ConfigPanel extends JPanel {
 
         gameActionPanel = new GameActionPanel(this);
         boardConfigPanel = new BoardConfigPanel();
-        playerOneConfigPanel = new PlayerConfigPanel("Player X", "playerOneConfigPanel");
-        playerTwoConfigPanel = new PlayerConfigPanel("Player O", "playerTwoConfigPanel");
+        playerOneConfigPanel = new PlayerConfigPanel("Player X", "playerOneConfigPanel", new Color(130, 216, 0));
+        playerTwoConfigPanel = new PlayerConfigPanel("Player O", "playerTwoConfigPanel", new Color(108, 136, 255));
 
         add(gameActionPanel,
             boardConfigPanel,
@@ -75,6 +75,7 @@ public class ConfigPanel extends JPanel {
                 int newHeight = Math.max((boardSize + 1) * 50 + 200, 400);
                 getView().resizeWindow(newWidth, newHeight);
                 getView().enableBoard();
+                getView().displayMessage(" ");
                 gameActionPanel.disableNewGameButton();
                 playerOneConfigPanel.disablePlayerSelection();
                 playerTwoConfigPanel.disablePlayerSelection();

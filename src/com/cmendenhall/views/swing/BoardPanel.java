@@ -18,7 +18,7 @@ import java.util.List;
 public class BoardPanel extends JPanel {
     private JTable boardTable;
     private DefaultTableModel boardData;
-    private DefaultTableCellRenderer centeredRenderer;
+    private CustomTableRenderer centeredRenderer;
     private InputAdapter inputAdapter;
 
     public BoardPanel(SwingView swingView, InputAdapter inputAdapter) {
@@ -29,8 +29,7 @@ public class BoardPanel extends JPanel {
         Dimension maxSize = new Dimension(600, 600);
         setMaximumSize(maxSize);
 
-        centeredRenderer = new DefaultTableCellRenderer();
-        centeredRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+        centeredRenderer = new CustomTableRenderer();
 
         boardTable = new JTable();
 
@@ -54,14 +53,12 @@ public class BoardPanel extends JPanel {
 
     public void enableBoard() {
         boardTable.setEnabled(true);
-        boardTable.setGridColor(new Color(0, 0, 0));
-        boardTable.setBackground(new Color(255, 255, 255));
+        boardTable.setGridColor(new Color(232, 232, 232));
     }
 
     public void disableBoard() {
         boardTable.setEnabled(false);
-        boardTable.setGridColor(new Color(255, 255, 255));
-        boardTable.setBackground(new Color(230, 230, 230));
+        boardTable.setGridColor(new Color(240, 240, 240));
     }
 
     private void formatBoard() {

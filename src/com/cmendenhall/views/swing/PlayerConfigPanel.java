@@ -8,13 +8,18 @@ public class PlayerConfigPanel extends JPanel {
     private JRadioButton humanButton;
     private JRadioButton computerButton;
 
-    public PlayerConfigPanel(String label, String name) {
+    public PlayerConfigPanel(String label, String name, Color labelColor) {
         setName(name);
 
         playerButtons = new ButtonGroup();
 
         JLabel playerLabel = new JLabel(label);
         playerLabel.setName("playerLabel");
+        playerLabel.setForeground(labelColor);
+        Font labelFont = playerLabel.getFont();
+        playerLabel.setFont(new Font(labelFont.getFontName(),
+                                     labelFont.getStyle(),
+                                     16));
 
         humanButton = new JRadioButton("Human", true);
         humanButton.setName("humanButton");

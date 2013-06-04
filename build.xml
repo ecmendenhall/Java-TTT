@@ -90,8 +90,8 @@
 
     <target name="compile-tests" depends="resolve, compile" description="Compiles JUnit tests." >
         <echo message="Compiling JUnit tests." />
-        <mkdir dir="${classes.dir}/test" />
-        <javac includeantruntime="false" debug="true" srcdir="${test.dir}" destdir="${classes.dir}/test" >
+        <mkdir dir="${classes.dir}" />
+        <javac includeantruntime="false" debug="true" srcdir="${test.dir}" destdir="${classes.dir}" >
             <classpath refid="classpath.test" />
         </javac>
     </target>
@@ -115,7 +115,6 @@
 
     <property name="junitpath" refid="classpath.test" />
 
-
     <target name="test" depends="compile, compile-tests" description="Runs JUnit tests.">
         <echo message="Running JUnit tests." />
         <junit printsummary="on" haltonfailure="yes" failureproperty="test.failure">
@@ -137,7 +136,7 @@
     <target name="mutation-test">
         <mkdir dir="${build.dir}/coverage" />
         <pitest
-                classPath="classpath.test"
+                classPath="classpath.pit"
                 targetClasses="com.cmendenhall.*"
                 targetTests="com.cmendenhall.tests.*"
                 reportDir="${build.dir}/coverage"

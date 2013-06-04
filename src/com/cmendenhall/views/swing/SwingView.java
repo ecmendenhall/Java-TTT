@@ -44,8 +44,12 @@ public class SwingView extends JFrame implements View {
     }
 
     public void displayMessage(String message) {
-        JLabel messageLabel = messagePanel.getLabel();
-        messageLabel.setText(message);
+        if (message.length() == 0) {
+            return;
+        } else {
+            JLabel messageLabel = messagePanel.getLabel();
+            messageLabel.setText(message);
+        }
     }
 
     public void reload() {

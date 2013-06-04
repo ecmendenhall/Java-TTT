@@ -1,6 +1,7 @@
 package com.cmendenhall.views.swing;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public abstract class BoardTableStyler {
@@ -10,10 +11,8 @@ public abstract class BoardTableStyler {
         boardTable.setName("boardTable");
         boardTable.setShowVerticalLines(true);
         boardTable.setShowHorizontalLines(true);
-        boardTable.setGridColor(new Color(80, 80, 80));
         boardTable.setColumnSelectionAllowed(false);
         boardTable.setRowSelectionAllowed(false);
-        boardTable.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 28));
 
     }
 

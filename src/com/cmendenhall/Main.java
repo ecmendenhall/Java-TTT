@@ -14,6 +14,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             if (args.length == 0) {
+                System.setProperty("awt.useSystemAAFontSettings","on");
+                System.setProperty("swing.aatext", "true");
                 final SwingView[] view = new SwingView[1];
                 SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
