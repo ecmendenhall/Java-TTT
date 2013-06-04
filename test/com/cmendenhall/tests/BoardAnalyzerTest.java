@@ -1,16 +1,19 @@
 package com.cmendenhall.tests;
 
+import com.cmendenhall.board.Board;
 import com.cmendenhall.board.BoardAnalyzer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static com.cmendenhall.TicTacToeSymbols.*;
 
 
 @RunWith(JUnit4.class)
-public class BoardAnalyzerTest {
+public class BoardAnalyzerTest extends TicTacToeTest {
 
     @Test
     public void boardHasHorizontalWin() {
@@ -126,5 +129,11 @@ public class BoardAnalyzerTest {
     public void turnsPlayedOnFullBoardEqualsNine() {
        int played = BoardAnalyzer.turnsPlayed(TicTacToeTestHelper.noWins);
        assertEquals(9, played);
+    }
+
+    @Test
+    public void nextStatesIsEmptyWhenBoardIsFull() {
+        List<Board> nextStates = BoardAnalyzer.getNextStates(TicTacToeTestHelper.noWins);
+        assertEquals(0, nextStates.size());
     }
 }

@@ -293,6 +293,4 @@ public class SwingViewTest {
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
     } */
-
-
 }

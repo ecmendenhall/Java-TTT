@@ -271,4 +271,5 @@ public class GameBoardTest {
         thrown.expectMessage("Please choose a board size between 3 and 10.");
         Board invalid = new GameBoard(11);
     }
+
 }

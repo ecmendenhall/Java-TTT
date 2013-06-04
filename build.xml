@@ -130,7 +130,7 @@
         </junit>
     </target>
 
-    <target name="mutation-test">
+    <target name="mutation-test" depends="compile-tests">
         <taskdef name="pitest" classname="org.pitest.ant.PitestTask"
                  classpathref="classpath" />
         <mkdir dir="${build.dir}/coverage" />

@@ -39,6 +39,11 @@ public class ThreeByThreeBoardCoordinateTest extends UniversalBoardCoordinateTes
     }
 
     @Test(expected = InvalidCoordinateException.class)
+    public void tooManyCoordinatesThrowsException() throws InvalidCoordinateException {
+        ThreeByThreeBoardCoordinate invalid = new ThreeByThreeBoardCoordinate("(1, 2, 3)");
+    }
+
+    @Test(expected = InvalidCoordinateException.class)
     public void phraseLongerThanTwoWordsThrowsException() throws InvalidCoordinateException {
         ThreeByThreeBoardCoordinate invalid = new ThreeByThreeBoardCoordinate("Please kindly place a piece on the center square");
     }
