@@ -4,6 +4,7 @@ import com.cmendenhall.exceptions.InvalidMoveException;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.cmendenhall.TicTacToeSymbols.*;
 
 public class BoardAnalyzer {
@@ -44,6 +45,19 @@ public class BoardAnalyzer {
             }
         }
         return true;
+    }
+
+    private static boolean allBlocked(List<Row> rows) {
+        for (Row row : rows) {
+            if (!row.hasBlock()) return false;
+        }
+        return true;
+    }
+
+    public static boolean hasDraw(Board board) {
+        return (allBlocked(board.getRows()) &&
+                allBlocked(board.getColumns()) &&
+                allBlocked(board.getDiagonals()));
     }
 
     public static int winnerIs(Board board) {

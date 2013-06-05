@@ -140,7 +140,7 @@ public class GameController implements Controller {
     }
 
     private void checkForDraw()  {
-        if (BoardAnalyzer.isFull(board) && !BoardAnalyzer.hasWin(board)) {
+        if (BoardAnalyzer.hasDraw(board) && !BoardAnalyzer.hasWin(board)) {
             view.displayBoard(board);
             view.displayMessage(viewStrings.get("gameoverdraw"));
             restartGame();

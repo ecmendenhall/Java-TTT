@@ -1,8 +1,6 @@
 package com.cmendenhall.views.swing;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
-import java.awt.*;
 
 public abstract class BoardTableStyler {
 
@@ -15,6 +13,4 @@ public abstract class BoardTableStyler {
         boardTable.setRowSelectionAllowed(false);
 
     }
-
-
 }

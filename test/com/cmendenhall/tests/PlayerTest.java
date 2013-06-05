@@ -1,4 +1,5 @@
 package com.cmendenhall.tests;
+
 import com.cmendenhall.board.Board;
 import com.cmendenhall.board.GameBoard;
 import com.cmendenhall.board.UniversalBoardCoordinate;
@@ -12,8 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static com.cmendenhall.TicTacToeSymbols.O;
+import static com.cmendenhall.TicTacToeSymbols.X;
 import static org.junit.Assert.assertEquals;
-import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
 public class PlayerTest {

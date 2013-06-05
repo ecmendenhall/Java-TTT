@@ -4,13 +4,10 @@ import com.cmendenhall.board.*;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
-import org.junit.Before;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.List;
-import static com.cmendenhall.TicTacToeSymbols.*;
 
+import static com.cmendenhall.TicTacToeSymbols.*;
 import static org.junit.Assert.assertArrayEquals;
 
 public final class TicTacToeTestHelper {
@@ -86,6 +83,12 @@ public final class TicTacToeTestHelper {
                                                     new Row(_, _, _, _),
                                                     new Row(_, _, _, _),
                                                     new Row(_, _, _, _));
+
+    public static Board earlyDraw = new GameBoard( new Row(X, _, _, O, X),
+                                                   new Row(_, X, O, _, _),
+                                                   new Row(_, O, _, X, _),
+                                                   new Row(X, _, _, O, _),
+                                                   new Row(O, _, X, _, O));
 
     public static Player playerX = new HumanPlayer(X);
     public static MinimaxPlayer playerO = new MinimaxPlayer(O);

@@ -1,6 +1,5 @@
 package com.cmendenhall.board;
 
-import com.cmendenhall.board.BoardCoordinate;
 import com.cmendenhall.exceptions.InvalidCoordinateException;
 
 import java.util.HashMap;

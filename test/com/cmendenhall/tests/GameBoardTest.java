@@ -4,7 +4,6 @@ import com.cmendenhall.board.*;
 import com.cmendenhall.exceptions.InvalidBoardException;
 import com.cmendenhall.exceptions.InvalidCoordinateException;
 import com.cmendenhall.exceptions.InvalidMoveException;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

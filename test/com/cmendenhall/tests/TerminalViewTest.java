@@ -1,7 +1,7 @@
 package com.cmendenhall.tests;
 
-import com.cmendenhall.views.TerminalView;
 import com.cmendenhall.mocks.TestConsole;
+import com.cmendenhall.views.TerminalView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

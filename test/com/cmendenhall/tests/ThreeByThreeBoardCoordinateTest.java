@@ -1,6 +1,8 @@
 package com.cmendenhall.tests;
 
+import com.cmendenhall.board.BoardCoordinate;
 import com.cmendenhall.board.ThreeByThreeBoardCoordinate;
+import com.cmendenhall.board.UniversalBoardCoordinate;
 import com.cmendenhall.exceptions.InvalidCoordinateException;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,5 +55,10 @@ public class ThreeByThreeBoardCoordinateTest extends UniversalBoardCoordinateTes
         ThreeByThreeBoardCoordinate fromPair = new ThreeByThreeBoardCoordinate("(0, 3)");
         assertEquals((Integer) 0, fromPair.getRow());
         assertEquals((Integer) 3, fromPair.getColumn());
+    }
+
+    @Test(expected = InvalidCoordinateException.class)
+    public void phraseWithMoreThanTwoCoordinatesThrowsException() throws InvalidCoordinateException {
+        BoardCoordinate invalid = new UniversalBoardCoordinate("(0, 1, 2)");
     }
 }

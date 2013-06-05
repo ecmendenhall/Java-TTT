@@ -1,8 +1,8 @@
 package com.cmendenhall.players;
 
-import com.cmendenhall.exceptions.InvalidMoveException;
 import com.cmendenhall.board.Board;
 import com.cmendenhall.board.BoardCoordinate;
+import com.cmendenhall.exceptions.InvalidMoveException;
 
 public interface Player {
 

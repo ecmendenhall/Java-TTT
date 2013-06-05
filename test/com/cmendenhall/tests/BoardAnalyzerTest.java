@@ -8,8 +8,8 @@ import org.junit.runners.JUnit4;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static com.cmendenhall.TicTacToeSymbols.*;
+import static org.junit.Assert.*;
 
 
 @RunWith(JUnit4.class)
@@ -135,5 +135,16 @@ public class BoardAnalyzerTest extends TicTacToeTest {
     public void nextStatesIsEmptyWhenBoardIsFull() {
         List<Board> nextStates = BoardAnalyzer.getNextStates(TicTacToeTestHelper.noWins);
         assertEquals(0, nextStates.size());
+    }
+
+    @Test
+    public void analyzerDetectsEarlyDraws() {
+        assertTrue(BoardAnalyzer.hasDraw(TicTacToeTestHelper.earlyDraw));
+    }
+
+    @Test
+    public void analyzerDoesNotReturnFalsePositives() {
+        assertFalse(BoardAnalyzer.hasDraw(TicTacToeTestHelper.playerXCanWin));
+        assertFalse(BoardAnalyzer.hasDraw(TicTacToeTestHelper.playerOCanWin));
     }
 }

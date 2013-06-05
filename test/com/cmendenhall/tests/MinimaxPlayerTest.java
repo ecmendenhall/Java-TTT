@@ -1,4 +1,5 @@
 package com.cmendenhall.tests;
+
 import com.cmendenhall.board.Board;
 import com.cmendenhall.board.GameBoard;
 import com.cmendenhall.board.Row;
@@ -8,23 +9,20 @@ import com.cmendenhall.controllers.GameController;
 import com.cmendenhall.exceptions.InvalidBoardException;
 import com.cmendenhall.exceptions.InvalidCoordinateException;
 import com.cmendenhall.exceptions.InvalidMoveException;
-import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.mocks.MockTerminalView;
-import com.cmendenhall.utils.OutputRecorder;
+import com.cmendenhall.players.MinimaxPlayer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+import static com.cmendenhall.TicTacToeSymbols.*;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static com.cmendenhall.TicTacToeSymbols.*;
 
 @RunWith(JUnit4.class)
 public class MinimaxPlayerTest extends TicTacToeTest {
@@ -168,6 +166,23 @@ public class MinimaxPlayerTest extends TicTacToeTest {
             playGame(3);
             playGame(4);
             playGame(5);
+    }
+
+    @Test
+    public void randomSquareReturnsValidSquare() {
+        int square = playerX.randomSquare(TicTacToeTestHelper.playerXCanWin);
+        assertTrue(square <= TicTacToeTestHelper.playerXCanWin.getSize());
+    }
+
+    @Test
+    public void randomMoveReturnsValidBoard() {
+        Board newBoard = playerX.randomMove(TicTacToeTestHelper.playerXCanWin);
+    }
+
+    @Test
+    public void minimaxPlayerMakesNoMoreRandomMovesThanSafe() throws InvalidBoardException {
+        int moveLimit = playerX.randomMoveLimit(new GameBoard(5));
+        assertTrue(moveLimit <= 6);
     }
 
 }

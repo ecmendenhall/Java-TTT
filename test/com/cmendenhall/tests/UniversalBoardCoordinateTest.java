@@ -27,9 +27,9 @@ public class UniversalBoardCoordinateTest {
         assertEquals((Integer) 0, lowerLeft.getColumn());
     }
 
+
     @Test(expected = InvalidCoordinateException.class)
     public void phraseWithMoreThanTwoCoordinatesThrowsException() throws InvalidCoordinateException {
-        BoardCoordinate invalid = new UniversalBoardCoordinate("0, 1, 2");
+        BoardCoordinate invalid = new UniversalBoardCoordinate("(0, 1, 2)");
     }
-
 }

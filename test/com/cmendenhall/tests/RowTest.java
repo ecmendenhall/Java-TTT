@@ -1,17 +1,12 @@
 package com.cmendenhall.tests;
 
 import com.cmendenhall.board.Row;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.Assert.*;
 import static com.cmendenhall.TicTacToeSymbols.*;
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class RowTest {
@@ -19,6 +14,7 @@ public class RowTest {
     public Row empty = new Row(_, _, _);
     public Row xxo = new Row(X, X, O);
     public Row ooo = new Row(O, O, O);
+    public Row xxblank = new Row(X, X, _);
 
     @Test
     public void rowExists() {
@@ -116,5 +112,21 @@ public class RowTest {
         assertEquals(xxo.intToSymbol(2), "O");
         assertEquals(xxo.intToSymbol(0), " ");
         assertEquals(xxo.intToSymbol(5), "");
+    }
+
+    @Test
+    public void rowXXOHasBlock() {
+        assertTrue(xxo.hasBlock());
+    }
+
+    @Test
+    public void rowWithXandLotsOfBlanksDoesNotHaveBlock() {
+        Row lotsOfBlanks = new Row(_, _, _, _, _, _, _, _, _, _, _, X);
+        assertFalse(lotsOfBlanks.hasBlock());
+    }
+
+    @Test
+    public void rowXXblankDoesNotHaveBlock() {
+        assertFalse(xxblank.hasBlock());
     }
 }

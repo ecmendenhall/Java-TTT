@@ -2,11 +2,11 @@ package com.cmendenhall.tests;
 
 import com.cmendenhall.controllers.GameController;
 import com.cmendenhall.mocks.MockExitManager;
-import com.cmendenhall.utils.StringLoader;
+import com.cmendenhall.mocks.MockTerminalView;
 import com.cmendenhall.players.HumanPlayer;
 import com.cmendenhall.players.MinimaxPlayer;
 import com.cmendenhall.players.Player;
-import com.cmendenhall.mocks.MockTerminalView;
+import com.cmendenhall.utils.StringLoader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +16,9 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
+import static com.cmendenhall.TicTacToeSymbols.O;
+import static com.cmendenhall.TicTacToeSymbols.X;
 import static org.junit.Assert.assertEquals;
-import static com.cmendenhall.TicTacToeSymbols.*;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(JUnit4.class)

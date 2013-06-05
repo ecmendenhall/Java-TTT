@@ -2,11 +2,9 @@ package com.cmendenhall.tests;
 
 
 import com.cmendenhall.utils.OutputRecorder;
-import org.junit.After;
 import org.junit.Before;
 
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 public class TicTacToeTest {

@@ -55,6 +55,24 @@ public class Row {
         return true;
     }
 
+    public boolean hasBlock() {
+        Integer firstFullSquare = null;
+        for (int square : squares) {
+            if (square != _) {
+                firstFullSquare = square;
+            }
+        }
+
+        if (firstFullSquare == null) return false;
+
+        for (int square : squares) {
+            if (square != firstFullSquare && square != _) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean squareIsFull(int square) {
         return squares[square] != _;
     }

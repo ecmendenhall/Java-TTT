@@ -6,7 +6,7 @@ import com.cmendenhall.views.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
 
 public class SwingView extends JFrame implements View {
     static final int WIDTH = 350;

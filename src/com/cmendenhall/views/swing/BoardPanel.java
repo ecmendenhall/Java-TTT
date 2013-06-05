@@ -5,14 +5,12 @@ import com.cmendenhall.board.GameBoard;
 import com.cmendenhall.board.Row;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.*;
 import java.util.List;
 
 public class BoardPanel extends JPanel {
@@ -32,6 +30,7 @@ public class BoardPanel extends JPanel {
         centeredRenderer = new CustomTableRenderer();
 
         boardTable = new JTable();
+        boardTable.setName("boardTable");
 
         BoardTableStyler.applyStyle(boardTable);
         disableBoard();

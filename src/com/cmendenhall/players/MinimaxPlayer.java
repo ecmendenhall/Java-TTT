@@ -1,10 +1,10 @@
 package com.cmendenhall.players;
 
-import com.cmendenhall.exceptions.InvalidMoveException;
 import com.cmendenhall.board.Board;
 import com.cmendenhall.board.BoardAnalyzer;
 import com.cmendenhall.board.BoardCoordinate;
 import com.cmendenhall.board.UniversalBoardCoordinate;
+import com.cmendenhall.exceptions.InvalidMoveException;
 
 import java.util.*;
 
@@ -83,13 +83,13 @@ public class MinimaxPlayer extends GamePlayer {
         }
     }
 
-    private int randomSquare(Board board) {
+    public int randomSquare(Board board) {
         int size = board.getSize();
         Random generator = new Random();
         return generator.nextInt(size);
     }
 
-    private Board randomMove(Board board) {
+    public Board randomMove(Board board) {
 
         int row = randomSquare(board);
         int column = randomSquare(board);
